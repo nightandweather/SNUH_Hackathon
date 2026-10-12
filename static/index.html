@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#103c43">
+  <title>PeriCare · 수술 후 집중관리와 병상 운영</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/accessibility.css">
+  <link rel="stylesheet" href="/hospital.css">
+  <link rel="stylesheet" href="/core.css">
+  <link rel="stylesheet" href="/operations.css">
+  <link rel="stylesheet" href="/workspace.css">
+  <script src="/app.js" defer></script>
+  <script src="/hospital.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문으로 바로 이동</a>
+  <div class="workspace">
+    <header class="appbar">
+      <a class="brand" href="/" aria-label="PeriCare 홈"><span class="brand-symbol">P<span>+</span></span><span>PeriCare<small>v6.1</small></span></a>
+      <nav id="navigation" aria-label="주요 화면"></nav>
+      <b id="view-label" class="sr-only">실시간 병원 지도</b>
+      <div class="app-status"><span class="demo-badge" id="source-badge">합성 데이터 · 모의 예측</span><span class="connection" id="connection"><i></i> 연결됨</span></div>
+      <details class="app-options" id="app-options"><summary>설정</summary><div class="app-option-panel"><button class="button" id="text-size" data-action="text-size" aria-pressed="false">큰 글씨</button><button class="button" data-action="theme">화면 테마 변경</button><button class="button" data-action="data">데이터 연결</button><button class="button" data-action="help">사용 안내</button><button class="button ghost" data-action="reset">다시 시작</button></div></details>
+    </header>
+    <div class="timebar"><div class="clock-wrap" aria-label="병원 시각"><strong id="clock">08:30<span>:00</span></strong><span id="clock-date">10.16 · KST</span></div><div class="period-compact"><span id="operation-day">운영 1일차 / 7일</span><progress id="operation-progress" max="10080" value="0" aria-label="운영 기간 진행"></progress><span id="operation-remaining" class="sr-only">7일 운영</span></div><div class="time-controls"><span class="status-chip" id="running-status">일시정지</span><span class="sr-only" id="care-mode">가상 의료진 자동 진행</span><button class="button primary small" id="play" data-action="play">▶ 시뮬레이션 시작</button><select id="speed" aria-label="시간 진행 속도"><option value="1">천천히 · 1분 / 2초</option><option value="5">이동 관찰 · 5분 / 2초</option><option value="15" selected>진료 흐름 · 15분 / 2초</option><option value="60">운영 배속 · 1시간 / 2초</option><option value="240">주간 운영 · 4시간 / 2초</option></select><button class="button small" data-action="advance" data-minutes="60">+1시간</button><button class="button small" data-action="advance" data-minutes="1440">+1일</button></div></div>
+    <main id="content" tabindex="-1"><div class="loading"><span class="spinner"></span><h2>진료와 운영 정보를 연결하고 있습니다</h2><p>환자 경과 · 동적 위험 · 병상 가용성</p></div></main>
+    <p id="footer-status" class="sr-only">합성 환자 · 모의 예측 · 운영 시뮬레이션</p>
+  </div>
+  <dialog id="modal" aria-labelledby="modal-title"><div id="modal-content"></div></dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <div id="announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+  <noscript><p class="notice">PeriCare 화면을 사용하려면 브라우저의 JavaScript를 활성화해 주세요.</p></noscript>
+</body>
+</html>

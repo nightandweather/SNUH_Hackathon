@@ -1,0 +1,13 @@
+﻿id,unit,capabilities,enabled,occupant_id,available_minute,available_basis,closed_reason
+SICU-01,SICU,"[""ventilator"", ""crrt""]",True,DEMO-011,480,모의 퇴실 예상,
+SICU-02,SICU,"[""ventilator"", ""crrt""]",True,DEMO-014,150,모의 퇴실 예상,
+SICU-03,SICU,"[""ventilator"", ""crrt""]",True,,0,현재 가용,
+SICU-04,SICU,"[""ventilator"", ""crrt""]",True,,20,청소 완료 예정,
+SICU-05,SICU,"[""ventilator""]",True,비수술 환자 A,110,모의 퇴실 예상,
+SICU-06,SICU,"[""ventilator""]",True,,0,현재 가용,
+SICU-07,SICU,"[""ventilator""]",True,,0,현재 가용,
+SICU-08,SICU,"[""ventilator""]",False,,0,현재 가용,인력 부족
+CCU-01,CCU,"[""ventilator"", ""crrt""]",True,DEMO-010,90,모의 퇴실 예상,
+CCU-02,CCU,"[""ventilator"", ""crrt""]",True,,0,현재 가용,
+CCU-03,CCU,"[""ventilator"", ""crrt""]",True,,0,현재 가용,
+CCU-04,CCU,"[""ventilator"", ""crrt""]",False,,0,현재 가용,정비 중

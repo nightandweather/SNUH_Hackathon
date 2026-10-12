@@ -1,0 +1,287 @@
+{
+  "schema_version": "1.1",
+  "units": {
+    "map": "mmHg",
+    "hr": "bpm",
+    "spo2": "%",
+    "lactate": "mmol/L",
+    "hemoglobin": "g/dL",
+    "norepi": "ug/kg/min",
+    "urine_ml_kg_h": "mL/kg/h"
+  },
+  "base_time": "2026-10-16T08:30:00+09:00",
+  "minute": 0,
+  "clock_kind": "hospital_shared",
+  "horizon_minutes": 1440,
+  "patients": [
+    {
+      "id": "DEMO-016",
+      "subject_id": "SUB-016",
+      "admission_id": "ADM-016",
+      "operation_id": "OP-016",
+      "name": "데모 016",
+      "age": 68,
+      "sex": "M",
+      "asa": 2,
+      "surgery": "로봇 전립선절제술",
+      "department": "URO",
+      "location": "WARD-01",
+      "admission_minute": -1440,
+      "operation_start_minute": -480,
+      "estimated_end_minute": -350,
+      "actual_end_minute": -350,
+      "planned_icu": false,
+      "preferred_unit": "SICU",
+      "emergency": false,
+      "conditions": [
+        "고혈압"
+      ],
+      "preop_labs": {
+        "hemoglobin": 12.6,
+        "creatinine": 0.9,
+        "platelets": 215,
+        "albumin": 3.8,
+        "lactate": 1.2
+      },
+      "preop_labs_minute": -490,
+      "pre_admission": [
+        {
+          "minute": -43200,
+          "type": "병력",
+          "label": "고혈압"
+        },
+        {
+          "minute": -2880,
+          "type": "외래 검사",
+          "label": "Hb 12.6 g/dL · Cr 0.9 mg/dL"
+        }
+      ],
+      "observations": [
+        {
+          "minute": -15,
+          "map": 79.3,
+          "hr": 77.3,
+          "spo2": 98,
+          "lactate": 1.2,
+          "hemoglobin": 12.6,
+          "norepi": 0.0,
+          "urine_ml_kg_h": 0.7,
+          "ventilation": false,
+          "crrt": false,
+          "source": "synthetic-monitor"
+        },
+        {
+          "minute": -10,
+          "map": 79.6,
+          "hr": 77.6,
+          "spo2": 98,
+          "lactate": 1.2,
+          "hemoglobin": 12.6,
+          "norepi": 0.0,
+          "urine_ml_kg_h": 0.7,
+          "ventilation": false,
+          "crrt": false,
+          "source": "synthetic-monitor"
+        },
+        {
+          "minute": -5,
+          "map": 79.5,
+          "hr": 77.5,
+          "spo2": 98,
+          "lactate": 1.2,
+          "hemoglobin": 12.6,
+          "norepi": 0.0,
+          "urine_ml_kg_h": 0.7,
+          "ventilation": false,
+          "crrt": false,
+          "source": "synthetic-monitor"
+        },
+        {
+          "minute": 0,
+          "map": 77.4,
+          "hr": 75.4,
+          "spo2": 98,
+          "lactate": 1.2,
+          "hemoglobin": 12.6,
+          "norepi": 0.0,
+          "urine_ml_kg_h": 0.7,
+          "ventilation": false,
+          "crrt": false,
+          "source": "synthetic-monitor"
+        }
+      ],
+      "treatments": [],
+      "source": "synthetic",
+      "capabilities_required": [
+        "ventilator"
+      ]
+    },
+    {
+      "id": "RECORDED-NEW",
+      "subject_id": "SUB-NEW",
+      "admission_id": "ADM-NEW",
+      "operation_id": "OP-NEW",
+      "name": "기록 사례 B",
+      "age": 38,
+      "sex": "M",
+      "asa": 1,
+      "surgery": "복강경 담낭절제술",
+      "department": "GS",
+      "location": "NOT_ARRIVED",
+      "admission_minute": 60,
+      "operation_start_minute": 90,
+      "estimated_end_minute": 180,
+      "actual_end_minute": null,
+      "planned_icu": false,
+      "preferred_unit": "SICU",
+      "emergency": false,
+      "conditions": [],
+      "preop_labs": {
+        "hemoglobin": 12.6,
+        "creatinine": 0.9,
+        "platelets": 215,
+        "albumin": 3.8,
+        "lactate": 1.2
+      },
+      "preop_labs_minute": 50,
+      "pre_admission": [],
+      "observations": [],
+      "treatments": [],
+      "source": "synthetic",
+      "capabilities_required": [
+        "ventilator"
+      ]
+    }
+  ],
+  "beds": [
+    {
+      "id": "SICU-01",
+      "unit": "SICU",
+      "capabilities": [
+        "ventilator"
+      ],
+      "enabled": true,
+      "occupant_id": null,
+      "available_minute": 0,
+      "available_basis": "현재 가용",
+      "closed_reason": ""
+    }
+  ],
+  "replay_events": [
+    {
+      "minute": 17,
+      "patient_id": "DEMO-016",
+      "kind": "observation",
+      "observation": {
+        "minute": 17,
+        "map": 82,
+        "hr": 76,
+        "spo2": 98,
+        "lactate": 1.2,
+        "norepi": 0,
+        "ventilation": false,
+        "crrt": false,
+        "source": "example-recorded"
+      }
+    },
+    {
+      "minute": 47,
+      "patient_id": "DEMO-016",
+      "kind": "observation",
+      "observation": {
+        "minute": 47,
+        "map": 82,
+        "hr": 76,
+        "spo2": 98,
+        "lactate": 1.2,
+        "norepi": 0,
+        "ventilation": false,
+        "crrt": false,
+        "source": "example-recorded"
+      }
+    },
+    {
+      "minute": 77,
+      "patient_id": "DEMO-016",
+      "kind": "observation",
+      "observation": {
+        "minute": 77,
+        "map": 82,
+        "hr": 76,
+        "spo2": 98,
+        "lactate": 1.2,
+        "norepi": 0,
+        "ventilation": false,
+        "crrt": false,
+        "source": "example-recorded"
+      }
+    },
+    {
+      "minute": 107,
+      "patient_id": "DEMO-016",
+      "kind": "observation",
+      "observation": {
+        "minute": 107,
+        "map": 82,
+        "hr": 76,
+        "spo2": 98,
+        "lactate": 1.2,
+        "norepi": 0,
+        "ventilation": false,
+        "crrt": false,
+        "source": "example-recorded"
+      }
+    },
+    {
+      "minute": 137,
+      "patient_id": "DEMO-016",
+      "kind": "observation",
+      "observation": {
+        "minute": 137,
+        "map": 82,
+        "hr": 76,
+        "spo2": 98,
+        "lactate": 1.2,
+        "norepi": 0,
+        "ventilation": false,
+        "crrt": false,
+        "source": "example-recorded"
+      }
+    },
+    {
+      "minute": 60,
+      "patient_id": "RECORDED-NEW",
+      "kind": "hospital_admission",
+      "location": "PREOP"
+    },
+    {
+      "minute": 90,
+      "patient_id": "RECORDED-NEW",
+      "kind": "operation_start",
+      "location": "OR-01"
+    },
+    {
+      "minute": 150,
+      "patient_id": "DEMO-016",
+      "kind": "hospital_discharge",
+      "outcome": "home"
+    },
+    {
+      "minute": 165,
+      "patient_id": "RECORDED-NEW",
+      "kind": "operation_end"
+    },
+    {
+      "minute": 195,
+      "patient_id": "RECORDED-NEW",
+      "kind": "location",
+      "location": "WARD"
+    },
+    {
+      "minute": 1300,
+      "patient_id": "RECORDED-NEW",
+      "kind": "hospital_discharge",
+      "outcome": "home"
+    }
+  ]
+}
