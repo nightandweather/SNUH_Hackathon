@@ -6,3 +6,9 @@ tests
 .git
 .env
 qa
+ml_data
+ml_artifacts
+.ml-deps
+.venv-ml
+venv
+.venv

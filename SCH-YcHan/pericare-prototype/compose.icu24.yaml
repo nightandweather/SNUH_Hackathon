@@ -1,0 +1,45 @@
+# Run with: docker compose -f compose.yaml -f compose.icu24.yaml up --build
+# ML_MODEL_DIR must point to the local directory containing model.joblib.
+services:
+  pericare:
+    environment:
+      MODEL_BACKEND: remote
+      MODEL_URL: http://model-service:9000/predict
+      MODEL_TASK: icu24_after_operation_end
+      MODEL_API_KEY: ${MODEL_API_KEY:-}
+    depends_on:
+      model-service:
+        condition: service_healthy
+
+  model-service:
+    build:
+      context: .
+      dockerfile: ml/Dockerfile.model
+      args:
+        SKLEARN_VERSION: ${ML_SKLEARN_VERSION:?Set ML_SKLEARN_VERSION to report.json versions.sklearn}
+    image: pericare-inspire-icu24:1
+    environment:
+      MODEL_API_KEY: ${MODEL_API_KEY:-}
+    volumes:
+      - type: bind
+        source: ${ML_MODEL_DIR:?Set ML_MODEL_DIR to the absolute path of the trained model directory}
+        target: /models
+        read_only: true
+    # No published model port; requests stay on the Compose network.
+    expose:
+      - "9000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:9000/health', timeout=2)"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+      start_period: 20s
+    restart: unless-stopped
+    init: true
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL

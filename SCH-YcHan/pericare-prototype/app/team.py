@@ -103,10 +103,10 @@ def run_team(engine, s):
             set_stage(w, "hospital_admission", "입원 접수·인계", "ward",
                       "병동 가용 병상 확인 중" if p.get("admission_wait") else "간호사가 입원 정보와 수술 전 준비를 인계합니다.", now)
             continue
-        quality_bad = (pr["mode"] == "unavailable" or f["stale"] or f["quality_issues"]
-                       or pr["confidence"] < s["policy"]["confidence_min"])
+        quality_bad = (pr["mode"] in ("unavailable", "unsupported", "remote_partial") or f["stale"] or f["quality_issues"]
+                       or pr.get("confidence") is None or pr["confidence"] < s["policy"]["confidence_min"])
         if quality_bad:
-            issue = pr.get("model_error") or " · ".join(f["quality_issues"]) or "예측 신뢰 신호 부족"
+            issue = pr.get("model_error") or ("ICU24 입실 확률만 제공 · 가상 의료진 자동 판단 보류" if pr["mode"] == "remote_partial" else None) or " · ".join(f["quality_issues"]) or "예측 신뢰 신호 부족"
             if w.get("quality_reason") != issue:
                 emit(s, "charge", pid, "관측 재확인 요청", issue + ". 새 관측을 확인할 때까지 이동 결정을 보류합니다.", "quality", "warning", evidence)
                 team["counters"]["quality_checks"] += 1

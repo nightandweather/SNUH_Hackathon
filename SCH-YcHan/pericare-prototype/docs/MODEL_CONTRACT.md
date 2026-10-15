@@ -1,6 +1,6 @@
 # 외부 예측 모델 인터페이스 v1.0
 
-앱은 이미 학습된 예측 모델이 존재한다는 가정하에 **동기 JSON HTTP 인터페이스**를 제공합니다. 실제 가중치·학습 코드·교정된 의료 모델은 이 패키지에 포함하지 않았습니다.
+앱은 이미 학습된 예측 모델이 존재한다는 가정하에 **동기 JSON HTTP 인터페이스**를 제공합니다. 기본 모드는 규칙 기반 시연입니다. INSPIRE ICU24의 전처리·학습·평가·추론 서버는 ml/에 있으며, 실제 데이터와 학습된 가중치는 포함하지 않습니다.
 
 ## 설정
 
@@ -62,3 +62,44 @@ features에 elapsed_admission_hours, elapsed_postop_hours, procedure_group를 �
 입원 예정과 종료 사례는 현재 모델 요청에서 제외합니다. 종료 사례는 mode=completed, 현재 위험·확률=null이며, 실제 입원·퇴원 이력과 과거 관측을 보관합니다. 병동 신호의 신선도는 수술실·ICU와 다른 기준을 사용합니다. 기본 잔여기간 규칙은 경과시간을 반영하도록 변경했지만 학습·보정된 의료 모델은 아닙니다.
 
 실제 데이터의 퇴원·사망·전원 사건은 예측 결과와 무관하게 해당 관측 시점에 반영합니다. 예측된 병상 가용성이나 LOS 만료는 사건을 대신할 수 없습니다. UI 축약 시계열은 모델 입력이 아니며, 모델 요청에는 현재 관측 원본 구간을 사용합니다.
+
+
+## v2.0: INSPIRE ICU24 확률 전용 계약
+
+`MODEL_BACKEND=remote`, `MODEL_TASK=icu24_after_operation_end`, `MODEL_URL=http://model-service:9000/predict`를 설정합니다. `MODEL_TASK`가 없으면 기존 v1.0 전체 출력 계약을 계속 사용할 수 있습니다. 실제 실행·학습 명령은 [INSPIRE_ICU24.md](INSPIRE_ICU24.md)를 따릅니다.
+
+요청은 `schema_version="2.0"`, `as_of_minute`, `features`를 포함합니다. 기존 특징과 함께 `sex`, `weight`(kg), `height`(cm), `department`, `anesthesia_type`, `operation_start_minute`, `admission_minute`, `source_mode`, `clock_kind`, `data_context`를 전달합니다. 출처는 앱 상태에서 `source_mode="import"` 또는 `"synthetic"`으로 설정합니다. 모델 서버는 출처가 없거나 합성인 입력, 학습한 landmark/단계 밖의 입력에는 적용을 보류합니다. 수술 전 전용으로 학습한 모델을 수술 중·회복실·ICU·병동 모델로 사용하지 않습니다.
+
+검사별 **가용 시각**은 `preop_lab_times`, 측정 시각은 선택적 `preop_lab_measurement_times`이며, 모두 앱의 minute와 같은 시간축입니다. 검사별 가용 시각이 없으면 단일 `preop_labs_minute`를 사용합니다. 현재 이후의 검사값은 요청에서 제외하고, 시각이 아예 없는 검사값은 공유 특징 생성기에서 사용하지 않습니다. `planned_icu`, 환자·수술 ID, 미래 ICU/수술 종료/퇴원 결과는 학습 특징으로 사용하지 않습니다. 학습과 추론이 같은 `ml/icu24/features.py`의 `make_features()`를 사용합니다.
+
+유효한 응답 예시는 다음과 같습니다.
+
+```json
+{
+  "schema_version": "2.0",
+  "task": "icu24_after_operation_end",
+  "prediction_status": "available",
+  "supported_outputs": ["icu_probability"],
+  "icu_probability": 0.23,
+  "horizon_minutes": 1440,
+  "need_score": null,
+  "need_probability": null,
+  "intensive_hours": null,
+  "intensive_hours_upper": null,
+  "icu_los_hours": null,
+  "icu_los_upper": null,
+  "hospital_los_days": null,
+  "hospital_los_upper": null,
+  "confidence": null,
+  "contributions": [],
+  "interval_kind": "not_applicable",
+  "model_version": "inspire-icu24-example",
+  "unsupported_reason": null
+}
+```
+
+이 확률은 **수술 종료 후 24시간 이내에 기록된 ICU 신규 입실**을 예측합니다. 집중관리의 임상적 필요나 비예정 입실이라고 해석하지 않습니다. `horizon_minutes`는 현재부터 24시간이 아닌 수술 종료 후의 결과 관찰 구간입니다. 기간, 개인별 신뢰값, SHAP 또는 집중관리 점수를 임의로 채우면 검증에 실패합니다.
+
+적용 범위 밖이면 같은 필드를 유지하고 `prediction_status="unsupported"`, `icu_probability=null`, `unsupported_reason`에 이유를 보냅니다. 앱은 유효한 확률을 `mode="remote_partial"`, 적용 보류를 `mode="unsupported"`로 저장합니다. 숫자가 없거나 범위를 벗어나거나 명세와 다른 응답은 `mode="unavailable"`로 처리합니다. v2 사용 시 연결 실패에도 미지원 수치와 confidence는 null입니다.
+
+화면에는 **수술 후 24시간 이내 ICU 입실** 확률을 표시하고 집중관리 점수·기간은 —로 표시합니다. 이 모델에는 ICU 체류기간·예약 종료시각과 개별 신뢰값이 없으므로 **자동 예약·추천 적용·가상 의료진 판단을 보류**합니다. 이미 확정된 예약은 유지하며 자동 취소하지 않습니다. 담당자가 시간을 명시해 입력하는 수동 운영 기록은 별도입니다. 확률 분류기의 검증만으로 병상 계획 효과가 검증되지는 않습니다.

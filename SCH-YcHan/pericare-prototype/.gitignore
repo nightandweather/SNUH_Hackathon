@@ -30,3 +30,9 @@ node_modules/
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Local INSPIRE training inputs, derived patient rows and model artifacts
+/ml_data/
+/ml_artifacts/
+/.ml-deps/
+/.venv-ml/

@@ -1,6 +1,7 @@
 """SQLite snapshots and append-only audit events, committed atomically."""
 import json
 import sqlite3
+from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -19,10 +20,15 @@ class Store:
                     real_time TEXT NOT NULL, payload TEXT NOT NULL);
             """)
 
+    @contextmanager
     def connect(self):
         db = sqlite3.connect(self.path, timeout=10)
         db.row_factory = sqlite3.Row
-        return db
+        try:
+            with db:
+                yield db
+        finally:
+            db.close()
 
     def load(self):
         with self.connect() as db:

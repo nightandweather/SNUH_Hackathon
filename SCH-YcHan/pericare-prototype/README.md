@@ -120,3 +120,9 @@ python -m unittest discover -s tests -v
 상세 문서: [운영 흐름](docs/CLINICAL_SIMULATION.md), [시연 순서](docs/DEMO_GUIDE.md), [자료 계약](docs/DATA_SCHEMA.md), [데이터셋 연결](docs/DATA_LINKAGE.md), [API](docs/API.md), [모델 계약](docs/MODEL_CONTRACT.md), [변경점](docs/CHANGELOG.md), [검증](docs/VALIDATION.md).
 
 개발 환경에서는 Docker 엔진을 사용할 수 없어 컨테이너 빌드·기동은 검증하지 못했습니다. 동일 Python 서버의 HTTP 동작과 실제 Chromium 화면을 검증했습니다. 실제 데이터셋 원본, 학습된 의료 모델과 임상적 성능 검증은 포함하지 않습니다.
+
+## INSPIRE ICU 입실 예측 학습
+
+INSPIRE에서 수술 후 24시간 이내 ICU 신규 입실을 예측하는 전처리·환자 단위 분할·학습·평가·HTTP 연결 코드를 추가했습니다. 실행 방법과 입력·정답·적용 범위는 [INSPIRE ICU24 안내](docs/INSPIRE_ICU24.md)를 참고하세요. 원본·개별 예측·모델 파일은 로컬에 보관하며, ICU 입실확률만 학습한 모델로 병상 예약이나 미학습 기간을 생성하지 않습니다.
+
+실제 INSPIRE 첫 PREOP 모델의 환자 분할, 시험 성능과 앱 연결 확인은 [학습·검증 집계 결과](docs/INSPIRE_ICU24_RESULTS.md)에 정리했습니다.

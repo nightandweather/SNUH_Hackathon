@@ -21,6 +21,8 @@ def validate_observation(obs, current):
     if not isinstance(obs, dict):
         raise AppError("관측은 JSON 객체여야 합니다")
     o = {"minute": finite_number(obs.get("minute"), "관측 시각", -5256000, current)}
+    if "available_minute" in obs:
+        o["available_minute"] = finite_number(obs["available_minute"], "관측 가용 시각", o["minute"], current)
     for key, bounds in BOUNDS.items():
         value = obs.get(key)
         o[key] = None if value is None else finite_number(value, key, *bounds)
@@ -130,8 +132,21 @@ def validate_dataset(data):
         lab_ranges = {"hemoglobin": (2, 22), "creatinine": (0, 30), "platelets": (0, 2000), "albumin": (0, 10), "lactate": (0, 30)}
         labs = {k: finite_number(v, k, *lab_ranges[k]) for k, v in labs.items() if k in lab_ranges and v is not None}
         lab_time = p.get("preop_labs_minute")
+        lab_times = p.get("preop_lab_times", {})
+        if not isinstance(lab_times, dict):
+            raise AppError("preop_lab_times 형식 오류")
+        lab_times = {k: finite_number(v, k + " 검사 가용 시각", -5256000, admission if pending else current)
+                     for k, v in lab_times.items() if k in labs}
+        lab_measurement_times = p.get("preop_lab_measurement_times", {})
+        if not isinstance(lab_measurement_times, dict):
+            raise AppError("preop_lab_measurement_times 형식 오류")
+        lab_measurement_times = {k: finite_number(v, k + " 검사 측정 시각", -5256000, min(start, admission if pending else current))
+                                 for k, v in lab_measurement_times.items() if k in labs}
+        if any(lab_measurement_times[k] > lab_times[k] for k in lab_measurement_times if k in lab_times):
+            raise AppError("검사 가용 시각은 측정 시각보다 빠를 수 없습니다")
         if labs:
-            finite_number(lab_time, "수술 전 검사 관측 시각", -5256000, min(start, admission if pending else current))
+            if any(k not in lab_times for k in labs):
+                finite_number(lab_time, "수술 전 검사 관측 시각", -5256000, min(start, admission if pending else current))
         pre = p.get("pre_admission", [])
         if not isinstance(pre, list) or len(pre) > 100:
             raise AppError("입원 전 기록 형식 오류")
@@ -178,12 +193,16 @@ def validate_dataset(data):
         patients.append({"id": pid, "subject_id": subject_id, "admission_id": admission_id, "operation_id": operation_id,
                          "name": text(p.get("name", pid), "표시 이름", 80),
                          "age": finite_number(p.get("age"), "나이", 18, 100), "sex": p.get("sex", "U") if p.get("sex", "U") in ("M", "F", "U") else "U",
+                         "weight": None if p.get("weight") is None else finite_number(p["weight"], "체중 kg", 20, 350),
+                         "height": None if p.get("height") is None else finite_number(p["height"], "키 cm", 80, 250),
+                         "anesthesia_type": None if p.get("anesthesia_type") is None else text(p["anesthesia_type"], "마취 종류", 80),
                          "asa": asa, "surgery": text(p.get("surgery"), "수술명"),
                          "department": text(p.get("department", "SURG"), "진료과", 30), "location": text(p.get("location", "OR"), "위치", 60),
                          "operation_start_minute": start, "estimated_end_minute": end, "actual_end_minute": actual,
                          "admission_minute": admission, "preferred_unit": unit, "emergency": p.get("emergency", False),
                          "planned_icu": p.get("planned_icu", False), "conditions": conditions, "preop_labs": labs,
-                         "preop_labs_minute": lab_time, "pre_admission": pre, "observations": sorted(obs, key=lambda v: v["minute"]),
+                         "preop_labs_minute": lab_time, "preop_lab_times": lab_times,
+                         "preop_lab_measurement_times": lab_measurement_times, "pre_admission": pre, "observations": sorted(obs, key=lambda v: v["minute"]),
                          "treatments": normalized_treatments, "source": "import", "capabilities_required": requirements,
                          "procedure_group": group, "status": "scheduled" if pending else status, "discharge_minute": discharge})
     raw_beds = data.get("beds", [])

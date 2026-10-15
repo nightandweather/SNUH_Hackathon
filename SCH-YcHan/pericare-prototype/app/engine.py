@@ -85,6 +85,12 @@ def recommend(state, patient):
     if current_phase == "ICU":
         r.update(status="ADMITTED", reason="현재 ICU 재실 중 · 지원 종료와 퇴실을 별도로 확인")
         return r
+    if pr["mode"] in ("remote_partial", "unsupported") or any(pr.get(key) is None for key in ("icu_probability", "icu_los_upper", "confidence")):
+        # A classifier supplies no occupancy window or individual certainty.
+        # Keep existing confirmed reservations; never generate replacement times.
+        r.update(status="BLOCKED", reason=pr.get("model_error") or "ICU24 입실 확률만 제공 · 체류기간·예약 시점 예측은 지원하지 않습니다",
+                 start=None, end=None, due=None, optimization=None)
+        return r
     if state["clock_kind"] not in ("synthetic_shared", "hospital_shared"):
         r.update(status="BLOCKED", reason="환자 간 공통 시간축이 없어 병상 경쟁을 계산할 수 없습니다")
         return r
@@ -157,6 +163,10 @@ class Engine:
                         or (old["mode"] == "completed" and phase(p, s["minute"]) in ("DISCHARGED", "DECEASED", "TRANSFERRED"))):
                 return p["id"], old
             features = extract_features(p, s["minute"], s["policy"])
+            features.update(source_mode="synthetic" if s["source"] == "synthetic" else "import",
+                            source=s["source"], clock_kind=s["clock_kind"],
+                            data_context={"source": {"kind": "synthetic" if s["source"] == "synthetic" else "import"},
+                                          "clock_kind": s["clock_kind"]})
             result = predict(features, s["model_backend"])
             result["features"] = features
             return p["id"], result
@@ -190,7 +200,7 @@ class Engine:
             pr = s["predictions"][p["id"]]
             if pr["mode"] in ("pending", "completed"):
                 continue
-            if pr["features"]["quality_issues"] or pr["mode"] == "unavailable":
+            if pr["features"]["quality_issues"] or pr["mode"] in ("unavailable", "unsupported"):
                 alert(p["id"], "quality", "관측·예측 확인", pr["model_error"] or " · ".join(pr["features"]["quality_issues"]), "warning")
             if pr["need_score"] is not None and pr["need_score"] >= 75:
                 alert(p["id"], "risk", "집중관리 고위험", f"동적 지표 {pr['need_score']} · 현재 장기 지지와 관측을 확인하세요", "critical")

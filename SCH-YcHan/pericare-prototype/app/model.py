@@ -5,6 +5,9 @@ import os
 import urllib.request
 
 MODEL_VERSION = "demo-rules-3.0"
+ICU24_TASK = "icu24_after_operation_end"
+PARTIAL_NULL_OUTPUTS = ("need_score", "need_probability", "intensive_hours", "intensive_hours_upper",
+                        "icu_los_hours", "icu_los_upper", "hospital_los_days", "hospital_los_upper", "confidence")
 
 
 def phase(patient, minute):
@@ -33,7 +36,8 @@ def phase(patient, minute):
 
 
 def extract_features(patient, minute, policy):
-    visible = sorted((o for o in patient.get("observations", []) if o["minute"] <= minute), key=lambda o: o["minute"])
+    visible = sorted((o for o in patient.get("observations", [])
+                      if o["minute"] <= minute and o.get("available_minute", o["minute"]) <= minute), key=lambda o: o["minute"])
     latest = visible[-1] if visible else {}
     window = [o for o in visible if minute - 30 <= o["minute"] <= minute]
     maps = [o["map"] for o in window if o.get("map") is not None]
@@ -57,11 +61,18 @@ def extract_features(patient, minute, policy):
         problems.append("승압제 관측 정보 없음")
         quality *= 0.7
     support = latest.get("ventilation") if phase(patient, minute) != "OR" else False
-    lab_time = patient.get("preop_labs_minute", minute)
+    lab_time = patient.get("preop_labs_minute")
+    lab_times = patient.get("preop_lab_times", {})
+    visible_labs = {key: value for key, value in patient.get("preop_labs", {}).items()
+                    if (at := lab_times.get(key, lab_time)) is not None and at <= minute}
     return {"minute": minute, "patient_id": patient["id"], "phase": phase(patient, minute),
             "age": patient["age"], "asa": patient["asa"], "emergency": patient.get("emergency", False),
+            "sex": patient.get("sex", "U"), "weight": patient.get("weight"), "height": patient.get("height"),
+            "department": patient.get("department"), "anesthesia_type": patient.get("anesthesia_type"),
+            "operation_start_minute": patient["operation_start_minute"], "admission_minute": patient["admission_minute"],
             "planned_icu": patient.get("planned_icu", False) and current_phase not in ("WARD", "DISCHARGED", "DECEASED", "TRANSFERRED"), "conditions": patient.get("conditions", []),
-            "preop_labs": patient.get("preop_labs", {}) if lab_time is not None and lab_time <= minute else {},
+            "preop_labs": visible_labs, "preop_lab_times": {key: lab_times.get(key, lab_time) for key in visible_labs},
+            "preop_lab_measurement_times": {key: value for key, value in patient.get("preop_lab_measurement_times", {}).items() if key in visible_labs},
             "preop_labs_minute": patient.get("preop_labs_minute"), "latest": latest,
             "pre_admission": [e for e in patient.get("pre_admission", []) if e["minute"] < patient["admission_minute"] and e["minute"] <= minute],
             "signal_window": window,
@@ -120,6 +131,32 @@ def demo_predict(f):
             "model_version": MODEL_VERSION, "mode": "demo", "interval_kind": "illustrative_range", "model_error": None}
 
 
+def validate_partial_prediction(p):
+    """Validate the explicit probability-only contract; absent outputs stay absent."""
+    if p.get("schema_version") != "2.0" or p.get("task") != ICU24_TASK or p.get("horizon_minutes") != 1440:
+        raise ValueError("지원하지 않는 부분 예측 계약")
+    if p.get("prediction_status") not in ("available", "unsupported"):
+        raise ValueError("prediction_status 오류")
+    if p.get("supported_outputs") != ["icu_probability"]:
+        raise ValueError("ICU24 모델은 ICU 입실 확률만 지원합니다")
+    for key in PARTIAL_NULL_OUTPUTS:
+        if key not in p or p[key] is not None:
+            raise ValueError(f"미지원 출력은 null이어야 합니다: {key}")
+    v = p.get("icu_probability")
+    if p["prediction_status"] == "available":
+        if isinstance(v, bool) or not isinstance(v, (int, float)) or not math.isfinite(v) or not 0 <= v <= 1:
+            raise ValueError("유효하지 않은 ICU 입실 확률")
+    elif v is not None:
+        raise ValueError("적용 불가 예측은 확률을 제공할 수 없습니다")
+    if p.get("contributions") != [] or p.get("interval_kind") != "not_applicable":
+        raise ValueError("ICU24 모델에는 기간 범위나 점수 기여도가 없습니다")
+    if not isinstance(p.get("model_version"), str) or not p["model_version"]:
+        raise ValueError("model_version이 필요합니다")
+    if p.get("unsupported_reason") is not None and not isinstance(p["unsupported_reason"], str):
+        raise ValueError("unsupported_reason 형식 오류")
+    return p
+
+
 def validate_prediction(p):
     required = {"need_score": (0, 100), "need_probability": (0, 1), "icu_probability": (0, 1),
                 "intensive_hours": (0, 720), "intensive_hours_upper": (0, 1440),
@@ -127,6 +164,8 @@ def validate_prediction(p):
                 "hospital_los_days": (0, 365), "hospital_los_upper": (0, 730), "confidence": (0, 1)}
     if not isinstance(p, dict):
         raise ValueError("모델 응답은 JSON 객체여야 합니다")
+    if p.get("schema_version") == "2.0":
+        return validate_partial_prediction(p)
     for key, (lo, hi) in required.items():
         v = p.get(key)
         if isinstance(v, bool) or not isinstance(v, (int, float)) or not math.isfinite(v) or not lo <= v <= hi:
@@ -156,25 +195,39 @@ def predict(f, backend="demo"):
         return result
     if backend == "demo":
         return demo_predict(f)
+    partial = False
     try:
         url = os.environ.get("MODEL_URL", "")
         if not url.startswith(("http://", "https://")):
             raise ValueError("MODEL_URL 설정이 필요합니다")
-        request = urllib.request.Request(url, data=json.dumps({"schema_version": "1.0", "as_of_minute": f["minute"], "features": f}).encode(),
+        task = os.environ.get("MODEL_TASK", "")
+        request = urllib.request.Request(url, data=json.dumps({"schema_version": "2.0" if task == ICU24_TASK else "1.0", "as_of_minute": f["minute"], "features": f}).encode(),
                                          headers={"Content-Type": "application/json"}, method="POST")
         key = os.environ.get("MODEL_API_KEY", "")
         if key:
             request.add_header("Authorization", "Bearer " + key)
         with urllib.request.urlopen(request, timeout=3) as response:
-            p = validate_prediction(json.loads(response.read(1024 * 1024)))
-        p["mode"] = "remote"
+            body = json.loads(response.read(1024 * 1024))
+            partial = isinstance(body, dict) and body.get("schema_version") == "2.0"
+            p = validate_prediction(body)
+        if task == ICU24_TASK and not partial:
+            raise ValueError("ICU24에는 v2 부분 예측 계약이 필요합니다")
+        if partial and p["prediction_status"] == "available" and f["phase"] not in ("PREOP", "OR"):
+            raise ValueError("ICU24 모델 적용 단계가 아닙니다")
+        if partial and p["prediction_status"] == "available" and f.get("source_mode") != "import":
+            raise ValueError("ICU24에는 출처가 명시된 입력 데이터가 필요합니다")
+        p["mode"] = ("remote_partial" if p["prediction_status"] == "available" else "unsupported") if partial else "remote"
         p["model_version"] = str(p.get("model_version", "external"))[:80]
         p["interval_kind"] = str(p.get("interval_kind", "model_range"))[:50]
-        p["model_error"] = None
+        p["model_error"] = p.get("unsupported_reason") if partial and p["prediction_status"] == "unsupported" else None
         return p
     except Exception as exc:
-        return {"need_score": None, "need_probability": None, "icu_probability": None,
+        result = {"need_score": None, "need_probability": None, "icu_probability": None,
                 "intensive_hours": None, "intensive_hours_upper": None, "icu_los_hours": None,
                 "icu_los_upper": None, "hospital_los_days": None, "hospital_los_upper": None,
                 "mode": "unavailable", "confidence": 0, "contributions": [], "interval_kind": "unavailable",
                 "model_error": "외부 예측 실패: " + type(exc).__name__, "model_version": "unavailable"}
+        if partial or os.environ.get("MODEL_TASK") == ICU24_TASK:
+            result.update(schema_version="2.0", task=ICU24_TASK, horizon_minutes=1440,
+                          supported_outputs=["icu_probability"], confidence=None)
+        return result
