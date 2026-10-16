@@ -44,7 +44,7 @@ test('linked CXR uses patient/time-bound vision route and renders reply',async()
  selector.value='image-a';selector.onchange();
  assert.match(section.querySelector('.cxr-preview').children[0].src,/case_id=TEST&row_index=0&image_id=image-a/);
  section.querySelector('textarea').value='What is visible?';await section.querySelector('.send').onclick();
- const call=calls.find(x=>x.url==='api/cxr-review');assert.deepEqual(call.body,{case_id:'TEST',row_index:0,image_id:'image-a',language:'en',question:'What is visible?'});
+ const call=calls.find(x=>x.url==='api/cxr-review');assert.deepEqual(call.body,{case_id:'TEST',row_index:0,image_id:'image-a',language:'en',question:'What is visible?',compare_chexagent:true});
  assert.equal(calls.some(x=>x.url==='api/discussion/turn'),false);
  assert.match(section.querySelector('.status').textContent,/1 CXR replies/);
  assert.ok(section.querySelector('.transcript').children.some(x=>/Image review/.test(x.innerHTML)));
@@ -59,4 +59,12 @@ test('mismatched image response is rejected and question restored',async()=>{
 test('default selection retains text conversation endpoint',async()=>{
  const {section,calls}=setup({images:[image]});await tick();section.querySelector('textarea').value='Check patient';
  await section.querySelector('.send').onclick();assert.ok(calls.some(x=>x.url==='api/discussion/turn'));assert.equal(calls.some(x=>x.url==='api/cxr-review'),false);
+});
+
+test('random simulation CXR is previewed and labeled without a fake timestamp',async()=>{
+ const {section}=setup({images:[{...image,linkage:'random_simulation',chart_minute:null}]});await tick();
+ assert.equal(section.querySelector('.cxr-select').value,'image-a');
+ assert.match(section.querySelector('.cxr-status').textContent,/Not this patient/);
+ assert.ok(section.querySelector('.cxr-preview').children.length);
+ assert.doesNotMatch(section.querySelector('.cxr-select').children[0].textContent,/null/);
 });

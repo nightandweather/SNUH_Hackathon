@@ -37,6 +37,21 @@ class ReviewBoundaries(unittest.TestCase):
   (self.registry.root/'verified.json').write_text(json.dumps({'images':[self.entry]}))
   out=self.service.review(self.body);self.assertFalse(out['availability_known'])
   supplied=json.loads(self.calls[0][1]['content'][0]['text']);self.assertIn('retrospective',supplied['review_scope'])
+ def test_simulation_pairing_is_explicit_and_bound(self):
+  root=self.registry.root
+  (root/'verified.json').unlink()
+  (root/'simulation').mkdir()
+  (root/(self.key+'.png')).rename(root/'simulation'/(self.key+'.png'))
+  assignment={'case_id':'CASE-1','binding':'a','image_id':self.key,'modality':'CR','linkage':'random_simulation'}
+  (root/'simulation.json').write_text(json.dumps({'enabled':True,'assignments':[assignment]}))
+  out=self.service.review(self.body)
+  self.assertFalse(out['patient_linked']);self.assertEqual(out['linkage'],'random_simulation')
+  self.assertIn('RANDOMLY PAIRED',self.calls[0][0]['content'])
+  self.assertNotIn('The image has been matched',self.calls[0][0]['content'])
+  self.assertIsNone(self.registry.listing(self.case,1)['images'][0]['chart_minute'])
+  with self.assertRaises(ChatError):self.service.review({**self.body,'case_id':'CASE-2'})
+  (root/'simulation.json').write_text(json.dumps({'enabled':False,'assignments':[assignment]}))
+  self.assertEqual(self.registry.listing(self.case,1)['images'],[])
  def test_only_approved_gateway(self):
   with patch.dict('os.environ',{'LLM_BASE_URL':'https://unapproved.example/v1'},clear=True):
    with self.assertRaises(ChatError):configuration()

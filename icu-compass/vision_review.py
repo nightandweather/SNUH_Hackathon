@@ -16,6 +16,9 @@ Answer the nurse's question conditionally. Recommend focused observation, docume
 Return only JSON with EXACT keys: summary (short string), image_quality (short string), visible_findings (one to five strings), uncertainties (one to five strings), clinician_review (one to four strings), nursing_focus (one to four strings). Label possible findings as uncertain. Do not provide probability scores. Do not claim clinical accuracy or that AI replaces a radiologist. Keep each string under 900 characters."""
 
 
+SIMULATION_NOTICE = """This is an explicitly RANDOMLY PAIRED simulation, not this patient's actual CXR. The image and EMR belong to unverified/different individuals and are not time-aligned. Start the summary with a clear random-simulation warning. Describe image appearances separately from supplied EMR facts. Never claim the image explains this patient's symptoms, diagnoses, equipment, prognosis, or real treatment needs. Do not invent acquisition time or use this image to update real patient status. Any combined reasoning must be clearly conditional educational simulation only; no patient-specific executable orders. Image findings must never be recorded as this patient's clinical facts."""
+
+
 def configuration():
     path = os.environ.get('ICU_LLM_CONFIG')
     saved = json.loads(Path(path).read_text()) if path else {}
@@ -61,6 +64,17 @@ def validate(raw):
         raise ChatError(502, 'CXR response format invalid; no review accepted.')
 
 
+def chexagent_comparison(image_id):
+    """A second, image-only opinion; never substituted for a failed Qwen reply."""
+    try:
+        request=urllib.request.Request('http://127.0.0.1:8016/review',data=json.dumps({'image_id':image_id}).encode(),headers={'Content-Type':'application/json'},method='POST')
+        with urllib.request.urlopen(request,timeout=90) as response: result=json.load(response)
+        if result.get('image_id')!=image_id or not isinstance(result.get('findings'),str) or not result['findings'].strip():raise ValueError()
+        return result
+    except (OSError,ValueError,KeyError,TypeError):
+        return {'model':'StanfordAIMI/CheXagent-2-3b','available':False,'scope':'image_only','error':'Local CheXagent is not ready or inference failed. No findings generated.'}
+
+
 class VisionReviews:
     def __init__(self, payload, registry, completion=complete):
         self.cases = {c['id']: c for c in payload['cases']}
@@ -85,9 +99,15 @@ class VisionReviews:
         except (ValueError, OSError):
             raise ChatError(400, 'CXR verification failed.')
         # The entire request is frozen before invoking the model. No client-supplied paths or records.
+        simulated = entry.get('linkage') == 'random_simulation'
         supplied = {'SOURCE_FACTS':context, 'IMAGE':entry, 'NURSE_QUESTION':question.strip(),
-                    'review_scope':'retrospective image review, not an official radiology report'}
-        messages = [{'role':'system','content':PROMPT + '\nWrite all prose in ' + ('Korean' if language == 'ko' else 'English') + '.'},
+                    'review_scope': 'randomly paired simulation; image is not linked to this patient' if simulated else 'retrospective image review, not an official radiology report'}
+        prompt = PROMPT
+        if simulated:
+            start = prompt.index('The image has been matched')
+            end = prompt.index('Answer the nurse')
+            prompt = prompt[:start] + SIMULATION_NOTICE + '\n' + prompt[end:]
+        messages = [{'role':'system','content':prompt + '\nWrite all prose in ' + ('Korean' if language == 'ko' else 'English') + '.'},
             {'role':'user','content':[{'type':'text','text':json.dumps(supplied,ensure_ascii=False)},
                 {'type':'image_url','image_url':{'url':'data:image/png;base64,'+base64.b64encode(png).decode()}}]}]
         if not self.busy.acquire(blocking=False): raise ChatError(429, 'Image review busy. Try again shortly.')
@@ -96,5 +116,7 @@ class VisionReviews:
             return {'case_id':case['id'],'row_index':index,'image_id':image_id,'model':model,
                     'context_hash':context['context_hash'],'review':validate(raw),
                     'mode':'ai_image_review','official_report':False, 'image_input':True,
-                    'availability_known':entry['availability_known']}
+                    'availability_known':entry['availability_known'],
+                    'linkage':'random_simulation' if simulated else 'verified_patient_study', 'patient_linked':not simulated,
+                    'comparison':chexagent_comparison(image_id) if body.get('compare_chexagent') is True else None}
         finally: self.busy.release()
