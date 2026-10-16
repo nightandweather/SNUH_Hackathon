@@ -1,0 +1,70 @@
+/* Hospital UI v1. Proposed web palette; not official SNUH/KHDP CI tokens. */
+[data-hospital-ui="v1"] {
+  --hui-brand: #173b70;
+  --hui-primary: #215ec9;
+  --hui-sky: #2c83c8;
+  --hui-selected: #eaf2ff;
+  --hui-bg: #f4f7fb;
+  --hui-surface: #fff;
+  --hui-ink: #172b45;
+  --hui-muted: #52647a;
+  --hui-line: #d9e2ef;
+  --hui-control-border: #78879a;
+  --hui-red: #a53740;
+  --hui-red-bg: #fff0f1;
+  --hui-amber: #825800;
+  --hui-amber-bg: #fff7e3;
+  --hui-green: #176847;
+  --hui-green-bg: #eaf7f0;
+  --hui-gray: #52647a;
+  --hui-gray-bg: #edf1f5;
+  --hui-font-body: 1.0625rem;
+  --hui-font-small: .875rem;
+  color-scheme: light;
+  color: var(--hui-ink);
+  background: var(--hui-bg);
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+  font-size: var(--hui-font-body);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+[data-hospital-ui="v1"][data-text-size="large"] { --hui-font-body: 1.25rem; --hui-font-small: 1rem; }
+[data-hospital-ui="v1"] *, [data-hospital-ui="v1"] *::before, [data-hospital-ui="v1"] *::after { box-sizing: border-box; }
+[data-hospital-ui="v1"] [hidden] { display: none !important; }
+[data-hospital-ui="v1"] :where(button, input, textarea, select) { font: inherit; color: inherit; }
+[data-hospital-ui="v1"] :where(button, a, input, select, textarea):focus-visible { outline: 3px solid var(--hui-primary); outline-offset: 3px; }
+[data-hospital-ui="v1"] :where(h1, h2, h3, p) { margin: 0; }
+[data-hospital-ui="v1"] h1 { font-size: 1.5em; line-height: 1.4; }
+[data-hospital-ui="v1"] h2 { font-size: 1.25em; line-height: 1.4; }
+[data-hospital-ui="v1"] h3 { font-size: 1.125em; line-height: 1.5; }
+[data-hospital-ui="v1"] .hui-meta { color: var(--hui-muted); font-size: var(--hui-font-small); }
+[data-hospital-ui="v1"] .hui-number { font-variant-numeric: tabular-nums; }
+[data-hospital-ui="v1"] .hui-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+[data-hospital-ui="v1"] .hui-spread { justify-content: space-between; }
+[data-hospital-ui="v1"] .hui-stack { display: grid; gap: 16px; }
+[data-hospital-ui="v1"] .hui-surface { background: var(--hui-surface); border: 1px solid var(--hui-line); border-radius: 10px; padding: 24px; min-width: 0; }
+[data-hospital-ui="v1"] .hui-button {
+  min-width: 44px; min-height: 44px; display: inline-flex; justify-content: center; align-items: center; gap: 8px;
+  padding: 8px 16px; border: 1px solid var(--hui-control-border); border-radius: 6px;
+  color: var(--hui-ink); background: var(--hui-surface); cursor: pointer; text-align: center;
+  text-decoration: none; font-weight: 600; line-height: 1.5;
+}
+[data-hospital-ui="v1"] .hui-button:hover:not(:disabled) { background: var(--hui-selected); }
+[data-hospital-ui="v1"] .hui-button--primary { background: var(--hui-brand); border-color: var(--hui-brand); color: var(--hui-surface); }
+[data-hospital-ui="v1"] .hui-button--primary:hover:not(:disabled) { background: var(--hui-ink); }
+[data-hospital-ui="v1"] .hui-button:disabled { color: var(--hui-muted); background: var(--hui-gray-bg); cursor: not-allowed; }
+[data-hospital-ui="v1"] .hui-input { width: 100%; min-height: 44px; padding: 9px 12px; border: 1px solid var(--hui-control-border); border-radius: 6px; background: var(--hui-surface); }
+[data-hospital-ui="v1"] .hui-input::placeholder { color: var(--hui-muted); opacity: 1; }
+[data-hospital-ui="v1"] .hui-label { display: block; margin-bottom: 8px; font-weight: 600; }
+[data-hospital-ui="v1"] .hui-status { display: inline-flex; align-items: center; gap: 7px; padding: 4px 9px; border-radius: 5px; color: var(--hui-gray); background: var(--hui-gray-bg); font-weight: 600; font-size: inherit; }
+[data-hospital-ui="v1"] .hui-status[data-status="continue"] { color: var(--hui-red); background: var(--hui-red-bg); }
+[data-hospital-ui="v1"] .hui-status[data-status="reassess"] { color: var(--hui-amber); background: var(--hui-amber-bg); }
+[data-hospital-ui="v1"] .hui-status[data-status="ready"] { color: var(--hui-green); background: var(--hui-green-bg); }
+[data-hospital-ui="v1"] .hui-notice { padding: 12px 16px; border-radius: 6px; background: var(--hui-selected); color: var(--hui-ink); }
+[data-hospital-ui="v1"] .hui-divider { border: 0; border-top: 1px solid var(--hui-line); margin: 20px 0; }
+[data-hospital-ui="v1"] .hui-table-wrap { overflow-x: auto; }
+[data-hospital-ui="v1"] .hui-table { width: 100%; border-collapse: collapse; text-align: left; }
+[data-hospital-ui="v1"] .hui-table :where(th, td) { padding: 12px; border-bottom: 1px solid var(--hui-line); vertical-align: top; }
+[data-hospital-ui="v1"] .hui-table th { font-weight: 600; color: var(--hui-muted); }
+@media (max-width: 540px) { [data-hospital-ui="v1"] .hui-surface { padding: 16px; } }
+@media (prefers-reduced-motion: reduce) { [data-hospital-ui="v1"] * { scroll-behavior: auto; } }

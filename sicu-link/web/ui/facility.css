@@ -1,0 +1,10 @@
+.entry-hospital-text .entry-hospital-type{font-size:11px;line-height:1.4;color:#7c90a3;margin:0}
+.entry-hospital-text .entry-hospital-metrics{font-size:12px;color:#567591;line-height:1.5}
+.entry-hospital-metrics b{font-weight:650;color:#244f78;font-size:14px}
+body[data-board-design] .entry-hospital{min-height:98px}
+.entry-art{transition:opacity .18s ease}
+.network-facility-type{display:block;font-size:11px;line-height:1.5;font-weight:450;color:#7b8ea1;margin-top:7px;letter-spacing:normal}
+#facilityPlanNote{font-size:13px;line-height:1.8;color:#71869b;padding:0 0 18px;margin:0}
+#facilityMetricsNote{margin:10px 0;font-size:11px;line-height:1.7}
+@media(max-width:560px){.entry-hospital-text .entry-hospital-type{font-size:10px}.entry-hospital-text .entry-hospital-metrics{font-size:11px}.entry-hospital-metrics b{font-size:13px}body[data-board-design] .entry-hospital{min-height:96px}#facilityPlanNote{font-size:12px;padding-bottom:14px}}
+@media(prefers-reduced-motion:reduce){.entry-art{transition:none}}

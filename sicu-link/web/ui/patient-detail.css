@@ -1,0 +1,175 @@
+/* Patient sheet: a bedside identity, measured values and a calm clinical folio. */
+body[data-board-design] #publicPatient.patient-sheet {
+  --patient-divider:#e6edf4;
+  width:min(1000px,calc(100vw - 64px));
+  max-width:none;
+  max-height:min(880px,calc(100dvh - 64px));
+  padding:0;
+  border:1px solid #d8e2ec;
+  border-radius:22px;
+  color:var(--clinical-ink);
+  background:#fff;
+  box-shadow:0 36px 110px #0b294138,0 6px 24px #0b294118;
+  overflow:hidden;
+}
+body[data-board-design] #publicPatient.patient-sheet[open]{display:flex;flex-direction:column}
+body[data-board-design] #publicPatient.patient-sheet::backdrop{background:#142f495c;backdrop-filter:blur(6px)}
+body[data-board-design] #publicPatient.patient-sheet #publicClose{
+  position:absolute;top:22px;right:22px;z-index:5;float:none;
+  display:grid;place-items:center;width:44px;min-width:44px;height:44px;
+  padding:0;border:1px solid #e0e8f1;border-radius:50%;background:#fff;color:#546b80;
+  box-shadow:none;transition:background .16s ease,color .16s ease;
+}
+body[data-board-design] #publicPatient.patient-sheet #publicClose:hover{background:#f0f5fa;color:#153e66}
+body[data-board-design] #publicPatient.patient-sheet #publicClose svg{width:21px;height:21px}
+body[data-board-design] #publicPatient.patient-sheet :is(button,summary):focus-visible{outline:3px solid #0160ba;outline-offset:3px}
+body[data-board-design] #publicPatient.patient-sheet #publicPatientBody{
+  clear:none;padding:0;min-height:0;overflow:auto;overscroll-behavior:contain;
+  font-size:16px;line-height:1.6;word-break:keep-all;overflow-wrap:break-word;
+  scrollbar-width:thin;scrollbar-color:#cbd7e2 transparent;
+}
+.patient-sheet-head{
+  display:grid;grid-template-columns:74px minmax(0,1fr) auto;align-items:center;gap:22px;
+  position:sticky;top:0;z-index:3;padding:28px 88px 25px 32px;
+  background:#fffffffa;backdrop-filter:blur(10px);border-bottom:1px solid var(--patient-divider);
+}
+.patient-bed-index{height:78px;border:1px solid #d6e3ef;border-radius:14px;background:#f2f7fc;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#0d477c}
+.patient-bed-index>span{font-size:9px;font-weight:650;letter-spacing:.18em;line-height:1.4}
+.patient-bed-index>strong{font-size:36px;font-weight:580;letter-spacing:-.045em;line-height:1.15;font-variant-numeric:tabular-nums}
+body[data-board-design] #publicPatientBody .patient-sheet-context{font-size:12px;color:#6a8197;line-height:1.6;margin:0 0 3px;overflow-wrap:anywhere}
+body[data-board-design] #publicPatientBody .patient-identity h2{font-size:27px;font-weight:650;line-height:1.35;letter-spacing:-.035em;margin:0}
+body[data-board-design] #publicPatientBody .patient-identity-meta{display:flex;flex-wrap:wrap;align-items:center;gap:0;font-size:13px;color:#64788b;margin:7px 0 0;line-height:1.7}
+.patient-identity-meta>span+span::before{content:'·';padding:0 8px;color:#a5b4c3}
+.patient-primary-summary{display:grid;gap:5px;margin:12px 0 0}
+.patient-primary-summary>div{display:grid;grid-template-columns:56px minmax(0,1fr);gap:8px;align-items:baseline}
+.patient-primary-summary dt{font-size:12px;line-height:1.6;color:#71859a;font-weight:450}
+.patient-primary-summary dd{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;margin:0;font-size:15px;line-height:1.6;font-weight:600;color:#244c6e;overflow-wrap:anywhere}
+.clinical-example-label{font-size:10px!important;line-height:1.6;font-weight:450;color:#8a6657!important;white-space:normal}
+.patient-primary-summary [data-detail-kind=unknown] dd{font-size:13px;font-weight:450;color:#71859a}
+@media(max-width:560px){.patient-primary-summary{margin-top:10px;gap:6px}.patient-primary-summary>div{display:flex;flex-direction:column;gap:0}.patient-primary-summary dd{font-size:14px}.patient-primary-summary dt{font-size:11px}}
+body[data-text-size=large] .patient-primary-summary dd{font-size:18px}
+.patient-sheet-asof{display:flex;flex-direction:column;align-items:flex-end;gap:7px;align-self:center}
+.patient-demo-tag{font-size:10px;font-weight:650;letter-spacing:.025em;border:1px solid #dbe6f0;color:#58768f;border-radius:5px;padding:3px 7px;white-space:nowrap}
+.patient-sheet-asof>small{font-size:11px;color:#71859a;white-space:nowrap;font-variant-numeric:tabular-nums}
+.patient-vitals{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;padding:25px 32px 26px;border-bottom:1px solid var(--patient-divider);background:#fbfcfe}
+.patient-vital{padding:0 25px;border-left:1px solid #e1e9f1;min-width:0}
+.patient-vital:first-child{padding-left:0;border-left:0}
+.patient-vital:last-child{padding-right:0}
+.patient-vital-label{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;font-size:13px;color:#315a7e;font-weight:650}
+.patient-vital-label>small{font-size:11px;font-weight:450;color:#7c8d9e}
+.patient-vital-value{display:flex;align-items:baseline;gap:7px;margin-top:7px;white-space:nowrap}
+.patient-vital-value>strong{font-size:35px;font-weight:560;letter-spacing:-.045em;line-height:1.1;color:#163d61;font-variant-numeric:tabular-nums}
+.patient-vital-value>span{font-size:12px;color:#7a8b9b}
+.patient-vital[data-value=unknown] .patient-vital-value>strong{color:#94a8ba}
+.patient-sheet-body{display:grid;grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);gap:36px;padding:28px 32px 24px}
+.patient-location{min-width:0;padding-right:30px;border-right:1px solid var(--patient-divider)}
+body[data-board-design] #publicPatientBody .anatomy-panel{padding:0;border:0;border-radius:0;background:transparent;margin:0}
+body[data-board-design] #publicPatientBody :is(.anatomy-panel h3,.patient-section-heading h3){font-size:16px;font-weight:650;letter-spacing:-.025em;line-height:1.5;margin:0}
+.patient-sheet .anatomy-panel>div{display:flex;flex-direction:column;align-items:stretch;gap:17px}
+.patient-sheet .anatomy-panel>div>svg{align-self:center;width:162px;height:251px;max-width:100%;margin-top:12px;flex:none}
+.patient-sheet .anatomy-panel>div>svg>g{fill:#f0f5f9;stroke:#b4c8da;stroke-width:1.6}
+.patient-sheet .anatomy-panel>div>div{font-size:13px;line-height:1.75;min-width:0;color:#657b8e}
+.patient-sheet .anatomy-panel>div>div>b{font-size:13px;font-weight:650;color:#48657f}
+body[data-board-design] #publicPatientBody .anatomy-panel p{margin:6px 0;font-size:13px;line-height:1.75}
+.patient-sheet .anatomy-panel small{font-size:11px;color:#8595a5;line-height:1.7;display:block}
+.patient-care-section{min-width:0}
+.patient-section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 10px}
+.patient-section-heading>span{font-size:11px;color:#8a9aaa}
+body[data-board-design] .patient-sheet .sicu-detail-care{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 20px;margin:0;padding:0;border:0}
+body[data-board-design] .patient-sheet .sicu-detail-care .care-badge{
+  display:grid;grid-template-columns:32px minmax(0,1fr);grid-template-rows:auto auto;align-items:center;
+  gap:0 10px;padding:13px 0;border:0;border-bottom:1px solid #edf1f6;border-radius:0;background:transparent;min-width:0;
+}
+body[data-board-design] .patient-sheet .sicu-detail-care .care-icon{grid-column:1;grid-row:1/3;width:32px;height:34px;padding:5px;border:0;border-radius:9px;background:#f0f4f8;color:#7e92a5}
+body[data-board-design] .patient-sheet .sicu-detail-care .is-active .care-icon{background:color-mix(in srgb,var(--care-color) 10%,white);color:var(--care-color)}
+body[data-board-design] .patient-sheet .sicu-detail-care .is-unknown .care-icon{outline:1px dashed #bac8d5;outline-offset:-1px;background:#f8fafc}
+body[data-board-design] .patient-sheet .sicu-detail-care .care-icon>svg{width:23px;height:23px}
+body[data-board-design] .patient-sheet .sicu-detail-care .care-label{grid-column:2;grid-row:1;text-align:left;font-size:14px;font-weight:550;line-height:1.6;min-height:0;color:#344f68;white-space:normal}
+body[data-board-design] .patient-sheet .sicu-detail-care .care-state{grid-column:2;grid-row:2;text-align:left;font-size:11px;color:#8a9baa;line-height:1.5}
+body[data-board-design] .patient-sheet .sicu-detail-care .is-active .care-state{color:var(--care-color);font-weight:550}
+body[data-board-design] .patient-sheet .sicu-detail-care .unknown-mark{font-size:9px;right:-2px;bottom:-2px;border:2px solid #fff}
+.patient-course{padding:20px 0 18px;border-bottom:1px solid var(--patient-divider)}
+.patient-section-label{font-size:11px;color:#7f94a7;font-weight:550}
+body[data-board-design] #publicPatientBody .patient-course p{font-size:15px;font-weight:550;line-height:1.7;margin:6px 0 0;color:#32516c;overflow-wrap:anywhere}
+.patient-course>small{font-size:11px;color:#7f92a4;display:block;margin-top:5px}
+.patient-device-details{padding-top:4px}
+.patient-device-details>summary{display:flex;align-items:center;justify-content:space-between;min-height:44px;gap:16px;list-style:none;font-size:12px;color:#6d8498;cursor:pointer}
+.patient-device-details>summary::-webkit-details-marker{display:none}
+.patient-device-details>summary>svg{width:16px;height:16px;transition:transform .16s ease}
+.patient-device-details[open]>summary>svg{transform:rotate(180deg)}
+.patient-device-list{margin:0;padding:0 0 6px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 22px}
+.patient-device-list>div{display:flex;gap:8px;align-items:baseline;justify-content:space-between;font-size:12px;min-width:0}
+.patient-device-list dt{color:#6f8497}
+.patient-device-list dd{margin:0;color:#9aa8b5;font-size:11px;white-space:nowrap}
+.patient-device-list dd[data-device-state=active]{color:#2b6a91}
+.patient-sheet-source{display:flex;align-items:center;gap:9px;padding:16px 32px;border-top:1px solid var(--patient-divider);background:#f8fafd}
+.patient-source-dot{width:5px;height:5px;background:#8ba7c0;border-radius:50%;flex:none}
+body[data-board-design] #publicPatientBody .patient-sheet-source p{font-size:11px;line-height:1.7;color:#8092a3;margin:0}
+.patient-sheet-empty{display:flex;align-items:center;justify-content:center;gap:30px;min-height:300px;padding:36px 48px}
+.patient-empty-bed{width:100px;flex:none;opacity:.65}
+.patient-empty-bed svg{width:100%;height:auto}
+body[data-board-design] #publicPatientBody .patient-sheet-empty h3{font-size:20px;margin:0 0 8px}
+body[data-board-design] #publicPatientBody .patient-sheet-empty p{font-size:14px;line-height:1.8;color:#72889b;max-width:360px;margin:0}
+body[data-board-design][data-text-size=large] .patient-sheet :is(.patient-identity-meta,.care-label,.patient-course p){font-size:18px!important}
+body[data-board-design][data-text-size=large] .patient-sheet :is(.anatomy-panel p,.anatomy-panel>div>div,.care-state,.patient-device-details>summary,.patient-device-list>div){font-size:16px!important}
+@media(max-width:760px){
+  body[data-board-design] #publicPatient.patient-sheet{width:calc(100vw - 28px);max-height:calc(100dvh - 28px);border-radius:17px}
+  .patient-sheet-head{grid-template-columns:62px minmax(0,1fr);gap:16px;padding:24px 66px 20px 24px}
+  .patient-bed-index{height:70px;border-radius:12px}.patient-bed-index>strong{font-size:32px}
+  .patient-sheet-asof{grid-column:2;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px;margin-top:-4px}
+  .patient-sheet-asof>small{font-size:10px}.patient-demo-tag{font-size:9px;padding:2px 5px}
+  body[data-board-design] #publicPatientBody .patient-identity h2{font-size:24px}
+  body[data-board-design] #publicPatientBody .patient-sheet-context{font-size:10px}
+  body[data-board-design] #publicPatientBody .patient-identity-meta{font-size:11px;row-gap:2px}
+  .patient-vitals{padding:22px 24px}.patient-vital{padding:0 15px}
+  .patient-vital-label{flex-direction:column;gap:1px}.patient-vital-label>small{font-size:10px}
+  .patient-vital-value>strong{font-size:30px}.patient-vital-value>span{font-size:10px}
+  .patient-sheet-body{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:24px;padding:24px}
+  .patient-location{padding-right:20px}
+  body[data-board-design] .patient-sheet .sicu-detail-care{grid-template-columns:minmax(0,1fr)}
+  body[data-board-design] .patient-sheet .sicu-detail-care .care-badge{grid-template-columns:28px minmax(0,1fr) auto;grid-template-rows:auto;gap:9px;padding:10px 0}
+  body[data-board-design] .patient-sheet .sicu-detail-care .care-icon{grid-row:1;width:28px;height:30px;padding:4px}
+  body[data-board-design] .patient-sheet .sicu-detail-care .care-icon>svg{width:21px;height:21px}
+  body[data-board-design] .patient-sheet .sicu-detail-care .care-state{grid-column:3;grid-row:1}
+  body[data-board-design] .patient-sheet .sicu-detail-care .care-label{font-size:13px}
+  .patient-device-list{grid-template-columns:minmax(0,1fr)}
+  .patient-sheet-source{padding:14px 24px}
+}
+@media(max-width:560px){
+  body[data-board-design] #publicPatient.patient-sheet #publicClose{width:44px;min-width:44px;height:44px;min-height:44px;top:16px;right:12px}
+  .patient-sheet-head{grid-template-columns:52px minmax(0,1fr);gap:10px 14px;padding:20px 60px 18px 20px}
+  .patient-bed-index{height:62px;grid-row:1/3;align-self:start}.patient-bed-index>span{font-size:8px}.patient-bed-index>strong{font-size:29px}
+  body[data-board-design] #publicPatientBody .patient-identity h2{font-size:22px}
+  body[data-board-design] #publicPatientBody .patient-identity-meta{font-size:11px;line-height:1.6;margin-top:4px}
+  .patient-identity-meta>span+span::before{padding:0 5px}
+  .patient-sheet-asof{margin:0;flex-wrap:wrap;gap:4px 8px}
+  .patient-sheet-asof>small{font-size:9px}
+  .patient-vitals{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 0;padding:21px 20px}
+  .patient-vital{padding:0 0 0 20px}.patient-vital:nth-child(3){padding-left:0;border-left:0}
+  .patient-vital-label{flex-direction:row;gap:8px;font-size:12px}.patient-vital-label>small{font-size:10px}
+  .patient-vital-value{margin-top:5px}.patient-vital-value>strong{font-size:31px}.patient-vital-value>span{font-size:11px}
+  .patient-sheet-body{display:flex;flex-direction:column;gap:24px;padding:24px 20px}
+  .patient-care-section{order:0}.patient-location{order:1;padding-right:0;padding-top:23px;border-right:0;border-top:1px solid var(--patient-divider)}
+  body[data-board-design] .patient-sheet .sicu-detail-care{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px}
+  body[data-board-design] .patient-sheet .sicu-detail-care .care-badge{grid-template-columns:28px minmax(0,1fr);grid-template-rows:auto auto;gap:0 8px;padding:12px 0}
+  body[data-board-design] .patient-sheet .sicu-detail-care .care-icon{grid-row:1/3}
+  body[data-board-design] .patient-sheet .sicu-detail-care .care-state{grid-column:2;grid-row:2;font-size:10px}
+  body[data-board-design] .patient-sheet .sicu-detail-care .care-label{font-size:12px}
+  .patient-course{padding:17px 0 15px}
+  body[data-board-design] #publicPatientBody .patient-course p{font-size:14px}
+  .patient-sheet .anatomy-panel>div{flex-direction:row;align-items:center;gap:18px;margin-top:16px}
+  .patient-sheet .anatomy-panel>div>svg{width:108px;height:168px;margin:0;align-self:center}
+  .patient-sheet .anatomy-panel>div>div{flex:1;font-size:12px}
+  body[data-board-design] #publicPatientBody .anatomy-panel p{font-size:12px}
+  .patient-sheet .anatomy-panel small{font-size:10px}
+  .patient-device-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 16px}
+  .patient-sheet-source{padding:14px 20px}.patient-sheet-source p{font-size:10px!important}
+  .patient-sheet-empty{flex-direction:column;text-align:center;padding:28px 24px;gap:20px;min-height:320px}.patient-empty-bed{width:74px}
+  body[data-board-design] #publicPatientBody .patient-sheet-empty h3{font-size:18px}
+  body[data-board-design][data-text-size=large] .patient-sheet-head{grid-template-columns:52px minmax(0,1fr)}
+  body[data-board-design][data-text-size=large] .patient-sheet .sicu-detail-care{grid-template-columns:minmax(0,1fr)}
+  body[data-board-design][data-text-size=large] .patient-sheet .sicu-detail-care .care-badge{grid-template-columns:32px minmax(0,1fr) auto;grid-template-rows:auto}
+  body[data-board-design][data-text-size=large] .patient-sheet .sicu-detail-care .care-state{grid-column:3;grid-row:1}
+  body[data-board-design][data-text-size=large] .patient-sheet .anatomy-panel>div{flex-direction:column}
+}
+@media(prefers-reduced-motion:reduce){.patient-device-details>summary>svg{transition:none}}

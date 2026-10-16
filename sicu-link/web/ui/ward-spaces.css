@@ -1,0 +1,17 @@
+/* ICU rows preserve physical map coordinates inside contained viewports. */
+body[data-board-design] #floors>.ward-spaces-floor{padding:0;margin:0;border:0}
+#floors>.ward-spaces-floor>h2,#floors .ward-map-source{display:none!important}
+.ward-space-row{display:grid;grid-template-columns:172px minmax(0,1fr);align-items:start;gap:24px;padding:28px 0 34px;border-top:1px solid #dce5ee}
+.ward-space-meta{display:flex;flex-direction:column;align-items:flex-start;padding-top:10px;color:#183049;min-width:0}
+.ward-space-floor{font-size:42px;line-height:1.05;font-weight:550;letter-spacing:-.065em;color:#0c3c6e;font-variant-numeric:tabular-nums;margin-bottom:20px}
+.ward-space-code{font-size:11px;font-weight:600;letter-spacing:.06em;color:#6b8298;margin-bottom:7px}
+.ward-space-unit-name{font-size:19px;line-height:1.5;font-weight:650;letter-spacing:-.035em;margin:0;word-break:keep-all}
+.ward-space-unit-english{font-size:12px;line-height:1.6;color:#657d93;margin:5px 0 0;overflow-wrap:anywhere}
+.ward-space-caption{font-size:10px;line-height:1.8;color:#71889c;margin-top:20px;word-break:keep-all}
+body[data-board-design] .ward-space-map{width:100%;min-width:0;border-radius:0;overscroll-behavior-x:contain}
+.ward-space-map>svg{display:block;width:100%;height:auto;max-width:none}
+#floors .ward-space-map>svg>text.unit-t{display:none}
+#floors .ward-space-links{pointer-events:none}
+@media(max-width:1050px){.ward-space-row{grid-template-columns:140px minmax(0,1fr);gap:20px}.ward-space-floor{font-size:36px}.ward-space-unit-name{font-size:17px}}
+@media(max-width:650px){.ward-space-row{grid-template-columns:minmax(0,1fr);gap:14px;padding:24px 0 28px}.ward-space-meta{display:grid;grid-template-columns:64px minmax(0,1fr);gap:3px 16px;padding-top:0}.ward-space-floor{grid-column:1;grid-row:1/4;align-self:center;font-size:34px;margin:0}.ward-space-code{grid-column:2;grid-row:1;font-size:10px;margin:0}.ward-space-unit-name{grid-column:2;grid-row:2;font-size:17px;line-height:1.4}.ward-space-unit-english{grid-column:2;grid-row:3;font-size:11px;margin:0}.ward-space-caption{grid-column:2;grid-row:4;font-size:9px;margin-top:6px}}
+body[data-text-size=large] .ward-space-unit-name{font-size:22px}body[data-text-size=large] .ward-space-unit-english{font-size:14px}

@@ -1,0 +1,46 @@
+/* One clinical folio: anatomy, connections and observations share a surface. */
+body[data-board-design] #publicPatient{--device-active-ink:#8e3e32;--device-detail-ink:#31536f;--device-detail-muted:#71859a}
+body[data-board-design] #publicPatient.has-observation-panel .patient-sheet-body{display:flex;flex-direction:column;gap:28px;padding-top:24px}
+@media(min-width:761px){body[data-board-design] #publicPatient.has-observation-panel{max-height:min(980px,calc(100dvh - 48px))}}
+body[data-board-design] #publicPatient.has-observation-panel .patient-location{padding:0;border:0}
+body[data-board-design] #publicPatientBody .observation-panel>.observation-region-list{grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin-top:10px;margin-bottom:5px}
+body[data-board-design] #publicPatientBody .observation-panel .observation-layout{grid-template-columns:minmax(0,1.07fr) minmax(0,1fr) minmax(0,.9fr);gap:28px;align-items:start}
+.device-figure{min-width:0}.device-figure .observation-diagram>svg{max-width:290px;max-height:380px;width:100%;height:auto}
+body[data-board-design] #publicPatientBody .anatomy-panel #deviceLocationNotice{display:flex;flex-wrap:wrap;align-items:baseline;gap:3px 10px;margin:0 0 10px;font-size:11px;line-height:1.8;color:#576c81}
+#deviceLocationNotice strong{font-size:12px;font-weight:600;line-height:1.7;color:#476680}
+#deviceLocationNotice[data-location-kind=fictional_example]{padding:10px 12px;background:#fdf5ef;border-radius:7px}
+#deviceLocationNotice[data-location-kind=fictional_example] strong{color:#8c5042}
+.observation-connections{min-width:0}.observation-connections .patient-device-details{padding:0}
+.observation-connections .patient-device-details>summary{font-size:14px;font-weight:600;color:#314f69;justify-content:flex-start;gap:8px;padding:0 0 8px;min-height:44px}
+.observation-connections summary>svg{margin-left:auto}.device-connection-count{font-size:11px;font-weight:450;color:#647b90}
+.observation-connections .patient-device-list{grid-template-columns:minmax(0,1fr);gap:0;margin:0;padding:0}
+.observation-connections .patient-device-list>div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;align-items:center;padding:7px 0;border-bottom:1px solid #e7eef4;min-height:40px}
+.observation-connections .patient-device-list dt{display:flex;align-items:center;gap:9px;color:#476680;min-width:0;font-size:13px;line-height:1.5}
+.device-connection-icon{display:grid;place-items:center;flex:none;width:25px;height:26px;color:#8299ac}
+.device-connection-icon>svg{width:22px;height:22px}
+.observation-connections [data-device-state=active] .device-connection-icon{color:#186694}
+.observation-connections [data-device-state=unknown] .device-connection-icon{outline:1px dashed #a6bacb;outline-offset:1px;border-radius:5px}
+.observation-connections .patient-device-list dd{font-size:11px;line-height:1.6;color:#647b90;margin:0}
+.observation-connections .patient-device-list dd[data-device-state=active]{color:var(--device-active-ink);font-weight:750;font-size:13px}
+.observation-connections .patient-device-list .device-clinical-detail{grid-column:1/-1;display:flex;flex-direction:column;gap:4px;margin:0;padding:2px 0 5px 34px;white-space:normal}
+.device-detail-row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:baseline}
+.device-detail-row>span{font-size:11px;line-height:1.6;color:var(--device-detail-muted)}
+.device-detail-row>b{font-size:13px;line-height:1.6;font-weight:550;color:var(--device-detail-ink);text-align:right;overflow-wrap:anywhere}
+.device-detail-row>b[data-detail-known=false]{font-size:12px;color:var(--device-detail-muted);font-weight:400}
+body[data-board-design] #publicPatientBody .observation-gcs>small{font-size:11px;line-height:1.7;color:#71859a}
+.observation-gcs dd strong{font-variant-numeric:tabular-nums;letter-spacing:0!important;white-space:nowrap}
+.observation-region-target:focus-visible{outline:none}
+.observation-region-target:focus-visible .observation-region-hit{stroke:#0160ba;stroke-width:2;fill:#edf4fc80}
+.observation-connections .patient-device-list .device-location-record{grid-column:1/-1;padding-left:34px;color:#7d645c;font-size:10px;line-height:1.7;white-space:normal}
+body[data-board-design] #publicPatientBody .observation-layout .observation-records-section{padding-top:8px}
+body[data-board-design] #publicPatient.has-observation-panel .patient-care-section{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 32px;padding-top:24px;border-top:1px solid #e2eaf2}
+.has-observation-panel .patient-section-heading{grid-column:1;grid-row:1}.has-observation-panel .patient-care-section>.sicu-detail-care{grid-column:1;grid-row:2/4}
+.has-observation-panel .patient-care-section>.patient-course{grid-column:2;grid-row:1;padding-top:0}.has-observation-panel .patient-care-section>.observation-scenario{grid-column:2;grid-row:2;padding-top:16px}
+@media(max-width:980px){body[data-board-design] #publicPatientBody .observation-panel>.observation-region-list{grid-template-columns:repeat(3,minmax(0,1fr))}body[data-board-design] #publicPatientBody .observation-panel .observation-layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px}.observation-layout>.observation-records-section{grid-column:1/-1}.observation-layout #observationRecords>dl{grid-template-columns:repeat(3,minmax(0,1fr));gap:0 20px}.device-figure .observation-diagram>svg{max-height:370px}}
+@media(max-width:650px){body[data-board-design] #publicPatientBody .observation-panel>.observation-region-list{grid-template-columns:repeat(2,minmax(0,1fr))}body[data-board-design] #publicPatientBody .observation-panel .observation-layout{gap:16px}.device-figure .observation-diagram>svg{max-height:290px}.observation-connections .patient-device-list dt{font-size:11px;gap:6px}.device-connection-icon{width:20px;height:24px}.device-connection-icon>svg{width:18px;height:18px}.observation-connections .patient-device-list>div{gap:2px 5px;padding:8px 0;min-height:42px}.observation-connections .patient-device-list dd{font-size:10px}.observation-connections .patient-device-list .device-location-record{padding-left:26px;font-size:9px}.observation-connections .patient-device-details>summary{font-size:12px;gap:5px}body[data-board-design] #publicPatientBody .anatomy-panel #deviceLocationNotice{font-size:10px;line-height:1.7}#deviceLocationNotice strong{font-size:11px}#deviceLocationNotice[data-location-kind=fictional_example]{padding:8px}.observation-layout #observationRecords>dl{grid-template-columns:repeat(2,minmax(0,1fr))}body[data-board-design] #publicPatient.has-observation-panel .patient-care-section{display:block}.has-observation-panel .patient-care-section>.patient-course{padding-top:20px}}
+body[data-text-size=large] .observation-connections .patient-device-list dt{font-size:16px}body[data-text-size=large] .observation-connections .patient-device-list dd{font-size:14px}body[data-text-size=large] .observation-connections .patient-device-list .device-location-record{font-size:12px}
+@media(max-width:650px){body[data-board-design][data-text-size=large] #publicPatientBody .observation-panel .observation-layout{grid-template-columns:minmax(0,1fr)}body[data-text-size=large] .observation-connections .patient-device-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 20px}body[data-text-size=large] .observation-connections .patient-device-list dt{font-size:14px}body[data-text-size=large] .observation-connections .patient-device-list>div{grid-template-columns:minmax(0,1fr)}body[data-text-size=large] .observation-connections .patient-device-list dd{padding-left:29px}body[data-text-size=large] .device-figure .observation-diagram>svg{max-height:360px}}
+
+/* The expanded device detail sets stack on phones rather than shrinking text. */
+@media(max-width:650px){body[data-board-design] #publicPatientBody .observation-panel .observation-layout{grid-template-columns:minmax(0,1fr);gap:24px}.device-figure .observation-diagram>svg{max-height:360px;max-width:300px}.observation-connections .patient-device-list dt{font-size:14px}.observation-connections .patient-device-list dd.device-connection-state{font-size:12px}.observation-connections .patient-device-list .device-clinical-detail{padding-left:26px}.observation-connections .patient-device-list>div{min-height:44px;padding-top:12px;padding-bottom:8px}.observation-connections .patient-device-details>summary{font-size:15px}.observation-layout .observation-records-section{grid-column:auto}}
+body[data-text-size=large] .device-detail-row>b{font-size:17px}body[data-text-size=large] .device-detail-row>span{font-size:14px}

@@ -1,0 +1,29 @@
+#transportSceneBar{margin:0 0 22px;padding:18px 0 20px;border-bottom:1px solid #dce5ee;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 24px;color:#183049}
+.transport-scene-heading{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:650}.transport-scene-heading svg{width:22px;height:22px;color:#0c3c6e}.transport-scene-heading small{font-size:11px;font-weight:450;color:#6a8095;margin-left:4px}
+.transport-scene-options{display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin-top:11px}
+#transportSceneBar .transport-scene-option{min-height:40px;padding:7px 13px;border:0;border-radius:8px;color:#576c81;font-size:13px;font-weight:550;background:transparent}
+#transportSceneBar .transport-scene-option[aria-pressed=true]{background:#e6eef8;color:#0c3c6e;box-shadow:inset 0 0 0 1px #d5e2f0}
+.transport-scene-actions{display:flex;align-items:center;gap:8px;align-self:center}
+#transportSceneBar button:focus-visible{outline:3px solid #77b4ee;outline-offset:3px}
+#transportScenePlay{display:flex;align-items:center;justify-content:center;gap:7px;min-height:44px;min-width:108px;border:0;border-radius:9px;background:#0c3c6e;color:#fff;font-size:13px;font-weight:600}
+#transportSceneReset{min-height:44px;min-width:44px;padding:8px 10px;border:1px solid #dce5ee;border-radius:9px;background:transparent;color:#61778c;font-size:19px}
+#transportScenePlay:disabled{opacity:.45;cursor:not-allowed}
+.transport-scene-progress{grid-column:1/-1;display:flex;align-items:center;gap:14px;min-width:0}
+.transport-scene-track{display:flex;gap:4px;flex:0 1 220px;min-width:70px}
+.transport-scene-track i{display:block;flex:1;height:3px;border-radius:4px;background:#dce5ee}
+.transport-scene-track i[data-state=done]{background:#81a9d1}.transport-scene-track i[data-state=current]{background:#0c3c6e}
+#transportSceneStatus{font-size:12px;color:#576c81;line-height:1.65;min-width:0}
+.transport-scene-color{display:flex;align-items:center;gap:6px;font-size:11px;color:#6a8095;margin-left:auto;white-space:nowrap}
+.transport-scene-color i{height:9px;width:9px;border-radius:50%;border:1px solid #bacbdc;background:#fff}.transport-scene-color i[data-color=red]{background:#af3540;border-color:#af3540}.transport-scene-color i[data-color=green]{background:#246b4b;border-color:#246b4b}
+.transport-story-layer{pointer-events:none}.transport-story-route{fill:none;stroke:#438bc8;stroke-width:.06;stroke-dasharray:.15 .22;opacity:.45}
+.transport-story-room-door{opacity:.86}
+.transport-porter-feet,.transport-porter-bob,.transport-porter-arms{transition:none;animation:none}
+.transport-porter[data-walking=true] .transport-porter-feet{opacity:1}
+.transport-story-caption{font-family:inherit;letter-spacing:0;font-size:.48px;fill:#0c3c6e;paint-order:stroke;stroke:#fff;stroke-width:.13px;stroke-linejoin:round}
+.transport-scene-bed-target{stroke:#0c3c6e;stroke-width:.09px;fill:none;stroke-dasharray:.16 .12}
+body[data-transport-scene=playing] .transport-story-cart{will-change:transform}
+#transportSceneDetail{border:1px solid #dce5ee;border-radius:20px;box-shadow:0 24px 80px #102a4533;width:min(580px,calc(100vw - 32px));max-height:calc(100dvh - 32px);padding:28px;font:inherit;line-height:1.8;color:#183049}
+#transportSceneDetail::backdrop{background:#102a4577;backdrop-filter:blur(5px)}
+.transport-scene-dialog-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}.transport-scene-dialog-head small{font-size:10px;letter-spacing:.12em;color:#6a8095}.transport-scene-dialog-head h2{margin:3px 0 0;font-size:26px}.transport-scene-dialog-head button{height:44px;width:44px;border:1px solid #dce5ee;border-radius:10px;color:#576c81;background:white;font:24px/1 inherit}.transport-scene-dialog-note{font-size:12px;color:#6a8095;margin-top:24px;padding-top:16px;border-top:1px solid #dce5ee}
+@media(max-width:650px){#transportSceneBar{gap:12px 10px;margin-bottom:15px;padding:15px 0}.transport-scene-heading small{display:none}.transport-scene-heading{font-size:13px}#transportSceneBar .transport-scene-option{padding:6px 8px;font-size:12px}.transport-scene-options{gap:0;margin-top:7px}.transport-scene-actions{gap:5px}#transportScenePlay{min-width:76px;padding:8px;font-size:12px}#transportSceneReset{min-width:38px}.transport-scene-progress{flex-wrap:wrap;gap:8px 12px}.transport-scene-track{flex-basis:110px}.transport-scene-color{margin-left:0}#transportSceneStatus{order:3;flex-basis:100%}}
+@media(prefers-reduced-motion:reduce){.transport-story-cart{will-change:auto!important}}

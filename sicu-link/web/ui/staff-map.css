@@ -1,0 +1,40 @@
+/* Care team figures share the architectural map's quiet blue vocabulary. */
+#floors .sicu-staff-avatar{transform:scale(.76);filter:drop-shadow(0 .045px .065px #173d6320)}
+#floors .sicu-staff-avatar>*{display:initial}
+#floors .sicu-staff-avatar .avatar-care{fill:#fff;stroke-width:.1;stroke-linejoin:round}
+#floors .doctor .sicu-staff-avatar .avatar-scrubs{fill:#fff;stroke:#7896b0;stroke-width:.055}
+#floors .sicu-staff-avatar .staff-glyph{transform:none;font-size:.55px;fill:#fff!important;dominant-baseline:auto;letter-spacing:normal;stroke:none;paint-order:normal}
+#floors :is(.nurse,.doctor)[data-staff-selected=true] .avatar-care,#floors :is(.nurse,.doctor):focus-visible .avatar-care{stroke:#0065c4!important;stroke-width:.2px}
+#floors .staff-motion-cue{--staff-state-color:#527ba4}
+#floors [data-staff-state=moving] .staff-motion-cue,#floors [data-staff-state=called] .staff-motion-cue{--staff-state-color:#c68127}
+#floors [data-staff-state=responding] .staff-motion-cue{--staff-state-color:#b35155}
+#floors [data-staff-state=break] .staff-motion-cue{--staff-state-color:#8b98a5}
+#floors [data-staff-state=coverage] .staff-motion-cue{--staff-state-color:#8067a2}
+#floors .staff-ground{fill:#153d62;opacity:.13;stroke:none}
+#floors :is(.nurse,.doctor) .staff-state-dot{fill:var(--staff-state-color);stroke:white;stroke-width:.055px}
+#floors .staff-step{display:none;fill:none;stroke:var(--staff-state-color);stroke-width:.065px;stroke-linecap:round}
+#floors [data-staff-state=moving] .staff-step{display:initial;animation:staff-footfall .8s ease-in-out infinite alternate;animation-play-state:paused}
+#floors .staff-step-two{animation-delay:-.8s}
+body[data-staff-playback=playing] #floors [data-staff-state=moving] .staff-step{animation-play-state:running}
+#floors .staff-direction{display:none;fill:none;stroke:#bf7d27;stroke-width:.075px;stroke-linecap:round;stroke-linejoin:round}
+#floors [data-staff-direction=observed][data-staff-state=moving] .staff-direction{display:initial}
+@keyframes staff-footfall{from{opacity:.25;transform:translateY(.035px)}to{opacity:1;transform:translateY(-.035px)}}
+#staffMapToolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px 24px;padding:12px 0 14px;margin:0 0 4px;border-bottom:1px solid #e4ebf2}
+.staff-role-key{display:flex;align-items:center;gap:18px;color:#6e8499;font-size:11px}
+.staff-role-key>span{display:flex;align-items:center;gap:5px;white-space:nowrap}
+.staff-role-key svg{width:20px;height:26px;overflow:visible}
+.staff-role-key .staff-glyph{font-size:.335px;fill:white}
+.staff-replay-controls{display:flex;align-items:center;flex-wrap:wrap;gap:10px;font-size:12px;color:#466682}
+#staffSimLabel{font-size:10px;color:#8497a8;padding-right:2px}
+#staffScenarioName{font-weight:600}
+#staffReplayTime{font-variant-numeric:tabular-nums;font-size:12px;color:#72889d}
+body[data-board-design] #staffReplayToggle{min-height:36px;min-width:70px;padding:7px 12px;border:0;border-radius:5px;background:#e8f1fb;color:#16518a;font-size:12px;font-weight:600}
+body[data-board-design] #staffReplaySettings{min-height:36px;padding:7px 0;border:0;border-radius:0;background:transparent;color:#7b8fa2;font-size:11px;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:780px){#staffMapToolbar{gap:10px;padding-top:10px}.staff-role-key{gap:16px}.staff-replay-controls{gap:10px}}
+@media(max-width:560px){#staffMapToolbar{align-items:flex-start;gap:10px;padding-bottom:12px}.staff-role-key{width:100%;gap:20px;font-size:11px}.staff-replay-controls{width:100%;gap:8px}#staffSimLabel{font-size:9px}#staffScenarioName,#staffReplayTime{font-size:11px}body[data-board-design] #staffReplayToggle{margin-left:auto;min-width:65px;min-height:40px}body[data-board-design] #staffReplaySettings{min-height:40px;font-size:10px}}
+@media(prefers-reduced-motion:reduce){#floors .staff-step{animation:none!important}#floors :is(.nurse,.doctor){transition:none!important}}
+
+/* Uniform identifies the source role; the separate dot carries work state. */
+#floors .nurse .sicu-staff-avatar .avatar-scrubs{fill:var(--staff-uniform-color,#287B9A)}
+#floors .staff-assignment-layer{pointer-events:none}
+#floors .staff-assignment-outline{fill:none;stroke:#BC414A;stroke-width:.1;stroke-dasharray:.27 .18;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}

@@ -1,0 +1,94 @@
+/* A labelled anatomy folio linked to source-explicit observations. */
+body[data-board-design] #publicPatient.has-observation-panel{width:min(1120px,calc(100vw - 64px))}
+.has-observation-panel .patient-sheet-body{grid-template-columns:minmax(0,1.16fr) minmax(0,1fr);gap:32px}
+.has-observation-panel .patient-location{padding-right:28px}
+body[data-board-design] #publicPatientBody .observation-panel{--observation-ink:#183f62;--observation-muted:#647b90;--observation-highlight:#b9654e;min-width:0}
+body[data-board-design] #publicPatientBody .observation-panel .observation-titlebar{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:18px;margin:0}
+body[data-board-design] #publicPatientBody .observation-titlebar h3{font-size:17px;font-weight:650;color:#183049}
+body[data-board-design] .observation-titlebar>button{border:0;background:none;color:#4f718e;font:inherit;font-size:11px;min-height:44px;padding:8px 0 8px 12px;display:flex;align-items:center;gap:8px;white-space:nowrap}
+body[data-board-design] .observation-titlebar>button[aria-pressed=true]{color:#0160ba;font-weight:600}
+body[data-board-design] #publicPatientBody .observation-panel .observation-intro{font-size:12px;color:#71859a;line-height:1.7;margin:0 0 20px}
+.observation-focus{display:flex!important;flex-direction:row!important;align-items:center;justify-content:space-between;gap:10px!important;flex-wrap:wrap}
+.observation-focus>strong{font-size:20px;letter-spacing:-.035em;font-weight:600;color:#163d61;line-height:1.4}
+#observationFocusState{font-size:10px;color:#71859a;background:#f0f4f8;padding:4px 7px;border-radius:5px;line-height:1.5}
+#observationFocusState[data-observation-evidence=record],#observationFocusState[data-observation-evidence=simulation]{color:#945641;background:#fbf0e9}
+body[data-board-design] #publicPatientBody .observation-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);align-items:center;gap:12px;margin-top:16px}
+.observation-diagram{min-width:0;width:100%;display:flex;justify-content:center;background:radial-gradient(ellipse at 50% 45%,#f3f7fc 0,transparent 68%)}
+.observation-diagram>svg{width:100%;max-width:245px;height:auto;max-height:340px;display:block;letter-spacing:0;cursor:pointer}
+.observation-region-list{display:flex;flex-direction:column;gap:5px;min-width:0}
+body[data-board-design] .observation-region-list>button{display:flex;align-items:center;gap:9px;min-height:44px;padding:7px 8px;border:1px solid transparent;border-radius:8px;background:none;text-align:left;color:#4d6a83;font:inherit;min-width:0;width:100%}
+body[data-board-design] .observation-region-list>button:hover{background:#f1f6fc}
+body[data-board-design] .observation-region-list>button[aria-pressed=true]{border-color:#c6d9ed;background:#edf4fc;color:#0c4f8f}
+.observation-region-number{display:grid;place-items:center;flex-shrink:0;width:20px;height:20px;border-radius:50%;font-size:10px;font-weight:600;color:#6b849c;border:1px solid #d1dfea;background:#fff}
+[aria-pressed=true]>.observation-region-number{background:#0c4f8f;color:#fff;border-color:#0c4f8f}
+.observation-region-list>button>span:nth-child(2){display:flex;flex-direction:column;gap:2px;min-width:0}
+.observation-region-list b{font-size:13px;font-weight:550;line-height:1.5}
+body[data-board-design] #publicPatientBody .observation-region-list small{font-size:10px;line-height:1.5;color:#71859a}
+.observation-evidence-dot,.observation-muted-dot{display:block;width:5px;height:5px;border-radius:50%;background:#c58167;flex-shrink:0}
+.observation-region-list>button>i{margin-left:auto}
+.observation-muted-dot{background:#bacbdc}
+body[data-board-design] #publicPatientBody #observationLegend{display:flex;align-items:flex-start;flex-direction:column;gap:6px;margin:15px 0 19px;font-size:10px;line-height:1.6;color:#71859a}
+#observationLegend>span{display:flex;align-items:center;gap:7px}
+body[data-board-design] #publicPatientBody #observationEvidence{display:flex;flex-direction:column;gap:14px;margin:0 0 22px}
+body[data-board-design] #publicPatientBody #observationEvidence:empty{display:none}
+.observation-evidence>span{font-size:10px;color:#945641;font-weight:550}
+body[data-board-design] #publicPatientBody .observation-evidence p{font-size:13px;line-height:1.7;color:#4b657e;margin:4px 0 0}
+body[data-board-design] #publicPatientBody .observation-evidence small{font-size:10px;color:#8395a6;margin-top:4px}
+.observation-records-section{padding-top:18px;border-top:1px solid #e2eaf2}
+.observation-records-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:8px}
+.observation-records-heading h4{font-size:14px;font-weight:600;color:#314f69;letter-spacing:-.025em;margin:0}
+body[data-board-design] #publicPatientBody .observation-records-heading small{font-size:10px;color:#8395a6}
+#observationRecords>dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 22px;margin:0}
+.observation-record{display:flex;flex-direction:column;gap:5px;min-width:0;border-bottom:1px solid #eaf0f5;padding:12px 0}
+.observation-record dt{font-size:11px;line-height:1.7;color:#667e93}
+.observation-record dd{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin:0;min-width:0}
+.observation-record dd strong{font-size:24px;font-weight:550;line-height:1.2;letter-spacing:-.035em;color:#1b4265;font-variant-numeric:tabular-nums}
+.observation-record dd span{font-size:11px;color:#7b8fa2}
+.observation-record[data-observation-known=false] dd strong{color:#8ca1b4}
+.observation-record[data-observation-value=true] dd strong,.observation-record[data-observation-value=false] dd strong,.observation-record[data-observation-metric=crrt] dd strong,.observation-record[data-observation-metric=ventilator] dd strong,.observation-record[data-observation-metric=oxygen] dd strong{font-size:17px;font-weight:500}
+body[data-board-design] #publicPatientBody .observation-value-source{font-size:10px;color:#8b766b}
+body[data-board-design] #publicPatientBody .observation-panel #observationLocationNote{font-size:11px;line-height:1.8;color:#71859a;margin:13px 0 0}
+body[data-board-design] #publicPatientBody .observation-panel .observation-no-record{font-size:13px;line-height:1.8;color:#71859a;margin:15px 0}
+body[data-board-design] #publicPatient .observation-panel button:focus-visible{outline:3px solid #4f9cdd;outline-offset:2px}
+.observation-scenario{padding:20px 0;border-bottom:1px solid #e2eaf2}
+.observation-scenario-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.observation-scenario-heading h4{font-size:14px;font-weight:600;color:#314f69;margin:0;letter-spacing:-.025em}
+.observation-scenario-heading>span{font-size:10px;color:#97705e;white-space:nowrap}
+.observation-scenario ul{list-style:none;padding:0;margin:12px 0 0;display:flex;flex-direction:column;gap:11px}
+.observation-scenario li{position:relative;padding-left:12px;font-size:12px;line-height:1.8;color:#587086}
+.observation-scenario li:before{content:'';position:absolute;left:0;top:9px;width:3px;height:3px;background:#b58b76;border-radius:50%}
+body[data-board-design] #publicPatientBody .observation-scenario>p{font-size:10px;line-height:1.8;color:#8395a6;margin:14px 0 0}
+body[data-text-size=large] .observation-scenario li{font-size:16px}
+@media(max-width:980px){body[data-board-design] #publicPatient.has-observation-panel{width:calc(100vw - 40px)}.has-observation-panel .patient-sheet-body{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px}.has-observation-panel .patient-location{padding-right:20px}.observation-region-list b{font-size:12px}.observation-region-number{width:18px;height:18px}.observation-region-list>button{gap:6px!important;padding-left:5px!important;padding-right:5px!important}.observation-layout{gap:5px!important}.observation-diagram>svg{max-height:310px}.observation-focus>strong{font-size:19px}.observation-region-list>button>i{display:none}}
+@media(max-width:760px){body[data-board-design] #publicPatient.has-observation-panel{width:calc(100vw - 28px)}.has-observation-panel .patient-sheet-body{display:flex;flex-direction:column;gap:28px}.has-observation-panel .patient-location{order:0;padding:0;border:0}.has-observation-panel .patient-care-section{order:1;padding-top:24px;border-top:1px solid #e2eaf2}body[data-board-design] #publicPatientBody .observation-layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}.observation-region-list b{font-size:14px}.observation-region-list>button>i{display:block}.observation-diagram>svg{max-height:340px}.observation-layout .observation-region-list{max-width:230px;justify-self:stretch}.observation-region-list>button{gap:9px!important}.observation-focus>strong{font-size:21px}#observationRecords>dl{grid-template-columns:repeat(3,minmax(0,1fr));gap:0 18px}}
+@media(max-width:430px){body[data-board-design] #publicPatientBody .observation-layout{grid-template-columns:minmax(0,1.06fr) minmax(0,1fr);gap:7px;margin-top:10px}.observation-diagram>svg{min-width:0;max-height:290px}.observation-region-list b{font-size:12px}.observation-region-list{gap:2px}.observation-region-list>button{gap:6px!important;min-height:44px;padding:6px!important}.observation-region-number{width:17px;height:17px;font-size:9px}body[data-board-design] #publicPatientBody .observation-region-list small{font-size:9px}.observation-region-list>button>i{display:none}body[data-board-design] #publicPatientBody .observation-panel .observation-intro{font-size:11px;margin-bottom:14px}.observation-focus>strong{font-size:20px}#observationRecords>dl{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 18px}.observation-record dt{font-size:11px}.observation-record dd strong{font-size:23px}body[data-board-design] #publicPatientBody #observationLegend{font-size:9px}}
+body[data-text-size=large] .has-observation-panel .patient-sheet-body{display:flex;flex-direction:column;gap:28px}
+body[data-text-size=large] .has-observation-panel .patient-location{padding:0;border:0}
+body[data-text-size=large] .has-observation-panel .patient-care-section{padding-top:24px;border-top:1px solid #e2eaf2}
+body[data-text-size=large] .observation-region-list b{font-size:17px}
+body[data-board-design][data-text-size=large] #publicPatientBody .observation-region-list small{font-size:13px}
+body[data-text-size=large] .observation-region-list>button{min-height:54px}
+body[data-text-size=large] .observation-record dt{font-size:15px}
+body[data-text-size=large] .observation-record dd strong{font-size:27px}
+body[data-text-size=large] #observationRecords>dl{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:430px){body[data-text-size=large] .observation-region-list b{font-size:14px}body[data-board-design][data-text-size=large] #publicPatientBody .observation-region-list small{font-size:11px}}
+/* Keep the actual observation values beside the figure in the opening viewport. */
+body[data-board-design] #publicPatientBody .observation-panel>.observation-region-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin:14px 0 5px;max-width:none}
+body[data-board-design] .observation-panel>.observation-region-list>button{min-height:51px;padding:6px;gap:6px}
+body[data-board-design] #publicPatientBody .observation-panel .observation-layout{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:20px;margin-top:18px;align-items:start}
+.observation-layout .observation-diagram>svg{max-height:290px}
+.observation-layout .observation-records-section{padding-top:0;border-top:0;min-width:0}
+.observation-layout .observation-records-heading{align-items:flex-start;gap:4px;flex-direction:column}
+.observation-layout .observation-records-heading h4{font-size:12px;line-height:1.6}
+.observation-layout #observationRecords>dl{grid-template-columns:minmax(0,1fr);gap:0}
+.observation-layout .observation-record{padding:10px 0;gap:3px}
+.observation-layout .observation-record dt{font-size:11px;line-height:1.65}
+.observation-layout .observation-record dd strong{font-size:22px}
+body[data-board-design] #publicPatientBody .observation-layout #observationLocationNote{font-size:10px;margin-top:12px;line-height:1.7}
+body[data-board-design] #publicPatientBody #observationLegend{flex-direction:row;flex-wrap:wrap;margin:17px 0 14px;gap:6px 12px}
+@media(max-width:980px) and (min-width:761px){body[data-board-design] #publicPatientBody .observation-panel>.observation-region-list{grid-template-columns:repeat(2,minmax(0,1fr))}.observation-region-list b{font-size:12px}body[data-board-design] #publicPatientBody .observation-panel .observation-layout{gap:12px}.observation-layout .observation-diagram>svg{max-height:260px}}
+@media(max-width:760px){body[data-board-design] #publicPatientBody .observation-panel .observation-layout{gap:24px}.observation-layout .observation-diagram>svg{max-height:310px}.observation-layout .observation-record dt{font-size:12px}.observation-layout .observation-records-heading h4{font-size:14px}.observation-region-list b{font-size:13px}}
+@media(max-width:430px){body[data-board-design] #publicPatientBody .observation-panel>.observation-region-list{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:12px}body[data-board-design] #publicPatientBody .observation-panel .observation-layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:15px}.observation-layout .observation-diagram>svg{max-height:260px}.observation-layout .observation-record dt{font-size:10px}.observation-layout .observation-records-heading h4{font-size:12px}.observation-layout .observation-records-heading small{font-size:9px!important}.observation-layout .observation-record dd strong{font-size:21px}body[data-board-design] #publicPatientBody .observation-layout #observationLocationNote{font-size:9px}.observation-region-list b{font-size:12px}}
+body[data-text-size=large] .observation-layout .observation-record dt{font-size:15px}
+body[data-text-size=large] .observation-layout .observation-record dd strong{font-size:25px}
+@media(max-width:430px){body[data-text-size=large] .observation-layout .observation-record dt{font-size:12px}}
