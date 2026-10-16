@@ -1,0 +1,5 @@
+# Preserve the bytes verified in the Pod, including their SHA256 hashes.
+calmrl_v19_inference.py -text
+model.json -text
+parameters.npz binary
+verification_aggregate.json -text

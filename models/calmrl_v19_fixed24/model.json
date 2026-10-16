@@ -1,0 +1,340 @@
+{
+  "CXR_max_age_hours": 72,
+  "LOS_conditional_on_observed_verified_alive_ICU_to_ward_transfer": true,
+  "LOS_ensemble_weights_in_days": [
+    0.5,
+    0.5
+  ],
+  "architecture": {
+    "EMR_dimension": 64,
+    "EMR_variables": 19,
+    "hours": 24,
+    "latent_dimension": 16,
+    "original_head_dimensions": [
+      83,
+      64,
+      2
+    ]
+  },
+  "bin_representatives_are_train_group_aggregate_model_parameters": true,
+  "clinical_release_validated": false,
+  "external_encoder_weights_bundled": false,
+  "external_encoders": {
+    "CheXpert_only_DenseNet121": {
+      "sha256": "1a914ae802170187a4852e594708206c12468eeeefd66aa4e8e26141649d61a4",
+      "url": "https://github.com/mlmed/torchxrayvision/releases/download/v1/chex-densenet121-d121-tw-lr001-rot45-tr15-sc15-seed0-best.pt"
+    },
+    "ImageNet_DenseNet121": {
+      "sha256": "a639ec97d7c33b07ae66f0b5fb7d0192f95a3b11b7576c66c0126c2a727c4395",
+      "url": "https://download.pytorch.org/models/densenet121-a639ec97.pth"
+    }
+  },
+  "fixed_landmark_hours_after_ICU_admission": 24,
+  "input_CXR_views": {
+    "cxr_imagenet": 1024,
+    "cxr_medical": 1024,
+    "cxr_semantic11": 11
+  },
+  "models": {
+    "LOS_ordinal": {
+      "baseline": false,
+      "distribution_blend": 0.5,
+      "head": {
+        "base_positive_slope": 1.45811938036057,
+        "bin_means_days": {
+          "array": "p0064"
+        },
+        "bin_medians_days": {
+          "array": "p0065"
+        },
+        "coefficients": {
+          "array": "p0060"
+        },
+        "feature_mean": {
+          "array": "p0061"
+        },
+        "feature_scale": {
+          "array": "p0062"
+        },
+        "ordered_cutpoints": {
+          "array": "p0063"
+        }
+      },
+      "kind": "ordinal_LOS",
+      "mode": "completed_estimated",
+      "point_policy": "median",
+      "preprocessor": {
+        "cxr_mean": {
+          "array": "p0059"
+        },
+        "cxr_pca": {
+          "center": {
+            "array": "p0053"
+          },
+          "components": {
+            "array": "p0054"
+          },
+          "normalize": true,
+          "scale": {
+            "array": "p0055"
+          }
+        },
+        "emr_pca": {
+          "center": {
+            "array": "p0050"
+          },
+          "components": {
+            "array": "p0051"
+          },
+          "normalize": false,
+          "scale": {
+            "array": "p0052"
+          }
+        },
+        "gaussian": {
+          "W": {
+            "array": "p0056"
+          },
+          "mu": {
+            "array": "p0057"
+          },
+          "noise": {
+            "array": "p0058"
+          }
+        },
+        "shrink": 0.0,
+        "view": "cxr_medical"
+      },
+      "task": 1
+    },
+    "LOS_regression": {
+      "baseline": false,
+      "head": {
+        "bound_multiplier": 0.5,
+        "bound_scale": 2.9135560989379883,
+        "coefficients": {
+          "array": "p0047"
+        },
+        "feature_mean": {
+          "array": "p0048"
+        },
+        "feature_scale": {
+          "array": "p0049"
+        },
+        "intercept": 0.11858464568819406
+      },
+      "kind": "day_regression",
+      "mode": "completed_estimated",
+      "preprocessor": {
+        "cxr_mean": {
+          "array": "p0046"
+        },
+        "cxr_pca": {
+          "center": {
+            "array": "p0040"
+          },
+          "components": {
+            "array": "p0041"
+          },
+          "normalize": false,
+          "scale": {
+            "array": "p0042"
+          }
+        },
+        "emr_pca": {
+          "center": {
+            "array": "p0037"
+          },
+          "components": {
+            "array": "p0038"
+          },
+          "normalize": false,
+          "scale": {
+            "array": "p0039"
+          }
+        },
+        "gaussian": {
+          "W": {
+            "array": "p0043"
+          },
+          "mu": {
+            "array": "p0044"
+          },
+          "noise": {
+            "array": "p0045"
+          }
+        },
+        "shrink": 0.0,
+        "view": "cxr_semantic11"
+      },
+      "task": 1
+    },
+    "risk": {
+      "baseline": false,
+      "head": {
+        "coefficients": {
+          "array": "p0034"
+        },
+        "feature_mean": {
+          "array": "p0035"
+        },
+        "feature_scale": {
+          "array": "p0036"
+        },
+        "intercept": -0.11719926065224964
+      },
+      "kind": "linear_risk",
+      "mode": "completed_estimated",
+      "preprocessor": {
+        "cxr_mean": {
+          "array": "p0033"
+        },
+        "cxr_pca": {
+          "center": {
+            "array": "p0027"
+          },
+          "components": {
+            "array": "p0028"
+          },
+          "normalize": true,
+          "scale": {
+            "array": "p0029"
+          }
+        },
+        "emr_pca": {
+          "center": {
+            "array": "p0024"
+          },
+          "components": {
+            "array": "p0025"
+          },
+          "normalize": false,
+          "scale": {
+            "array": "p0026"
+          }
+        },
+        "gaussian": {
+          "W": {
+            "array": "p0030"
+          },
+          "mu": {
+            "array": "p0031"
+          },
+          "noise": {
+            "array": "p0032"
+          }
+        },
+        "shrink": 0.0,
+        "view": "cxr"
+      },
+      "task": 0
+    }
+  },
+  "no_patient_records_predictions_identifiers_or_training_evidence_in_bundle": true,
+  "original_state": {
+    "empty_hour": {
+      "array": "p0000"
+    },
+    "emr_projection.0.bias": {
+      "array": "p0001"
+    },
+    "emr_projection.0.weight": {
+      "array": "p0002"
+    },
+    "emr_projection.1.bias": {
+      "array": "p0003"
+    },
+    "emr_projection.1.weight": {
+      "array": "p0004"
+    },
+    "feature.weight": {
+      "array": "p0005"
+    },
+    "gaussian.W": {
+      "array": "p0006"
+    },
+    "gaussian.mu": {
+      "array": "p0007"
+    },
+    "gaussian.noise": {
+      "array": "p0008"
+    },
+    "gaussian.updates": {
+      "array": "p0009"
+    },
+    "gru.bias_hh_l0": {
+      "array": "p0010"
+    },
+    "gru.bias_ih_l0": {
+      "array": "p0011"
+    },
+    "gru.weight_hh_l0": {
+      "array": "p0012"
+    },
+    "gru.weight_ih_l0": {
+      "array": "p0013"
+    },
+    "head.0.bias": {
+      "array": "p0014"
+    },
+    "head.0.weight": {
+      "array": "p0015"
+    },
+    "head.3.bias": {
+      "array": "p0016"
+    },
+    "head.3.weight": {
+      "array": "p0017"
+    },
+    "hour.weight": {
+      "array": "p0018"
+    },
+    "measured_value.bias": {
+      "array": "p0019"
+    },
+    "measured_value.weight": {
+      "array": "p0020"
+    }
+  },
+  "parameters_sha256": "5bd43c39252c266a33f0f68213b710c3e6fc1b14df03af11d940078f06f29f60",
+  "research_only": true,
+  "risk_calibration": {
+    "intercept": -0.8042418952242489,
+    "slope": 1.0
+  },
+  "scaler": {
+    "LOS_log1p_mean": 1.1007683587930515,
+    "LOS_log1p_std": 0.7379544829544045,
+    "active_features": {
+      "array": "p0023"
+    },
+    "features": [
+      "heart_rate",
+      "sbp",
+      "dbp",
+      "map",
+      "resp_rate",
+      "spo2",
+      "temperature_c",
+      "glucose_mg_dl",
+      "albumin_g_dl",
+      "bicarbonate_meq_l",
+      "bun_mg_dl",
+      "creatinine_mg_dl",
+      "chloride_meq_l",
+      "sodium_meq_l",
+      "potassium_meq_l",
+      "hematocrit_pct",
+      "hemoglobin_g_dl",
+      "platelets_k_ul",
+      "wbc_k_ul"
+    ],
+    "mean": {
+      "array": "p0021"
+    },
+    "std": {
+      "array": "p0022"
+    }
+  },
+  "schema": "calmrl-v19-fixed24-inference-v1"
+}

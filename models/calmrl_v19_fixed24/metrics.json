@@ -1,0 +1,316 @@
+{
+  "release": "CalMRL v19 fixed ICU+24h, frozen Original EMR",
+  "trained_model_included": true,
+  "actual_data_only": true,
+  "training_epochs_per_new_component": 30,
+  "Original_EMR_retrained": false,
+  "CXR_unique_feature_cap": 1000,
+  "cohort_scope": "Fixed CXR-selected MIMIC subset, includes missing-CXR landmarks; not the complete MIMIC ICU cohort",
+  "split_counts": {
+    "train": {
+      "patients": 129,
+      "ICU_stays": 219
+    },
+    "validation": {
+      "patients": 25,
+      "ICU_stays": 34
+    },
+    "test": {
+      "ICU_stays": 33,
+      "patients": 21,
+      "risk_known": 33,
+      "mortality_positive": 3,
+      "LOS_known": 23,
+      "LOS_patients": 17
+    }
+  },
+  "tasks": {
+    "risk": "Hospital mortality from ICU admission +24h landmark",
+    "remaining_time": "Days remaining to an observed, verified alive ICU-to-general-ward transfer; conditional on known transfer outcome"
+  },
+  "labels_patient_splits_time_validation_unchanged": true,
+  "clinical_clock": "Unchanged retrospective study-time proxy; clinical release availability not established",
+  "test": {
+    "original_emr": {
+      "risk_raw": {
+        "n": 33,
+        "positive": 3,
+        "negative": 30,
+        "Brier": 0.1950474597536585,
+        "BCE": 0.5825197072105045,
+        "patient_weighted_BCE": 0.5812788897309671,
+        "AUPRC_average_precision": 0.4898989898989899,
+        "AUROC": 0.7444444444444445,
+        "patient_cluster_95pct_CI": {
+          "AUPRC_average_precision": {
+            "lower": 0.047857142857142855,
+            "upper": 1,
+            "defined_replicates": 965,
+            "requested_replicates": 1000,
+            "method": "paired_patient_cluster_percentile_95pct"
+          },
+          "AUROC": {
+            "lower": 0.31452380952380954,
+            "upper": 1,
+            "defined_replicates": 965,
+            "requested_replicates": 1000,
+            "method": "paired_patient_cluster_percentile_95pct"
+          },
+          "Brier": {
+            "lower": 0.18564517508089462,
+            "upper": 0.2058669860796981,
+            "defined_replicates": 1000,
+            "requested_replicates": 1000,
+            "method": "paired_patient_cluster_percentile_95pct"
+          },
+          "BCE": {
+            "lower": 0.5635745791397662,
+            "upper": 0.6042582297093934,
+            "defined_replicates": 1000,
+            "requested_replicates": 1000,
+            "method": "paired_patient_cluster_percentile_95pct"
+          },
+          "patient_weighted_BCE": {
+            "lower": 0.5626768981373859,
+            "upper": 0.6075047920329324,
+            "defined_replicates": 1000,
+            "requested_replicates": 1000,
+            "method": "paired_patient_cluster_percentile_95pct"
+          }
+        }
+      },
+      "conditional_remaining_days": {
+        "n": 23,
+        "MAE_days": 2.465306368261527,
+        "RMSE_days": 3.547578783934233,
+        "median_absolute_error_days": 1.7867151755378323,
+        "conditional_on_observed_verified_alive_general_ward_transfer": true,
+        "patient_cluster_95pct_CI": {
+          "MAE_days": {
+            "lower": 1.4561907522840374,
+            "upper": 3.3617430421763843,
+            "defined_replicates": 1000,
+            "requested_replicates": 1000,
+            "method": "paired_patient_cluster_percentile_95pct"
+          },
+          "RMSE_days": {
+            "lower": 1.6752472522253936,
+            "upper": 4.773390622853104,
+            "defined_replicates": 1000,
+            "requested_replicates": 1000,
+            "method": "paired_patient_cluster_percentile_95pct"
+          },
+          "median_absolute_error_days": {
+            "lower": 1.185745228147827,
+            "upper": 2.1896530479489895,
+            "defined_replicates": 1000,
+            "requested_replicates": 1000,
+            "method": "paired_patient_cluster_percentile_95pct"
+          }
+        }
+      }
+    },
+    "calmrl": {
+      "risk_raw": {
+        "n": 33,
+        "positive": 3,
+        "negative": 30,
+        "Brier": 0.17028776493253694,
+        "BCE": 0.5299130798921451,
+        "patient_weighted_BCE": 0.5413439710154284,
+        "AUPRC_average_precision": 0.6143790849673203,
+        "AUROC": 0.8333333333333333,
+        "patient_cluster_95pct_CI": {
+          "AUPRC_average_precision": {
+            "lower": 0.0625,
+            "upper": 1,
+            "defined_replicates": 965,
+            "requested_replicates": 1000,
+            "method": "paired_patient_cluster_percentile_95pct"
+          },
+          "AUROC": {
+            "lower": 0.4666666666666667,
+            "upper": 1,
+            "defined_replicates": 965,
+            "requested_replicates": 1000,
+            "method": "paired_patient_cluster_percentile_95pct"
+          },
+          "Brier": {
+            "lower": 0.15413533263277365,
+            "upper": 0.19041383648621202,
+            "defined_replicates": 1000,
+            "requested_replicates": 1000,
+            "method": "paired_patient_cluster_percentile_95pct"
+          },
+          "BCE": {
+            "lower": 0.4963315233912109,
+            "upper": 0.5712993875496479,
+            "defined_replicates": 1000,
+            "requested_replicates": 1000,
+            "method": "paired_patient_cluster_percentile_95pct"
+          },
+          "patient_weighted_BCE": {
+            "lower": 0.5061285801763722,
+            "upper": 0.5787841182470037,
+            "defined_replicates": 1000,
+            "requested_replicates": 1000,
+            "method": "paired_patient_cluster_percentile_95pct"
+          }
+        }
+      },
+      "conditional_remaining_days": {
+        "n": 23,
+        "MAE_days": 2.478862948201071,
+        "RMSE_days": 3.594893711686388,
+        "median_absolute_error_days": 1.6129715151723838,
+        "conditional_on_observed_verified_alive_general_ward_transfer": true,
+        "patient_cluster_95pct_CI": {
+          "MAE_days": {
+            "lower": 1.4361580309265356,
+            "upper": 3.3977991168644226,
+            "defined_replicates": 1000,
+            "requested_replicates": 1000,
+            "method": "paired_patient_cluster_percentile_95pct"
+          },
+          "RMSE_days": {
+            "lower": 1.6969515552969734,
+            "upper": 4.8443516694853885,
+            "defined_replicates": 1000,
+            "requested_replicates": 1000,
+            "method": "paired_patient_cluster_percentile_95pct"
+          },
+          "median_absolute_error_days": {
+            "lower": 1.315361979945655,
+            "upper": 2.035998251328139,
+            "defined_replicates": 1000,
+            "requested_replicates": 1000,
+            "method": "paired_patient_cluster_percentile_95pct"
+          }
+        }
+      }
+    }
+  },
+  "paired_difference_CalMRL_minus_Original": {
+    "difference_direction": "left_minus_right",
+    "left": "calmrl",
+    "right": "original_emr",
+    "risk_raw": {
+      "AUPRC_average_precision": {
+        "point_difference": 0.12448009506833041,
+        "patient_cluster_95pct_CI": {
+          "lower": -0.050000000000000044,
+          "upper": 0.5169411764705878,
+          "defined_replicates": 965,
+          "requested_replicates": 1000,
+          "method": "paired_patient_cluster_percentile_95pct"
+        },
+        "higher_is_better": true,
+        "CI_excludes_zero_in_favorable_direction": false
+      },
+      "AUROC": {
+        "point_difference": 0.0888888888888888,
+        "patient_cluster_95pct_CI": {
+          "lower": -0.06885908897403153,
+          "upper": 0.2941176470588236,
+          "defined_replicates": 965,
+          "requested_replicates": 1000,
+          "method": "paired_patient_cluster_percentile_95pct"
+        },
+        "higher_is_better": true,
+        "CI_excludes_zero_in_favorable_direction": false
+      },
+      "Brier": {
+        "point_difference": -0.02475969482112156,
+        "patient_cluster_95pct_CI": {
+          "lower": -0.039258572818804335,
+          "upper": -0.009867863905862318,
+          "defined_replicates": 1000,
+          "requested_replicates": 1000,
+          "method": "paired_patient_cluster_percentile_95pct"
+        },
+        "higher_is_better": false,
+        "CI_excludes_zero_in_favorable_direction": true
+      },
+      "BCE": {
+        "point_difference": -0.05260662731835941,
+        "patient_cluster_95pct_CI": {
+          "lower": -0.08260956657173053,
+          "upper": -0.021150796445079546,
+          "defined_replicates": 1000,
+          "requested_replicates": 1000,
+          "method": "paired_patient_cluster_percentile_95pct"
+        },
+        "higher_is_better": false,
+        "CI_excludes_zero_in_favorable_direction": true
+      },
+      "patient_weighted_BCE": {
+        "point_difference": -0.03993491871553867,
+        "patient_cluster_95pct_CI": {
+          "lower": -0.0699442929092633,
+          "upper": -0.013691871497622791,
+          "defined_replicates": 1000,
+          "requested_replicates": 1000,
+          "method": "paired_patient_cluster_percentile_95pct"
+        },
+        "higher_is_better": false,
+        "CI_excludes_zero_in_favorable_direction": true
+      }
+    },
+    "conditional_LOS": {
+      "MAE_days": {
+        "point_difference": 0.013556579939543845,
+        "patient_cluster_95pct_CI": {
+          "lower": -0.07114291732489121,
+          "upper": 0.10962961975808237,
+          "defined_replicates": 1000,
+          "requested_replicates": 1000,
+          "method": "paired_patient_cluster_percentile_95pct"
+        },
+        "higher_is_better": false,
+        "CI_excludes_zero_in_favorable_direction": false
+      },
+      "RMSE_days": {
+        "point_difference": 0.047314927752154734,
+        "patient_cluster_95pct_CI": {
+          "lower": -0.029444852466080175,
+          "upper": 0.13145663132600566,
+          "defined_replicates": 1000,
+          "requested_replicates": 1000,
+          "method": "paired_patient_cluster_percentile_95pct"
+        },
+        "higher_is_better": false,
+        "CI_excludes_zero_in_favorable_direction": false
+      },
+      "median_absolute_error_days": {
+        "point_difference": -0.17374366036544853,
+        "patient_cluster_95pct_CI": {
+          "lower": -0.25070335262002796,
+          "upper": 0.21748142468238063,
+          "defined_replicates": 1000,
+          "requested_replicates": 1000,
+          "method": "paired_patient_cluster_percentile_95pct"
+        },
+        "higher_is_better": false,
+        "CI_excludes_zero_in_favorable_direction": false
+      }
+    }
+  },
+  "point_superiority_criteria": {
+    "raw_AUPRC_higher": true,
+    "raw_AUROC_higher": true,
+    "conditional_LOS_MAE_lower": false
+  },
+  "all_point_criteria_met": false,
+  "already_exposed_test_is_exploratory": true,
+  "statistical_or_external_superiority_established": false,
+  "bootstrap": {
+    "samples": 1000,
+    "seed": 20261017,
+    "resampling_unit": "patient",
+    "paired_across_models_tasks_subgroups": true,
+    "single_class_ranking_replicates_undefined_and_excluded_from_percentiles": true
+  },
+  "patient_rows_or_predictions_in_release": false,
+  "source_evaluation_aggregate_sha256": "f2d061ba3729d45b326e17ad3c61490e1a631ec3bb8fe6ba7030e022afc06b05",
+  "frozen_original_checkpoint_sha256": "59fb4d72f1670cfb28f99b29c4e9442713acc648a216d81008c3a3eec9bf0bde"
+}
