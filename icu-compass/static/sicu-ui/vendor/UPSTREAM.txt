@@ -1,0 +1,4 @@
+SICU LINK TEAM 4 v25
+https://github.com/nightandweather/SNUH_Hackathon/pull/1
+Commit: bc10e557f6e11f4c986446568bf69bc32ff2d3b3
+Visual assets only. Patient data, movement timing and clinical APIs remain owned by the existing K-MIMIC application.

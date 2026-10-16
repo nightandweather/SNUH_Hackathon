@@ -1,0 +1,98 @@
+{
+  "contract_version": "gs-device-evidence-v2",
+  "scope": {
+    "selected_cases": 12,
+    "strict_gs_cohort_stays": 14321,
+    "cohort_modified": false,
+    "full_cohort_device_coverage_claimed": false,
+    "source_scan": "Selected case source partitions only; repair consumes the private audited cache"
+  },
+  "source_acceptance": [
+    "Exact hospital-specific ITEMID allowlist; keyword discovery alone is insufficient",
+    "Documented use or removal requires D_ITEMS LABEL before the separator and source VALUE to equal the reviewed assertion phrase, ignoring only whitespace and case",
+    "Patient and admission must match; an explicit STAY_ID must match",
+    "CHARTTIME must be within the half-open actual ICU stay and at or before the replay horizon",
+    "Known availability requires valid STORETIME at or after CHARTTIME and strictly before ICU exit",
+    "Orders, maintenance-only actions, insertion-depth measurements, unknown categorical codes, and unrelated results do not establish device attachment"
+  ],
+  "historical_device_observations": {
+    "required_fields": [
+      "chart_minute",
+      "device_type",
+      "name",
+      "name_ko",
+      "name_en",
+      "itemid",
+      "table",
+      "record_ref",
+      "evidence_kind",
+      "active",
+      "availability_status",
+      "historical_only",
+      "same_time_conflict"
+    ],
+    "documented_use": {
+      "table": "DATETIMEEVENTS",
+      "evidence_kind": "documented_device_use",
+      "time_basis": "documented_chart_time",
+      "event_minute": "Equal to chart_minute; not an insertion timestamp",
+      "active": "True means the source explicitly documented use at that observation; it is not current attachment",
+      "historical_only": true
+    },
+    "documented_removal": {
+      "table": "DATETIMEEVENTS",
+      "evidence_kind": "documented_device_removal",
+      "time_basis": "documented_chart_time",
+      "active": false,
+      "hospital_specific_items": {
+        "006D_7046": "arterial_line",
+        "001D_7412_12340": "endotracheal_tube"
+      },
+      "meaning": "The source documents removal of this device at the observation time; subsequent absence is not established and tube extubation does not imply ventilator OFF",
+      "historical_only": true
+    },
+    "availability_known": "Keep available_minute. A retrospective CHARTTIME observation may be shown at or before selected time, but do not claim contemporaneous information availability before available_minute",
+    "availability_unknown": "Omit available_minute; retain missing_storetime, invalid_storetime, or store_before_chart reason. The recorded-use/removal observation may be shown at its CHARTTIME with availability explicitly unknown",
+    "same_time_conflict": "Opposing active values for the same device type and chart minute are flagged, never silently resolved",
+    "raw_free_text_exposed": false
+  },
+  "consumer_invariants": [
+    "Historical device observations may have positive or removed visual styling explicitly labeled as recorded use/removal at CHARTTIME; they do not populate current status flags, transfer colors, or frozen-time AI facts",
+    "A historical observation never establishes continuous use until ICU discharge",
+    "No matching evidence means unconfirmed, never device-free",
+    "Device maintenance such as ventilator circuit-water removal is not device removal",
+    "Explicit OFF is accepted only for the separately reviewed literal ON/OFF CHARTEVENTS item; zero ECMO flow does not establish absence",
+    "The documentary-use repair does not change vital series, patient identity, cohort selection, or other clinical records"
+  ],
+  "observed_remote_repair_result": {
+    "repair_version": "v2",
+    "source_cached_rows": 7436,
+    "historical_device_observations": 403,
+    "documented_device_use": 399,
+    "documented_device_removal": 4,
+    "cases_with_observations": 10,
+    "current_or_ai_device_fields_added": false,
+    "source_cohort_modified": false,
+    "api_observations_after_strict_replay_bounds": 391
+  },
+  "v2_transition_audit": {
+    "cache_rows_with_valid_patient_and_chart_boundaries": 7436,
+    "reviewed_arterial_line_removal_source_rows": 3,
+    "reviewed_endotracheal_tube_removal_source_rows": 1,
+    "maintenance_removal_source_rows_excluded": 118,
+    "continuous_interval_inference_enabled": false,
+    "source": "Parent agent reported cache-only audit results; final v2 recovery counts remain in the private remote repair_audit.json"
+  },
+  "private_remote_audit": "icu-runtime/gs-device-audit/repair_audit.json",
+  "focused_tests": "analysis/test_gs_device_recovery.py",
+  "scenario_visual_state": {
+    "basis": "Latest explicit CHARTTIME record at or before selected replay time",
+    "positive": "Keep the corresponding original pictogram illuminated until a later explicit OFF/removal record or same-time conflict",
+    "negative": "Show the exact device OFF/removal; endotracheal-tube extubation does not imply ventilator OFF",
+    "missing": "Unknown when no linked record exists; do not invent absence",
+    "time_label": "Tooltip identifies last observed time; this is last-record replay state, not proof of continuous attachment",
+    "daily_events": "Only confirmed timed CPR and surgical records on the same source calendar date",
+    "unmapped": "Vasopressor use/escalation remains unknown",
+    "ai_context_changed": false
+  }
+}

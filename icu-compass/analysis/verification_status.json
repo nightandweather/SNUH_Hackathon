@@ -1,0 +1,38 @@
+{
+  "whole_cohort": {
+    "hospitals": 7,
+    "partitions": 920,
+    "raw_icu_rows": 330339,
+    "valid_icu_stays": 329911,
+    "surgical_icu_stays": 68061,
+    "surgical_scenario_candidates": 54991,
+    "core_complete": true,
+    "pending": [
+      "Full observation-table support flags",
+      "Patient-linked diagnoses",
+      "Imaging reports",
+      "Laboratory results"
+    ],
+    "private_results_url": "https://s4w66hdi1zteriq8oyfb8wzm.khdp.net/proxy/8007/cohort/preview.html"
+  },
+  "nursing_assistant": {
+    "prompt_version": "kmimic-nursing-consult-v2",
+    "unit_tests_passed": 12,
+    "live_model": "qwen3-8-flash-next-ax",
+    "single_role": "agent",
+    "public_site_changed": false,
+    "real_records_destination": "KHDP authenticated source-record board only"
+  },
+  "patient_detail": {
+    "title": "Digital Twin",
+    "fields": [
+      "disease",
+      "past_diagnoses",
+      "current_admission_diagnoses",
+      "admission_summary",
+      "imaging_reports",
+      "laboratory_results"
+    ],
+    "clinical_linkage": "pending; UI sections only"
+  }
+}

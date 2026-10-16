@@ -1,0 +1,582 @@
+const WORKBOOK_PLAN_TEMPLATE=[{"day": 1, "sourceRow": 2, "beds": [{"status": "red", "event": "ER"}, {"status": "red", "event": "OP"}, {"status": "red", "event": "OP"}, {"status": "red", "event": "CPR"}, {"status": "red", "event": "OP"}, {"status": "red", "event": "AE"}, {"status": "yellow", "event": ""}, {"status": "empty", "event": ""}]}, {"day": 2, "sourceRow": 3, "beds": [{"status": "red", "event": ""}, {"status": "red", "event": ""}, {"status": "blue", "event": ""}, {"status": "red", "event": "Death"}, {"status": "blue", "event": ""}, {"status": "red", "event": ""}, {"status": "red", "event": "OP"}, {"status": "red", "event": "OP"}]}, {"day": 3, "sourceRow": 4, "beds": [{"status": "red", "event": ""}, {"status": "blue", "event": ""}, {"status": "green", "event": "GW"}, {"status": "empty", "event": ""}, {"status": "blue", "event": ""}, {"status": "red", "event": ""}, {"status": "red", "event": ""}, {"status": "blue", "event": ""}]}, {"day": 4, "sourceRow": 5, "beds": [{"status": "blue", "event": ""}, {"status": "blue", "event": ""}, {"status": "empty", "event": ""}, {"status": "red", "event": "CPR"}, {"status": "blue", "event": ""}, {"status": "red", "event": ""}, {"status": "blue", "event": ""}, {"status": "blue", "event": ""}]}, {"day": 5, "sourceRow": 6, "beds": [{"status": "blue", "event": ""}, {"status": "green", "event": "GW"}, {"status": "empty", "event": ""}, {"status": "red", "event": "Death"}, {"status": "green", "event": "GW"}, {"status": "red", "event": "Death"}, {"status": "green", "event": "GW"}, {"status": "green", "event": ""}]}, {"day": 6, "sourceRow": 7, "beds": [{"status": "blue", "event": ""}, {"status": "yellow", "event": ""}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}, {"status": "red", "event": "OP"}, {"status": "empty", "event": ""}, {"status": "green", "event": "GW"}]}, {"day": 7, "sourceRow": 8, "beds": [{"status": "green", "event": "GW"}, {"status": "red", "event": "CPR"}, {"status": "red", "event": "OP"}, {"status": "yellow", "event": ""}, {"status": "empty", "event": ""}, {"status": "blue", "event": ""}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}]}, {"day": 8, "sourceRow": 9, "beds": [{"status": "empty", "event": ""}, {"status": "red", "event": "Death"}, {"status": "blue", "event": ""}, {"status": "red", "event": "OP"}, {"status": "empty", "event": ""}, {"status": "blue", "event": ""}, {"status": "yellow", "event": ""}, {"status": "empty", "event": ""}]}, {"day": 9, "sourceRow": 10, "beds": [{"status": "red", "event": "OP"}, {"status": "empty", "event": ""}, {"status": "green", "event": "GW"}, {"status": "blue", "event": ""}, {"status": "red", "event": "OP"}, {"status": "blue", "event": ""}, {"status": "red", "event": "OP"}, {"status": "empty", "event": ""}]}, {"day": 10, "sourceRow": 11, "beds": [{"status": "blue", "event": ""}, {"status": "red", "event": "OP"}, {"status": "empty", "event": ""}, {"status": "green", "event": "GW"}, {"status": "blue", "event": ""}, {"status": "green", "event": "GW"}, {"status": "blue", "event": ""}, {"status": "red", "event": "OR"}]}, {"day": 11, "sourceRow": 12, "beds": [{"status": "blue", "event": ""}, {"status": "blue", "event": ""}, {"status": "red", "event": "OP"}, {"status": "red", "event": "OP"}, {"status": "green", "event": "GW"}, {"status": "empty", "event": ""}, {"status": "green", "event": "GW"}, {"status": "red", "event": ""}]}, {"day": 12, "sourceRow": 13, "beds": [{"status": "blue", "event": ""}, {"status": "green", "event": "GW"}, {"status": "blue", "event": ""}, {"status": "blue", "event": ""}, {"status": "empty", "event": ""}, {"status": "red", "event": "OP"}, {"status": "red", "event": "OP"}, {"status": "red", "event": ""}]}, {"day": 13, "sourceRow": 14, "beds": [{"status": "green", "event": "GW"}, {"status": "empty", "event": ""}, {"status": "blue", "event": ""}, {"status": "blue", "event": ""}, {"status": "red", "event": "CPR"}, {"status": "blue", "event": ""}, {"status": "blue", "event": ""}, {"status": "blue", "event": ""}]}, {"day": 14, "sourceRow": 15, "beds": [{"status": "empty", "event": ""}, {"status": "red", "event": "OP"}, {"status": "blue", "event": ""}, {"status": "green", "event": ""}, {"status": "red", "event": ""}, {"status": "blue", "event": ""}, {"status": "blue", "event": ""}, {"status": "blue", "event": ""}]}, {"day": 15, "sourceRow": 16, "beds": [{"status": "red", "event": "OP"}, {"status": "blue", "event": ""}, {"status": "green", "event": "GW"}, {"status": "green", "event": "GW"}, {"status": "red", "event": "Death"}, {"status": "blue", "event": ""}, {"status": "green", "event": ""}, {"status": "blue", "event": ""}]}, {"day": 16, "sourceRow": 17, "beds": [{"status": "blue", "event": ""}, {"status": "blue", "event": ""}, {"status": "yellow", "event": ""}, {"status": "empty", "event": ""}, {"status": "yellow", "event": ""}, {"status": "green", "event": "GW"}, {"status": "green", "event": "GW"}, {"status": "green", "event": "GW"}]}, {"day": 17, "sourceRow": 18, "beds": [{"status": "green", "event": "GW"}, {"status": "green", "event": ""}, {"status": "red", "event": "OP"}, {"status": "empty", "event": ""}, {"status": "red", "event": "OP"}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}]}, {"day": 18, "sourceRow": 19, "beds": [{"status": "empty", "event": ""}, {"status": "green", "event": "GW"}, {"status": "blue", "event": ""}, {"status": "red", "event": "OR"}, {"status": "blue", "event": ""}, {"status": "yellow", "event": ""}, {"status": "red", "event": "OP"}, {"status": "red", "event": "CPR"}]}, {"day": 19, "sourceRow": 20, "beds": [{"status": "empty", "event": ""}, {"status": "empty", "event": ""}, {"status": "blue", "event": ""}, {"status": "red", "event": ""}, {"status": "green", "event": "GW"}, {"status": "red", "event": "OP"}, {"status": "blue", "event": ""}, {"status": "red", "event": ""}]}, {"day": 20, "sourceRow": 21, "beds": [{"status": "red", "event": "OR"}, {"status": "red", "event": "OP"}, {"status": "green", "event": ""}, {"status": "red", "event": ""}, {"status": "red", "event": "OP"}, {"status": "blue", "event": ""}, {"status": "blue", "event": ""}, {"status": "red", "event": "Death"}]}, {"day": 21, "sourceRow": 22, "beds": [{"status": "red", "event": ""}, {"status": "blue", "event": ""}, {"status": "green", "event": "GW"}, {"status": "blue", "event": ""}, {"status": "blue", "event": ""}, {"status": "green", "event": "GW"}, {"status": "blue", "event": ""}, {"status": "empty", "event": ""}]}, {"day": 22, "sourceRow": 23, "beds": [{"status": "red", "event": ""}, {"status": "green", "event": "GW"}, {"status": "empty", "event": ""}, {"status": "blue", "event": ""}, {"status": "blue", "event": ""}, {"status": "empty", "event": ""}, {"status": "green", "event": "GW"}, {"status": "red", "event": "OP"}]}, {"day": 23, "sourceRow": 24, "beds": [{"status": "blue", "event": ""}, {"status": "empty", "event": ""}, {"status": "red", "event": "OP"}, {"status": "blue", "event": ""}, {"status": "blue", "event": ""}, {"status": "red", "event": "OP"}, {"status": "empty", "event": ""}, {"status": "blue", "event": ""}]}, {"day": 24, "sourceRow": 25, "beds": [{"status": "blue", "event": ""}, {"status": "empty", "event": ""}, {"status": "blue", "event": ""}, {"status": "green", "event": "GW"}, {"status": "green", "event": "GW"}, {"status": "blue", "event": ""}, {"status": "red", "event": "OP"}, {"status": "green", "event": "GW"}]}, {"day": 25, "sourceRow": 26, "beds": [{"status": "blue", "event": ""}, {"status": "empty", "event": ""}, {"status": "green", "event": "GW"}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}, {"status": "green", "event": "GW"}, {"status": "blue", "event": ""}, {"status": "empty", "event": ""}]}, {"day": 26, "sourceRow": 27, "beds": [{"status": "green", "event": "GW"}, {"status": "red", "event": "OP"}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}, {"status": "red", "event": "CPR"}, {"status": "blue", "event": ""}, {"status": "empty", "event": ""}]}, {"day": 27, "sourceRow": 28, "beds": [{"status": "red", "event": "CPR"}, {"status": "blue", "event": ""}, {"status": "red", "event": "OP"}, {"status": "red", "event": "OP"}, {"status": "red", "event": "OP"}, {"status": "red", "event": "Death"}, {"status": "green", "event": ""}, {"status": "red", "event": "OP"}]}, {"day": 28, "sourceRow": 29, "beds": [{"status": "red", "event": "Death"}, {"status": "blue", "event": ""}, {"status": "blue", "event": ""}, {"status": "blue", "event": ""}, {"status": "blue", "event": ""}, {"status": "empty", "event": ""}, {"status": "green", "event": "GW"}, {"status": "blue", "event": ""}]}, {"day": 29, "sourceRow": 30, "beds": [{"status": "empty", "event": ""}, {"status": "green", "event": ""}, {"status": "blue", "event": ""}, {"status": "blue", "event": ""}, {"status": "green", "event": "GW"}, {"status": "red", "event": "OP"}, {"status": "empty", "event": ""}, {"status": "green", "event": "GW"}]}, {"day": 30, "sourceRow": 31, "beds": [{"status": "red", "event": "OP"}, {"status": "green", "event": "GW"}, {"status": "blue", "event": ""}, {"status": "green", "event": ""}, {"status": "empty", "event": ""}, {"status": "blue", "event": ""}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}]}, {"day": 31, "sourceRow": 32, "beds": [{"status": "blue", "event": ""}, {"status": "empty", "event": ""}, {"status": "green", "event": "GW"}, {"status": "green", "event": "GW"}, {"status": "empty", "event": ""}, {"status": "blue", "event": ""}, {"status": "red", "event": "OP"}, {"status": "empty", "event": ""}]}, {"day": null, "sourceRow": 33, "beds": [{"status": "blue", "event": ""}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}, {"status": "green", "event": ""}, {"status": "blue", "event": ""}, {"status": "empty", "event": ""}]}, {"day": null, "sourceRow": 34, "beds": [{"status": "green", "event": ""}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}, {"status": "green", "event": "GW"}, {"status": "blue", "event": ""}, {"status": "empty", "event": ""}]}, {"day": null, "sourceRow": 35, "beds": [{"status": "green", "event": "GW"}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}, {"status": "green", "event": ""}, {"status": "empty", "event": ""}]}, {"day": null, "sourceRow": 36, "beds": [{"status": "empty", "event": ""}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}, {"status": "empty", "event": ""}, {"status": "green", "event": "GW"}, {"status": "empty", "event": ""}]}];
+const PRESENTATION_UPDATED_AT="2026-10-16T18:13:51+00:00";
+let lang=new URLSearchParams(location.search).get('lang')==='en'?'en':'ko',data,page=0,time='0',selected=null;
+const $=s=>document.querySelector(s),t=(ko,en)=>lang==='ko'?ko:en;
+const names={hr:['심박수','Heart rate','bpm'],map:['평균동맥압','MAP','mmHg'],spo2:['산소포화도','SpO₂','%'],rr:['호흡수','Respiratory rate','/min'],sbp:['수축기혈압','SBP','mmHg']};
+const careNames=[['당일 CPR','CPR today'],['ECMO / CRRT','ECMO / CRRT'],['승압제 증량·불안정','Pressor escalation / unstable'],['인공호흡기','Ventilator'],['당일 수술','Surgery today']];
+let at=c=>time==='initial'?c.rows[c.initial]:c.rows[Math.floor(Number(time)/c.step)];
+function support(c,r){const minute=r?.minute??(time==='initial'?0:Number(time));const events=(c.device_events?.ventilator||[]).filter(e=>e.minute<=minute);const latest=events.at(-1);const same=events.filter(e=>e.minute===latest?.minute);const known=latest&&minute-latest.minute<=30&&same.every(e=>e.active===latest.active);return {...c,devices:{ventilator:known?latest.active:null},ventEvidence:known?latest:null};}
+const procedureCount=(c,r)=>c.procedure_table_available?(c.procedures||[]).filter(e=>e.end_min<=(r?.minute??(time==='initial'?0:Number(time)))).length:null;
+const flags=r=>!r?[]:[['hr',v=>v<40||v>140],['map',v=>v<60],['spo2',v=>v<88],['rr',v=>v>35]].filter(([k,p])=>r.vitals[k]!=null&&p(r.vitals[k])).map(([k])=>k);
+const state=r=>!r||Object.values(r.vitals).some(v=>v==null)?t('관측값 일부 미확인','Incomplete observations'):flags(r).length?t('참고 기준 이탈','Reference threshold crossed'):t('표시 기준 이탈 없음','No displayed threshold crossed');
+const value=v=>v==null?'—':esc(v);
+
+let hospital=new URLSearchParams(location.search).get('hospital')||'',unit=new URLSearchParams(location.search).get('ward')||'',lastLoaded=null,viewPhase='cases',monthlyIndex=0,monthlySourceLoaded=null;
+const monthlyTimeOverrides=new Map();
+let replayInterpolation=true;
+const planDateLabel=day=>t(`10월 ${day}일`,`Oct ${day}`);
+const planReplay={active:false,minute:0,speed:180,timer:null,model:null,key:null};
+const planFrame=()=>planReplay.active&&planReplay.model?window.MonthlyReplay.frame(planReplay.model,planReplay.minute):null;
+function stopPlanReplay(clear=false){if(planReplay.timer!==null)clearInterval(planReplay.timer);planReplay.timer=null;if(clear){planReplay.active=false;planReplay.model=null;planReplay.key=null;}}
+function beginPlanReplay(reset=false){
+ if(!window.MonthlyReplay||!monthlyRows().length)return;recordPlayback.clear();viewPhase='monthly';
+ const key=hospital+'|'+unit;if(reset||!planReplay.active||planReplay.key!==key){stopPlanReplay();planReplay.model=window.MonthlyReplay.build(monthlyRows());planReplay.minute=0;planReplay.key=key;}
+ planReplay.active=true;monthlyTimeOverrides.clear();selected=null;GroundedChat.close();if($('#detail').open)$('#detail').close();monthlyIndex=0;updatePlanReplay();
+}
+function updatePlanReplay(){const frame=planFrame();if(!frame)return;monthlyIndex=Math.max(0,monthlyRows().findIndex(r=>r.day===frame.day));if(frame.minute>=planReplay.model.end)stopPlanReplay();render();}
+function advancePlanReplay(step){if(!planReplay.active)beginPlanReplay(true);planReplay.minute=window.MonthlyReplay.next(planReplay.model,planReplay.minute,step||planReplay.speed);updatePlanReplay();}
+function togglePlanReplay(){if(planReplay.timer!==null){stopPlanReplay();render();return;}if(!planReplay.active||planReplay.minute>=planReplay.model.end)beginPlanReplay(true);planReplay.timer=setInterval(()=>advancePlanReplay(),2000);render();}
+function seekPlanReplay(minute){if(!planReplay.active)beginPlanReplay(true);stopPlanReplay();planReplay.minute=Math.max(0,Math.min(planReplay.model.end,minute));updatePlanReplay();}
+function updateMapClock(){
+ const host=$('.ward-map-clock');if(!host)return;const f=planFrame(),day=f?.day||monthlyRow()?.day||1,minute=f?.clockMinute||0;
+ host.innerHTML=`<small>${t('시나리오 재생','Scenario replay')} · ${planReplay.timer!==null?t('재생 중','Playing'):t('일시정지','Paused')}</small><strong>${planDateLabel(day)} <time>${String(Math.floor(minute/60)).padStart(2,'0')}:${String(minute%60).padStart(2,'0')}</time></strong>`;
+}
+function renderPlanReplay(){
+ let host=$('#monthlyReplay');if(!host){host=document.createElement('section');host.id='monthlyReplay';host.className='record-playback';$('#recordPlayback').before(host);}const frame=planFrame(),lastDay=Math.max(1,...monthlyRows().map(r=>r.day).filter(Number.isInteger)),clock=frame?String(Math.floor(frame.clockMinute/60)).padStart(2,'0')+':'+String(frame.clockMinute%60).padStart(2,'0'):'00:00';
+ host.innerHTML=`<div class="record-playback-title"><b>${t('월간 연속 재생 · ','Continuous monthly replay · ')}${lastDay}${t('일',' days')}</b><strong>${planDateLabel(frame?.day||monthlyRow()?.day||1)} · ${frame?.day||monthlyRow()?.day||1}${t('일차',' day')} ${clock}</strong></div><div class="record-playback-actions"><button data-plan-play>${planReplay.timer!==null?t('⏸ 일시정지','⏸ Pause'):t('▶ 월간 연속 재생','▶ Play full month')}</button><button data-plan-next>${t('+10분 / 다음 단계','+10 min / next stage')}</button><button data-plan-event>${t('다음 이송·사건','Next transport / event')}</button><button data-plan-reset>${t('1일차로 초기화','Reset to day 1')}</button><label>${t('일차 이동','Jump to day')} <select data-plan-day>${Array.from({length:lastDay},(_,i)=>`<option value="${i+1}" ${(frame?.day||monthlyRow()?.day||1)===i+1?'selected':''}>${planDateLabel(i+1)} · ${i+1}${t('일차',' day')}</option>`).join('')}</select></label><button data-plan-daystart>${t('이 날 00:00','Day start 00:00')}</button><button data-plan-dayend>${t('이 날 23:59','Day end 23:59')}</button><label>${t('재생 속도','Speed')} <select data-plan-speed><option value="60" ${planReplay.speed===60?'selected':''}>60 min / 2 sec</option><option value="180" ${planReplay.speed===180?'selected':''}>180 min / 2 sec</option><option value="1440" ${planReplay.speed===1440?'selected':''}>${t('1일 / 2초 · 사건마다 정지점','1 day / 2 sec · event checkpoints')}</option></select></label></div><p>${t('재생 범위','Replay span')}: ${planDateLabel(1)} 00:00 → ${planDateLabel(lastDay)} 23:59 · ${t('월간표 시연 시각: 입실 09:00, 일반병동 전동 14:00, 사망 16:00. 이송은 20분간 진행하며 다음 날 빈 병상·교체는 08:00에 정리합니다. 원본 기록 시각과 별개이며, 환자 수치는 실제 기록의 끝에서 멈춥니다.','Monthly demonstration times: admission 09:00, ward transfer 14:00, death 16:00. Transport lasts 20 minutes; next-day empty or replacement beds are cleared at 08:00. This is separate from source time; patient values stop at the end of source records.')}</p>`;
+ const eventNames={arrival_start:t('입실 이송 시작','Incoming transport begins'),arrival_handoff:t('침상 인계','Bedside handoff'),arrival_end:t('입실 완료','Admission complete'),departure_start:t('퇴실 이송 시작','Outgoing transport begins'),departure_exit:t('병상 출발 · 정리 중','Bed vacated · Turnover'),departure_end:t('이송 완료 · 병상 상태 갱신','Transport complete · Bed updated'),planned_death:t('ICU 사망 · 시나리오 사건','ICU death · Planned event')};const recent=(frame?.history||[]).slice(-8);host.insertAdjacentHTML('beforeend',`<details ${recent.length?'open':''}><summary>${t('이송·사건 기록 · 계획','Transport and event history · Plan')} (${frame?.history.length||0})</summary>${recent.length?`<ol class="plan-transfer-log">${recent.map(e=>`<li>${planDateLabel(Math.floor(e.minute/1440)+1)} ${String(Math.floor(e.minute%1440/60)).padStart(2,'0')}:${String(e.minute%60).padStart(2,'0')} · ${t('병상','Bed')} ${String(e.bed+1).padStart(2,'0')} · ${eventNames[e.kind]}</li>`).join('')}</ol>`:`<p>${t('재생을 시작하면 이송 단계가 순서대로 기록됩니다.','Transport stages appear here as playback progresses.')}</p>`}</details>`);
+ host.querySelector('[data-plan-play]').onclick=togglePlanReplay;host.querySelector('[data-plan-next]').onclick=()=>{stopPlanReplay();advancePlanReplay(10);};host.querySelector('[data-plan-event]').onclick=()=>{stopPlanReplay();advancePlanReplay(Number.MAX_SAFE_INTEGER);};host.querySelector('[data-plan-reset]').onclick=()=>beginPlanReplay(true);host.querySelector('[data-plan-day]').onchange=e=>seekPlanReplay((Number(e.target.value)-1)*1440);host.querySelector('[data-plan-daystart]').onclick=()=>seekPlanReplay(((frame?.day||monthlyRow()?.day||1)-1)*1440);host.querySelector('[data-plan-dayend]').onclick=()=>seekPlanReplay((frame?.day||monthlyRow()?.day||1)*1440-1);host.querySelector('[data-plan-speed]').onchange=e=>{planReplay.speed=Number(e.target.value);};updateMapClock();
+}
+function renderPlanTransport(){const frame=planFrame(),svg=$('#floors .ward-map-viewport > svg');if(!frame||!svg)return;const ns='http://www.w3.org/2000/svg',layer=document.createElementNS(ns,'g');layer.setAttribute('class','monthly-transport-layer');layer.setAttribute('pointer-events','none');
+ frame.transports.forEach(move=>{const x=4+move.bed%4*8,top=move.bed<4,progress=move.transport==='arrival'?move.progress:1-move.progress,y=(top?11:13)+((top?5.5:17)-(top?11:13))*progress,g=document.createElementNS(ns,'g');g.setAttribute('class','monthly-porter');g.setAttribute('data-transport-bed',String(move.bed));g.setAttribute('data-transport-direction',move.transport);g.setAttribute('transform',`translate(${x} ${y}) scale(.65)`);g.innerHTML=`<title>${t('이송원','Porter')} ${String(move.bed+1).padStart(2,'0')} · ${move.transport==='arrival'?t('입실','IN'):t('퇴실','OUT')}</title><g fill="none" stroke="#246e91" stroke-width=".14" stroke-linecap="round"><circle cx="-1.7" cy="-.6" r=".25" fill="#246e91"/><path d="M-1.7-.35v.8m0-.55 .5 .3H-.8m-.9 .25-.3 .6m.3-.6 .3 .6M-.8 .35H1.8V-.05M-.7 .35v.35m2.25-.35v.35"/><circle cx="-.5" cy=".8" r=".16"/><circle cx="1.45" cy=".8" r=".16"/><circle cx="-.4" cy="-.1" r=".22"/><path d="M-.15-.05H.6L1.45 .1"/></g><text y="-1.25" font-size=".65" font-weight="700" text-anchor="middle" fill="#194d68" stroke="white" stroke-width=".1" paint-order="stroke">${move.transport==='arrival'?'IN':'OUT'} ${String(move.bed+1).padStart(2,'0')}</text>`;layer.appendChild(g);});svg.appendChild(layer);
+}
+function renderEightBedSummary(slots){const host=$('#eightBedSummary');if(!host||!window.ReplayObservations)return;const rows=slots.map((c,i)=>({case:c,minute:c?selectedMinute(c,at(c)):null,caseIndex:c?displayCaseIndex(c):-1,label:c?patientLabel(c):'',status:slotDisplay(i,c)}));host.innerHTML=window.ReplayObservations.renderTable({lang,interpolate:replayInterpolation,slots:rows});host.querySelector('[data-replay-interpolate]').onchange=e=>{replayInterpolation=e.target.checked;renderEightBedSummary(slots);};window.EightBedLabs?.mount(host,{slots:rows,lang,interpolate:replayInterpolation});window.VitalIndicators?.bindSettings(host,()=>{render();});host.onfocusin=e=>{if(!e.target.closest('.vital-indicator-settings'))return;stopPlanReplay();recordPlayback.pause(false);renderRecordPlayback();renderPlanReplay();};}
+function displayCases(){if(!data)return [];return [...data.cases,...(data.scenario_cases||[]).map(assignment=>{const template=data.cases.find(c=>c.id===assignment.source_case_id);return template?{...template,...assignment,gs_selection:null}:null;}).filter(Boolean)];}
+const displayCaseIndex=c=>displayCases().findIndex(item=>item.id===c.id);
+const patientLabel=c=>c.source==='ScenarioReplay'?(/^E[0-9]+$/.test(c.scenario_replay?.episode_id||'')?c.scenario_replay.episode_id.replace(/^E/,'P'):'P'+String(displayCaseIndex(c)+1).padStart(2,'0')):c.id;
+const clinicalSourceCase=c=>c.source==='ScenarioReplay'?(data.cases.find(item=>item.id===c.source_case_id)||c):c;
+const monthlyRows=()=>data?.monthly_plan?.by_hospital?.[hospital]?.days||(typeof WORKBOOK_PLAN_TEMPLATE!=='undefined'?WORKBOOK_PLAN_TEMPLATE.filter(r=>r.day!==null):[]);
+const monthlyRow=()=>monthlyRows()[monthlyIndex]||null;
+const monthlySlots=()=>Array.from({length:8},(_,i)=>{const id=(planFrame()?.slots[i]||monthlyRow()?.beds[i])?.case_id;return displayCases().find(c=>c.id===id&&c.dataset===hospital)||null;});
+const scoped=()=>data?data.cases.filter(c=>(!hospital||c.dataset===hospital)&&(!unit||c.unit===unit)):[];
+const selectCases=()=>viewPhase==='monthly'?monthlySlots().filter(Boolean):scoped().slice(page*8,page*8+8);
+const originalAt=at;
+function monthlyBaselineIndex(c,cell){
+ if(monthlyTimeOverrides.has(c.id))return monthlyTimeOverrides.get(c.id);
+ if(c.source==='ScenarioReplay')return cell?.row_index??c.initial;
+ const first=equipmentStartRow(c);if(first===null)return cell?.row_index;
+ const startDay=monthlyRows().find(day=>day.beds.some(b=>b.episode_id&&b.episode_id===cell?.episode_id))?.day??monthlyRow()?.day??0,elapsed=Math.max(0,(monthlyRow()?.day??0)-startDay)*1440;
+ let target=c.rows[first].minute+elapsed;if(Number.isInteger(cell?.row_index)&&c.rows[cell.row_index])target=Math.max(target,c.rows[cell.row_index].minute);
+ return Math.max(0,c.rows.findLastIndex(row=>row.minute<=target));
+}
+function baselineAt(c){if(viewPhase==='monthly'){const cell=monthlyRow()?.beds.find(b=>b.case_id===c.id),index=monthlyBaselineIndex(c,cell);if(Number.isInteger(index)&&c.rows[index])return c.rows[index];}return originalAt(c);}
+at=function(c){const frame=planFrame();if(frame){const slot=frame.slots.find(s=>s.case_id===c.id),row=window.MonthlyReplay.sourceRow(c,slot,frame.minute);if(slot&&row)return c.rows[row.index];}const replayIndex=recordPlayback.rowIndex(c.id);return replayIndex!==null&&c.rows[replayIndex]?c.rows[replayIndex]:baselineAt(c);};
+function setCaseReplayMinute(c,minute){stopPlanReplay(true);recordPlayback.clear();if(viewPhase==='monthly')monthlyTimeOverrides.set(c.id,Math.floor(minute/c.step));else time=String(minute);}
+function selectMonthlyRow(index,bed=null){stopPlanReplay(true);recordPlayback.clear();monthlyIndex=index;viewPhase='monthly';monthlyTimeOverrides.clear();selected=null;GroundedChat.close();if($('#detail').open)$('#detail').close();render();const c=bed===null?null:monthlySlots()[bed];if(c){openCase(displayCaseIndex(c));$('#selectedSummary').textContent=patientLabel(c);}else $('#floors').scrollIntoView({behavior:'smooth',block:'start'});}
+function slotDisplay(index,c){const live=planFrame()?.slots[index];if(live){const status=live.status,key=({red:'critical',blue:'watch',green:'stable',yellow:'reserved',deceased:'deceased',turnover:'turnover',empty:'empty'})[status]||'empty',color=({red:'#c93b45',blue:'#3475c5',green:'#26805c',yellow:'#fff1b8',deceased:'#6b576f',turnover:'#dce6f1',empty:'#e7ebf0'})[status]||'#e7ebf0';return {key,color,ink:['yellow','turnover','empty'].includes(status)?'#475569':'white',label:(live.flow==='arrival'?t('입실 이송 중','Incoming transfer'):live.flow==='departure'?t('퇴실 인계 중','Outgoing handoff'):live.flow==='handoff'?t('입실 인계 중','Incoming handoff'):({red:'RED',blue:'BLUE',green:'GREEN',yellow:t('예약','Reserved'),deceased:t('사망 · 이송 대기','Death · Awaiting transfer'),turnover:t('병상 정리','Turnover'),empty:t('빈 병상','Empty')})[status])};}if(viewPhase!=='monthly')return {key:c?'watch':'empty',color:c?'#3475c5':'#e7ebf0',ink:c?'white':'#475569',label:c?t('BLUE · 전실 검토','BLUE · Review'):t('사례 없음','No case')};const status=monthlyRow()?.beds[index]?.status||'empty';return {key:({red:'critical',blue:'watch',green:'stable',yellow:'reserved',empty:'empty'})[status]||'empty',color:({red:'#c93b45',blue:'#3475c5',green:'#26805c',yellow:'#fff1b8',empty:'#e7ebf0'})[status]||'#e7ebf0',ink:['yellow','empty'].includes(status)?'#475569':'white',label:({red:'RED',blue:'BLUE',green:'GREEN',yellow:t('예약','Reserved'),empty:t('빈 병상','Empty')})[status]};}
+function syncUrl(){const u=new URL(location);u.searchParams.set('lang',lang);u.searchParams.set('hospital',hospital);unit?u.searchParams.set('ward',unit):u.searchParams.delete('ward');viewPhase==='monthly'&&monthlyRow()?.day?u.searchParams.set('planDay',monthlyRow().day):u.searchParams.delete('planDay');history.replaceState(null,'',u);}
+
+// Ten-minute source replay is independent from the fictional staff demonstration.
+function createRecordPlayback(onChange=()=>{},timers=globalThis){
+ let scope=null,entries=new Map(),offset=0,max=0,timer=null,touched=false;
+ const stop=()=>{if(timer!==null)timers.clearInterval(timer);timer=null;};
+ const notify=()=>onChange();
+ const api={
+  configure(key,cases,getBase){if(scope===key)return false;stop();scope=key;offset=0;touched=false;entries=new Map(cases.map(c=>[c.id,{rows:c.rows,base:getBase(c)?.minute??0}]));max=Math.max(0,...[...entries.values()].map(e=>(e.rows.at(-1)?.minute??e.base)-e.base));return true;},
+  setBases(bases){stop();for(const [id,minute] of bases){const e=entries.get(id);if(e&&Number.isFinite(minute))e.base=minute;}offset=0;touched=true;max=Math.max(0,...[...entries.values()].map(e=>(e.rows.at(-1)?.minute??e.base)-e.base));notify();},
+  clear(){stop();scope=null;entries.clear();offset=0;max=0;touched=false;},
+  state(){return {offset,max,running:timer!==null,touched,count:entries.size};},
+  rowIndexAt(id,elapsed){const e=entries.get(id);if(!e)return null;const target=e.base+Math.max(0,Number(elapsed)||0);let index=null;for(let i=0;i<e.rows.length;i++){if(e.rows[i].minute<=target)index=i;else break;}return index;},
+  rowIndex(id){return api.rowIndexAt(id,offset);},
+  minuteAt(id,elapsed){const e=entries.get(id);return e?Math.min(e.rows.at(-1)?.minute??e.base,e.base+Math.max(0,Number(elapsed)||0)):null;},
+  seek(value){stop();offset=Math.max(0,Math.min(max,Number(value)||0));touched=true;notify();},
+  advance(){if(max<=0)return;offset=Math.min(max,offset+10);touched=true;if(offset>=max)stop();notify();},
+  play(){if(max<=0||timer!==null)return;if(offset>=max)offset=0;touched=true;timer=timers.setInterval(()=>api.advance(),2000);notify();},
+  pause(shouldNotify=true){stop();if(shouldNotify)notify();},
+  reset(){stop();offset=0;touched=false;notify();},
+  manual(){stop();touched=false;}
+ };
+ return api;
+}
+const recordPlayback=createRecordPlayback(()=>render());
+let recordPlaybackData=null;
+function configureRecordPlayback(cases){if(planReplay.active){recordPlayback.clear();return;}if(recordPlaybackData!==data){recordPlayback.clear();recordPlaybackData=data;}if(recordPlayback.configure(JSON.stringify([hospital,unit,viewPhase,monthlyIndex,page]),cases,baselineAt))window.StaffSimulation?.setReplayFrame?.(null);}
+function renderRecordPlayback(){
+ const el=$('#recordPlayback');if(!el)return;const state=recordPlayback.state(),end=Math.ceil(state.max),elapsed=Math.round(state.offset),sliderMax=Math.ceil(state.max/10)*10;
+ el.innerHTML=`<div class="record-playback-title"><b>${t('10분 단위 환자 기록 재생','Patient records · 10-minute replay')}</b><span class="staff-demo-badge">${t('의료진 이동은 모의','Staff movement is simulated')}</span></div><div class="record-playback-actions"><button id="recordPlay" ${state.max<=0?'disabled':''}>${state.running?t('⏸ 일시정지','⏸ Pause'):t('▶ 재생','▶ Play')}</button><button id="recordNext" ${state.offset>=state.max?'disabled':''}>${t('+10분','+10 min')}</button><button id="recordReset">${t('처음으로','Reset')}</button><button id="recordEquipmentStart" ${selectCases().some(c=>equipmentStartRow(c)!==null)?'':'disabled'}>${t('장비 기록부터','Start at equipment records')}</button><input id="recordSlider" type="range" min="0" max="${sliderMax}" step="10" value="${Math.ceil(state.offset/10)*10}" ${end<=0?'disabled':''} aria-label="${t('현재 시점에서 경과한 재생 분','Replay minutes after each starting checkpoint')}"><output id="recordElapsed">+${elapsed} / ${end} ${t('분','min')}</output></div><p>${t('2초마다 10분 진행 · 각 환자의 현재 시점부터 원본 기록 범위 안에서 이동합니다. 서로 다른 실제 입실 사례이며 같은 날짜의 병상 점유가 아닙니다. 환자 상세를 열면 재생이 멈춥니다.','Advances 10 minutes every 2 seconds, from each case checkpoint within its source range. Cases are separate admissions, not simultaneous occupancy. Opening patient details pauses replay.')}</p>`;
+ $('#recordPlay').onclick=()=>{stopPlanReplay(true);render();state.running?recordPlayback.pause():recordPlayback.play();};$('#recordNext').onclick=()=>{stopPlanReplay(true);render();recordPlayback.pause(false);recordPlayback.advance();};$('#recordReset').onclick=()=>{stopPlanReplay(true);recordPlayback.reset();window.StaffSimulation?.setReplayFrame?.(null);};
+ $('#recordEquipmentStart').onclick=()=>{stopPlanReplay(true);render();recordPlayback.setBases(new Map(selectCases().map(c=>{const index=equipmentStartRow(c);return [c.id,index===null?at(c)?.minute:c.rows[index].minute];})));};
+ $('#recordSlider').oninput=e=>{$('#recordElapsed').textContent=`+${Math.min(Number(e.target.value),end)} / ${end} ${t('분','min')}`;};$('#recordSlider').onchange=e=>recordPlayback.seek(Number(e.target.value));
+}
+function staffObservation(c,minute){
+ if(!Number.isFinite(minute))return null;const index=c.rows.findLastIndex(row=>row.minute<=minute),source=c.rows[index],vitals={},age={},units={hr:'bpm',map:'mmHg',spo2:'%',rr:'/min',sbp:'mmHg'};let historicalInputsUsed=false;
+ for(const key of Object.keys(units)){const value=source?.vitals?.[key],sourceAge=source?.age?.[key],observed=Number.isFinite(sourceAge)?source.minute-sourceAge:null;if(Number.isFinite(value)&&Number.isFinite(observed)&&minute-observed>=0&&minute-observed<=30){vitals[key]=value;age[key]=minute-observed;}else{vitals[key]=null;age[key]=null;}}
+ for(const key of Object.keys(units)){const history=(c.historical_vital_observations||[]).filter(e=>e.historical_only===true&&e.table==='CHARTEVENTS'&&e.variable===key&&e.unit===units[key]&&Number.isFinite(e.value)&&Number.isFinite(e.chart_minute)&&e.chart_minute>=0&&e.chart_minute<=minute&&minute-e.chart_minute<=30).sort((a,b)=>b.chart_minute-a.chart_minute),latest=history[0];if(!latest)continue;const same=history.filter(e=>e.chart_minute===latest.chart_minute);if(same.some(e=>e.same_time_conflict)||new Set(same.map(e=>e.value)).size>1)continue;const knownAt=Number.isFinite(age[key])?minute-age[key]:-Infinity;if(latest.chart_minute>knownAt){vitals[key]=latest.value;age[key]=minute-latest.chart_minute;historicalInputsUsed=true;}}
+ return {minute,vitals,age,historicalInputsUsed};
+}
+function displayVitalSnapshot(c,r){return staffObservation(c,selectedMinute(c,r))||{minute:selectedMinute(c,r),vitals:{},age:{},historicalInputsUsed:false};}
+function syncStaffReplay(){
+ const state=recordPlayback.state();if(!state.touched||!window.StaffSimulation?.setReplayFrame)return;
+ const slots=viewPhase==='monthly'?monthlySlots():selectCases(),occupied=slots.map((c,i)=>c?i:null).filter(i=>i!==null);if(!occupied.length)return;
+ const tick=Math.floor(state.offset/10),phase=tick%2?'doctor':'nurse',fallbackIndex=occupied[Math.floor(tick/2)%occupied.length];
+ const beds=slots.map((c,index)=>{if(!c)return null;const currentMinute=recordPlayback.minuteAt(c.id,state.offset),previousMinute=state.offset>0?recordPlayback.minuteAt(c.id,Math.max(0,state.offset-10)):null;return {index,current:staffObservation(c,currentMinute),previous:staffObservation(c,previousMinute)};}).filter(Boolean);
+ const visit=window.RecordVisitPlanner?.plan({beds,fallbackIndex,phase,minute:state.offset})||{bedIndex:fallbackIndex,reason_ko:'정기 확인',reason_en:'Scheduled check'};
+ StaffSimulation.setReplayFrame({minute:state.offset,bedIndex:visit.bedIndex,phase,running:state.running,reason_ko:visit.reason_ko+(beds.find(b=>b.index===visit.bedIndex)?.current?.historicalInputsUsed?' · 기록 시각 기준':''),reason_en:visit.reason_en+(beds.find(b=>b.index===visit.bedIndex)?.current?.historicalInputsUsed?' · By chart time':'')});
+}
+function pauseRecordPlaybackForDetail(){stopPlanReplay();recordPlayback.pause(false);renderRecordPlayback();renderPlanReplay();syncStaffReplay();}
+
+const scenarioNames={ed_to_icu:['입실 전 24시간 내 응급실 기록','ED record within 24 h before ICU'],postoperative_icu:['수술 후 ICU 입실','Postoperative ICU admission'],surgery_during_icu:['ICU 재실 중 수술 기록','Surgery record during ICU stay'],icu_death:['ICU 재실 중 사망 기록','Death record during ICU stay'],ed_within_24h_before_icu:['입실 전 24시간 내 응급실 퇴실','ED exit within 24 h before ICU'],surgery_ended_before_icu_24h:['입실 전 24시간 내 수술 종료','Surgery ended within 24 h before ICU'],surgery_record_during_icu:['ICU 재실 중 수술 기록','Surgery record during ICU stay'],death_during_icu:['ICU 재실 중 사망 기록','Death record during ICU stay'],operation_flag:['수술 플래그 · 상세 시각 미확인','Operation flag · Detailed timing unconfirmed'],next_unit_unclassified:['ICU 이후 이동 기록 · 병동 종류 미확인','Transfer after ICU · Destination type unknown'],cpr_recorded:['심폐소생술 시작 기록','CPR start record'],ecmo_flow_recorded:['ECMO 유량 기록','ECMO flow record'],ventilator_on:['인공호흡기 ON 기록','Ventilator ON record'],ventilator_off:['인공호흡기 OFF 기록','Ventilator OFF record']};
+const scenarioName=kind=>scenarioNames[kind]?t(...scenarioNames[kind]):t('원본 기록','Source record');
+scenarioNames.cpr_during_icu=['ICU 재실 중 CPR 시작 기록','CPR start record during ICU stay'];scenarioNames.cpr_start=scenarioNames.cpr_recorded;
+const whenMinute=m=>Number.isFinite(m)?`ICU ${m<0?'−':'+'}${Math.abs(m).toLocaleString(undefined,{maximumFractionDigits:1})} min`:t('시각 미확인','Time unknown');
+const selectedMinute=(c,r)=>r?.minute??(time==='initial'?c.rows[c.initial]?.minute??0:Number(time));
+function sourceMovementRecords(c,r){
+ const source=clinicalSourceCase(c),minute=selectedMinute(c,r),records=[];
+ if(!Number.isFinite(minute))return records;
+ // ICU zero is the source ICUSTAYS admission anchor. Replay length is not
+ // discharge time, and an operation is not evidence of a physical transfer.
+ if(source.source==='K-MIMIC'&&Number.isFinite(minute)&&minute>=0)records.push({kind:'icu_admission',minute:0,table:'ICUSTAYS'});
+ const allowed={ed_within_24h_before_icu:'ADMISSIONS',next_unit_unclassified:'TRANSFERS',death_during_icu:'ADMISSIONS'};
+ for(const event of source.gs_selection?.scenario_events||[]){
+  if(allowed[event.kind]!==event.table||event.evidence_status!=='confirmed'||!Number.isFinite(event.minute)||event.minute>minute)continue;
+  records.push({kind:event.kind,minute:event.minute,table:event.table});
+ }
+ const seen=new Set();return records.filter(e=>{const key=JSON.stringify([e.kind,e.minute,e.table]);if(seen.has(key))return false;seen.add(key);return true;}).sort((a,b)=>a.minute-b.minute);
+}
+function monthlyMovementRecords(c){
+ if(viewPhase!=='monthly')return [];
+ const selectedDay=monthlyRow()?.day,selectedCell=monthlyRow()?.beds.find(b=>b.case_id===c.id);
+ if(!Number.isInteger(selectedDay)||!selectedCell)return [];
+ const episode=selectedCell.episode_id||c.scenario_replay?.episode_id;
+ const relevant=monthlyRows().filter(row=>Number.isInteger(row.day)&&row.day<=selectedDay).flatMap(row=>row.beds.filter(cell=>cell.case_id===c.id&&(!episode||cell.episode_id===episode)).map(cell=>({day:row.day,event:String(cell.event||'').trim().toUpperCase()})));
+ if(!relevant.length)return [];
+ const start=relevant[0].day,records=[{day:start,kind:'plan_admission'}];
+ for(const event of relevant)if(['ER','GW','DEATH'].includes(event.event))records.push({day:event.day,kind:event.event});
+ return records;
+}
+function transferDetails(c,r){
+ const records=sourceMovementRecords(c,r),plan=monthlyMovementRecords(c),minute=selectedMinute(c,r);
+ const labels={icu_admission:t('ICU 입실','ICU admission'),ed_within_24h_before_icu:t('응급실 퇴실 기록','Emergency department exit'),next_unit_unclassified:t('ICU 이후 이동 · 목적 병동 종류 미확인','Transfer after ICU · Destination unit type unknown'),death_during_icu:t('ICU 재실 중 사망 기록','Death recorded during ICU stay')};
+ const planLabels={plan_admission:t('병상 배치 시작','Bed assignment begins'),ER:t('응급실 경유 입실','Admission via emergency department'),GW:t('일반병동 전동','Transfer to general ward'),DEATH:t('ICU 사망','ICU death')};
+ return `<section class="equipment-source-detail patient-transfer-history"><h3>${t('입·퇴실 및 이송 기록','Admission, discharge and transfer history')}</h3><p class="muted">${t('연결된 원본 환자의 ICU 입실을 기준으로, 선택 시점까지의 입실·이동을 시간순으로 표시합니다. 월간표의 배치 일차와 별개이며 이송원 배정·실제 경로는 확인되지 않았습니다.','Admission and movement events through the selected time, relative to the linked source patient’s ICU admission. This timeline is separate from monthly placement days; porter assignments and physical routes are not established.')} · ${whenMinute(minute)}</p>${records.length?`<div class="equipment-table-scroll"><table><thead><tr><th>${t('기록 시각','Event time')}</th><th>${t('입실 · 이동 내용','Admission / movement')}</th><th>${t('원본 자료','Source')}</th></tr></thead><tbody>${records.map(e=>`<tr><td>${whenMinute(e.minute)}</td><td>${esc(labels[e.kind])}</td><td>${esc(e.table)}</td></tr>`).join('')}</tbody></table></div>`:`<p>${t('선택 시점까지 연결된 입·퇴실 및 이송 기록이 없습니다.','No linked admission or transfer records through the selected time.')}</p>`}<p class="muted">${t('후향적 사건 시각 기준입니다. 퇴실·이동 기록이 없으면 퇴실하지 않았다고 단정하지 않으며, 재생 기록의 끝을 퇴실로 처리하지 않습니다.','Events are displayed retrospectively by their recorded time. Missing discharge or movement records do not establish continued stay, and the end of replay is not treated as discharge.')}</p>${plan.length?`<details class="planned-transfer-history"><summary>${t('월간표의 입·퇴실 계획','Admission / discharge plan in monthly table')}</summary><p class="muted">${t('아래는 월간 시나리오에 정한 배치와 사건입니다. 위 원본 이송 기록과 별도로 표시합니다.','These assignments and events belong to the monthly scenario, separate from the source movement records above.')}</p><ol>${plan.map(e=>`<li>${e.day}${t('일차',' day')} · ${esc(planLabels[e.kind])} · ${t('계획','Plan')}</li>`).join('')}</ol></details>`:''}</section>`;
+}
+function observedDevices(c,r){
+ const minute=selectedMinute(c,r),result=[];
+ for(const [group,events] of Object.entries(c.device_events||{}))for(const e of events){
+  const available=e.available_minute??e.minute,chart=e.chart_minute??e.minute;
+  if(available<=minute&&chart<=minute)result.push({...e,group,chart_minute:chart,available_minute:available});
+ }
+ return result.sort((a,b)=>a.available_minute-b.available_minute);
+}
+// Scenario visualization follows the last explicit chart record. It never changes AI evidence.
+function chartDeviceRecords(c,minute){const result=[];for(const [group,events] of Object.entries(c.device_events||{}))for(const e of events){const chart=e.chart_minute??e.minute;if(Number.isFinite(chart)&&chart>=0&&chart<=minute&&typeof e.active==='boolean')result.push({...e,group,chart_minute:chart,available_minute:e.available_minute??e.minute,device_type:e.device_type||(group==='ecmo_crrt'?(e.subtype||'ecmo'):group)});}return result;}
+support=function(c,r){
+ const minute=selectedMinute(c,r),source=clinicalSourceCase(c),events=chartDeviceRecords(c,minute),history=historicalEquipment(c,minute);
+ const chartState=(group,types)=>{const all=[...events.filter(e=>e.group===group&&(group!=='ecmo_crrt'||types.includes(e.device_type))),...history.filter(e=>types.includes(e.device_type))],last=all.reduce((a,e)=>!a||e.chart_minute>a.chart_minute?e:a,null);if(!last||last.same_time_conflict||!all.filter(e=>e.chart_minute===last.chart_minute).every(e=>e.active===last.active))return null;return last;};
+ const vent=chartState('ventilator',['ventilator']),ecmo=chartState('ecmo_crrt',['ecmo']),crrt=chartState('ecmo_crrt',['crrt']);
+ const offset=source.gs_selection?.icu_start_minute_of_day,calendar=Number.isInteger(offset)?Math.floor((offset+minute)/1440):null,sameDay=at=>calendar!==null&&Number.isFinite(at)&&at<=minute&&Math.floor((offset+at)/1440)===calendar;
+ const verified=source.gs_selection?.scenario_events||[];
+ const cprEvents=[...events.filter(e=>e.group==='cpr'&&Number.isFinite(e.event_minute)).map(e=>e.event_minute),...verified.filter(e=>['cpr_start','cpr_recorded'].includes(e.kind)&&e.table==='DATETIMEEVENTS'&&e.evidence_status==='confirmed').map(e=>e.minute)].filter(sameDay);
+ const surgeryEvents=[...verified.filter(e=>['surgery_ended_before_icu_24h','surgery_record_during_icu'].includes(e.kind)&&e.table==='PROCEDUREEVENTS'&&e.evidence_status==='confirmed').map(e=>e.minute),...(source.procedures||[]).filter(e=>e.table==='PROCEDUREEVENTS'&&['수술','Surgery','Surgical','SURGERY'].includes(e.category)&&Number.isFinite(e.start_min)&&Number.isFinite(e.end_min)&&e.start_min<=e.end_min).flatMap(e=>[e.start_min,e.end_min])].filter(sameDay);
+ const lastText=e=>e?t('최근 기록 기준 · 마지막 확인 ','Last explicit record · Last observed ')+whenMinute(e.chart_minute):t('확인된 기록 없음','No confirmed record');
+ const care_evidence={ventilator:lastText(vent),ecmo_crrt:[ecmo?'ECMO '+lastText(ecmo):'',crrt?'CRRT '+lastText(crrt):''].filter(Boolean).join(' · ')||t('확인된 기록 없음','No confirmed record'),cpr_today:cprEvents.length?t('당일 CPR 기록 ','CPR recorded on this day ')+whenMinute(Math.max(...cprEvents)):t('당일 CPR 기록 미확인','No confirmed CPR record for this day'),surgery_today:surgeryEvents.length?t('당일 수술 기록 ','Surgery recorded on this day ')+whenMinute(Math.max(...surgeryEvents)):t('당일 수술 기록 미확인','No confirmed surgery record for this day'),pressor_unstable:t('승압제 사용·증량 원본 미연결','Verified pressor use or escalation not linked')};
+ return {...c,calendar_day:calendar,care_indicators:{calendar_day:calendar,cpr_today:cprEvents.length?true:null,surgery_today:surgeryEvents.length?true:null,pressor_unstable:null},devices:{ventilator:vent?.active??null,ecmo:ecmo?.active??null,crrt:crrt?.active??null},care_evidence,ventEvidence:vent,ecmoEvidence:ecmo};
+};
+function cardCare(c,r){
+ let html=Network.careStrip(support(c,r));
+ if(lang==='ko')for(const [en,ko] of [['CPR today','당일 CPR'],['Pressor escalation / unstable','승압제 증량·불안정'],['Ventilator','인공호흡기'],['Surgery today','당일 수술'],['Not active','비활성'],['Active','활성'],['Unknown','미확인']])html=html.replaceAll(en,ko);
+ const short=lang==='ko'?['CPR','ECMO/CRRT','승압제','호흡기','수술']:['CPR','ECMO/CRRT','Pressors','Vent','Surgery'];let i=0;html=html.replace(/(<span class="care-label">)[^<]*(<\/span>)/g,(_,a,b)=>a+short[i++]+b);
+ return html+Network.bedDrawing(true);
+}
+
+function historicalEquipment(c,minute){
+ return (c.historical_device_observations||[]).filter(e=>{
+  if(e.historical_only!==true||!['CHARTEVENTS','DATETIMEEVENTS'].includes(e.table)||!Number.isFinite(e.chart_minute)||e.chart_minute<0||e.chart_minute>minute||typeof e.active!=='boolean')return false;
+  if(!['explicit_device_state','positive_ecmo_flow','documented_device_use','documented_device_care','documented_device_removal'].includes(e.evidence_kind))return false;
+  if(e.evidence_kind.startsWith('documented_device_')&&(e.table!=='DATETIMEEVENTS'||!Number.isFinite(e.event_minute)||e.event_minute>e.chart_minute))return false;
+  return e.availability_status==='unknown'||(e.availability_status==='known'&&Number.isFinite(e.available_minute)&&e.available_minute>=e.chart_minute);
+ }).map(e=>({...e,historyUnknown:e.availability_status==='unknown',historicalOnly:true}));
+}
+function equipmentRecords(c,r){
+ const minute=selectedMinute(c,r),known=chartDeviceRecords(c,minute).filter(e=>['accessories','ventilator','ecmo_crrt'].includes(e.group)).map(e=>({...e,historyUnknown:false,historicalOnly:false,device_type:e.device_type||(e.group==='ecmo_crrt'?'ecmo':e.group)}));
+ const groups=new Map();for(const e of [...known,...historicalEquipment(c,minute)]){const key=e.device_type||e.name||e.itemid;const previous=groups.get(key);if(!previous||e.chart_minute>previous.chart_minute)groups.set(key,e);else if(e.chart_minute===previous.chart_minute&&(e.active!==previous.active||(Number.isFinite(e.value)&&Number.isFinite(previous.value)&&e.value!==previous.value)))previous.same_time_conflict=true;}
+ return [...groups.values()].sort((a,b)=>Number(a.historicalOnly)-Number(b.historicalOnly)||b.chart_minute-a.chart_minute);
+}
+function equipmentName(e){const labels={ventilator:['인공호흡기','Ventilator'],ecmo:['ECMO','ECMO'],crrt:['CRRT','CRRT'],oxygen:['산소 공급','Oxygen'],iv:['말초 정맥관','IV line'],central_line:['중심정맥관','Central line'],arterial_line:['동맥관','Arterial line'],urinary_catheter:['유치 도뇨관','Urinary catheter'],drain:['배액관','Drain']};return (lang==='ko'?e.name_ko:e.name_en)||e.name||(labels[e.device_type]?t(...labels[e.device_type]):e.device_type)||t('장비 기록','Device record');}
+function equipmentStatus(e,minute){
+ if(e.same_time_conflict)return {key:'historical',label:t('기록 상충','Conflicting records')};
+ const label=e.active?t('사용 기록','Use recorded'):(e.evidence_kind==='documented_device_removal'?t('제거 기록','Removal recorded'):t('OFF 기록','OFF recorded'));
+ return {key:e.active?'active':'inactive',label:label+' · '+t('마지막 확인 ','Last observed ')+whenMinute(e.chart_minute)};
+}
+function equipmentChips(c,r){const list=equipmentRecords(c,r),minute=selectedMinute(c,r);if(!list.length)return `<div class="equipment-empty">${t('추가 부착장비 기록 미연결','Additional equipment records not linked')}</div>`;return `<div class="source-equipment-chips">${list.slice(0,6).map(e=>{const s=equipmentStatus(e,minute);return `<span class="source-equipment-chip ${s.key}" title="${esc(equipmentName(e)+' · '+whenMinute(e.chart_minute)+' · '+e.table+' / '+e.itemid)}"><b>${esc(equipmentName(e))}</b><small>${s.label}</small></span>`;}).join('')}${list.length>6?`<span class="source-equipment-more">+${list.length-6}</span>`:''}</div>`;}
+function bedEquipmentLabel(c,r){const all=[...new Set(equipmentRecords(c,r).map(equipmentName))];if(!all.length)return t('장비 미확인','Equipment unknown');const short=all.slice(0,2).map(name=>name.length>10?name.slice(0,9)+'…':name);return short.join(' · ')+(all.length>2?` +${all.length-2}`:'')+' · '+t('기록','record');}
+function compactEquipmentName(e){const labels={urinary_catheter:['도뇨관','Foley'],nasogastric_tube:['위관','NG tube'],ventilator:['인공호흡기','Ventilator'],arterial_line:['동맥관','A-line'],surgical_drain:['배액관','Drain'],drain:['배액관','Drain'],central_line:['중심정맥관','CVC'],endotracheal_tube:['기관내관','ET tube'],ecmo:['ECMO','ECMO'],crrt:['CRRT','CRRT'],iv:['정맥관','IV']};return labels[e.device_type]?t(...labels[e.device_type]):equipmentName(e);}
+function equipmentGlyph(type){const shapes={ventilator:'M2 4H9V14H2Z M4 7H7 M4 10H7 M9 9H12Q15 9 15 5 M3 16H8',ecmo:'M2 3H8V15H2Z M4 6H6 M8 7C15 0 16 15 9 12 M8 11C13 17 16 7 11 6',crrt:'M2 3H8V15H2Z M4 6H6 M8 6H12V13H8 M11 3V6 M10 16H14',urinary_catheter:'M3 2V7Q3 10 8 10H11 M8 7H15V16H8Z M10 12H13',nasogastric_tube:'M3 2C8 1 8 6 6 7Q4 8 7 10L13 15 M10 15H15V10',central_line:'M3 2V5L8 10V16 M13 2V5L8 10 M1 2H5 M11 2H15',arterial_line:'M2 4H7L10 7H15 M9 7V14 M6 14H12 M2 2V6',endotracheal_tube:'M3 2C8 1 9 5 6 8L11 13 M9 15L14 10 M11 13L15 17',surgical_drain:'M2 3C8 2 3 10 9 9 M9 6H15V16H9Z M10 12H14',drain:'M2 3C8 2 3 10 9 9 M9 6H15V16H9Z M10 12H14'};return `<path d="${shapes[type]||'M3 2H13V16H3Z M6 5H10 M6 9H10 M8 3V13'}" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`;}
+function bedEquipmentPills(c,r,x,y,ink){const entries=equipmentRecords(c,r),minute=selectedMinute(c,r);if(!entries.length)return `<text x="${x}" y="${y+.25}" text-anchor="middle" class="bed-equipment-note" fill="${ink}">${t('장비 기록 없음','No device record')}</text>`;const shown=entries.length>6?[...entries.slice(0,5),null]:entries;return shown.map((e,i)=>{const px=x-2.9+(i%3)*1.95,py=y-.2+Math.floor(i/3)*.5;if(!e)return `<g><rect x="${px}" y="${py}" width="1.85" height=".44" rx=".1" fill="white"/><text x="${px+.92}" y="${py+.3}" text-anchor="middle" class="bed-device-label" fill="#31516c">+${entries.length-5}</text></g>`;const state=equipmentStatus(e,minute),colors=state.key==='active'?['#fff','#075e8c']:state.key==='inactive'?['#eef2f6','#5d6f80']:['#fff4d6','#88631a'];return `<g class="bed-device-pill ${state.key}" role="img" aria-label="${esc(equipmentName(e)+' · '+state.label)}"><title>${esc(equipmentName(e)+' · '+state.label+' · '+whenMinute(e.chart_minute))}</title><rect x="${px}" y="${py}" width="1.85" height=".44" rx=".1" fill="${colors[0]}" stroke="${colors[1]}" stroke-width=".035"/><g transform="translate(${px+.06} ${py+.04}) scale(.02)" color="${colors[1]}">${equipmentGlyph(e.device_type)}</g><text x="${px+1.08}" y="${py+.3}" text-anchor="middle" class="bed-device-label" fill="${colors[1]}">${esc(compactEquipmentName(e))}</text></g>`;}).join('');}
+function equipmentStartRow(c){
+ const candidates=historicalEquipment(c,Infinity).filter(e=>e.active).map(e=>e.chart_minute);
+ for(const [group,events] of Object.entries(c.device_events||{}))if(['accessories','ventilator','ecmo_crrt'].includes(group))for(const e of events){const chart=e.chart_minute??e.minute,available=e.available_minute??e.minute;if(e.active&&Number.isFinite(chart)&&Number.isFinite(available)&&chart>=0&&available>=chart)candidates.push(available);}
+ for(const minute of candidates.sort((a,b)=>a-b)){const index=c.rows.findIndex(row=>row.minute>=minute);if(index>=0)return index;}return null;
+}
+function applyGlobalReplayTime(value){recordPlayback.clear();time=value;if(viewPhase==='monthly')for(const c of selectCases()){const index=value==='initial'?c.initial:Math.max(0,c.rows.findLastIndex(row=>row.minute<=Number(value)));monthlyTimeOverrides.set(c.id,index);}render();}
+function nextEquipmentCheckpoint(c,r){
+ const minute=selectedMinute(c,r),candidates=[];
+ for(const [group,events] of Object.entries(c.device_events||{}))if(['accessories','ventilator','ecmo_crrt'].includes(group))for(const e of events){const chart=e.chart_minute??e.minute,available=e.available_minute??e.minute;if(Number.isFinite(chart)&&Number.isFinite(available)&&chart>=0&&available>=chart)candidates.push(Math.max(chart,available));}
+ for(const e of historicalEquipment(c,Infinity))candidates.push(e.chart_minute);
+ const next=candidates.filter(n=>n>minute).sort((a,b)=>a-b)[0];if(next===undefined)return '';
+ const index=c.rows.findIndex(row=>row.minute>=next);if(index<0)return `<p class="muted">${t('이후 장비 기록은 현재 재생 범위 밖에 있습니다.','Later equipment records lie outside the replay range.')}</p>`;
+ return `<p class="equipment-checkpoint"><button class="checkpoint-button" data-checkpoint="${index}" data-checkpoint-case="${displayCaseIndex(c)}">${t('장비 기록 시점 보기','View equipment record time')} · ${whenMinute(c.rows[index].minute)}</button><small>${t('클릭하면 이 환자의 선택 시점이 이후 기록 시각으로 이동합니다.','Advances this case to a later record time when selected.')}</small></p>`;
+}
+function equipmentSourceValue(e){if(e.evidence_kind==='documented_device_use')return t('사용·유지 기록','Documented use');if(e.evidence_kind==='documented_device_removal')return t('제거 기록','Documented removal');if(e.evidence_kind==='documented_device_care')return t('장비 관리 기록','Documented device care');return e.value??e.raw??'—';}
+function equipmentDetails(c,r){const list=equipmentRecords(c,r),minute=selectedMinute(c,r);return `<section class="equipment-source-detail"><h3>${t('부착장비 · 원본 기록','Attached equipment · Source records')}</h3><p class="muted">${t('원본에서 확인된 사용·유지 또는 관리 기록, ON/OFF와 유량을 표시합니다. 그림은 선택 시점 이전의 마지막 사용·OFF·제거 기록에 맞춰 켜지거나 꺼집니다. 최근 기록의 시각을 함께 표시하며 실제 현재의 지속 사용을 확정하지 않습니다. AI 상담에는 당시 가용성이 확인된 자료만 전달됩니다.','Documented use or care, explicit ON/OFF states and source flow values are shown. Icons follow the last explicit use, OFF or removal record before the selected time. The last observation time is shown; this does not establish continued use in the present. AI consultation uses only evidence available at that time.')}</p>${nextEquipmentCheckpoint(c,r)}${list.length?`<div class="equipment-table-scroll"><table><thead><tr><th>${t('장비','Equipment')}</th><th>${t('원본 값 · 상태','Source value · Status')}</th><th>${t('기록 시각','Chart time')}</th><th>${t('근거','Evidence')}</th></tr></thead><tbody>${list.map(e=>`<tr><td>${esc(equipmentName(e))}</td><td><span class="equipment-state ${equipmentStatus(e,minute).key}">${equipmentStatus(e,minute).label}</span><br>${esc(equipmentSourceValue(e))} ${esc(e.unit||'')}</td><td>${whenMinute(e.chart_minute)}<br><small>${e.historyUnknown?t('당시 가용 시각 미확인','Availability time unknown'):t('가용','Available')+' '+whenMinute(e.available_minute)}</small></td><td><small>${esc(e.table)}<br>${esc(e.itemid)}</small></td></tr>`).join('')}</tbody></table></div>`:`<p>${t('선택 시점까지 연결된 추가 장비 기록이 없습니다. 장비가 없다는 뜻은 아닙니다.','No additional equipment records are linked through the selected time. This does not establish absence of equipment.')}</p>`}</section>`;}
+
+function historicalVitalPlots(c,r){
+ const raw=c.historical_vital_observations;if(!Array.isArray(raw)||!raw.length)return '';
+ const minute=selectedMinute(c,r),allowed={hr:'bpm',map:'mmHg',spo2:'%',rr:'/min',sbp:'mmHg'};
+ const rows=raw.filter(e=>e.historical_only===true&&e.availability_status==='unknown'&&e.table==='CHARTEVENTS'&&Object.hasOwn(allowed,e.variable)&&e.unit===allowed[e.variable]&&Number.isFinite(e.chart_minute)&&e.chart_minute>=0&&e.chart_minute<=minute&&Number.isFinite(e.value));
+ const plots=Object.entries(names).map(([key,[ko,en,unit]])=>{
+  const records=rows.filter(e=>e.variable===key).sort((a,b)=>a.chart_minute-b.chart_minute).slice(-60);
+  if(!records.length)return `<div class="historical-vital"><h4>${t(ko,en)} (${esc(unit)})</h4><p class="muted">${t('선택한 기록 시각까지 연결된 관측값 없음','No linked observations through the selected chart time')}</p></div>`;
+  const conflicts=new Map();for(const e of records){const values=conflicts.get(e.chart_minute)||new Set();values.add(e.value);conflicts.set(e.chart_minute,values);}
+  let lo=Math.min(...records.map(e=>e.value)),hi=Math.max(...records.map(e=>e.value));const labelLo=lo,labelHi=hi;if(lo===hi){lo-=1;hi+=1;}
+  const start=records[0].chart_minute,end=records.at(-1).chart_minute,span=Math.max(1,end-start);
+  const dots=records.map(e=>{const outside=typeof window!=='undefined'&&window.VitalIndicators?.classify(key,e.value).out;const x=30+(e.chart_minute-start)*535/span,y=84-(e.value-lo)*60/(hi-lo),conflict=e.same_time_conflict===true||conflicts.get(e.chart_minute).size>1;return `<circle cx="${x}" cy="${y}" r="3.6" class="${conflict?'has-conflict':outside?'vital-out-dot':''}" style="${outside&&!conflict?'fill:#b42332;stroke:#b42332':''}"><title>${esc(`${e.value} ${e.unit} · ${whenMinute(e.chart_minute)} · ${e.itemid}`)}${conflict?' · '+t('동일 시각 값 충돌','Conflicting values at the same chart time'):''}</title></circle>`;}).join('');
+  return `<div class="historical-vital"><h4>${t(ko,en)} (${esc(unit)})</h4><svg class="historical-vital-plot" viewBox="0 0 600 120" role="img" aria-label="${esc(t(ko,en)+' · '+t('후향적 기록 · 당시 가용 시각 미확인','Retrospective records · Availability time unknown'))}"><text x="2" y="18">${labelHi}</text><text x="2" y="94">${labelLo}</text><path d="M30 18V92H570"/>${dots}<text x="30" y="111">${esc(whenMinute(start))}</text><text x="570" y="111" text-anchor="end">${esc(whenMinute(end))}</text></svg><small>${records.length} ${t('개 원본 관측 · 점 사이를 추정하지 않음','source observations · No interpolation between points')}</small></div>`;
+ }).join('');
+ const noCurrent=!r||Object.values(r.vitals||{}).every(v=>v==null);
+ return `<section class="historical-vitals"><details ${noCurrent?'open':''}><summary>${t('기록 시각 기준 활력징후 · 당시 가용 시각 미확인','Vitals by chart time · Availability at that time unknown')} (${rows.length})</summary><p class="historical-warning">${t('원본 CHARTTIME과 값은 확인됐지만 STORETIME이 없거나 유효하지 않아 당시 의료진이 알 수 있었는지는 확인할 수 없습니다. 아래 점은 후향적 관측 기록이며, 위의 확정 시점 활력징후·현재 상태·AI 판단 근거와 분리합니다.','Source CHARTTIME and values are available, but missing or invalid STORETIME prevents confirmation that clinicians knew these values then. These retrospective observations are separate from the confirmed-time vitals, current status and AI evidence above.')}</p><p class="muted">${t('표시 상한','Chart-time cutoff')}: ${whenMinute(minute)} · ${t('항목별 최근 60개 원본 관측 · 이후 시각 제외 · 주황색 점은 동일 시각 값 충돌','Latest 60 source observations per variable · Later chart times excluded · Orange points mark same-time conflicts')}</p><div class="historical-vitals-grid">${plots}</div></details></section>`;
+}
+
+function renderMonthlyWorkbook(){
+ const rows=monthlyRows(),unknown=data?.monthly_plan?.undated_rows||(typeof WORKBOOK_PLAN_TEMPLATE!=='undefined'?WORKBOOK_PLAN_TEMPLATE.filter(r=>r.day===null):[]);
+ $('#planTitle').textContent=t('ICU.xlsx · 월간 8병상 환자 테이블','ICU.xlsx · Monthly eight-bed patient table');
+ $('#planNote').textContent=t('31일 월간 시나리오에 GS 환자의 실제 기록을 연결해 재생합니다. 칸을 누르면 해당 일차의 배치와 환자 상세가 열립니다. 10월 1–31일은 시나리오 날짜이며, 원본 환자의 실제 진료 날짜나 임상 판정이 아닙니다.','The 31-day monthly scenario replays actual GS patient records. Select a cell to open its day layout and patient details. October 1–31 are scenario dates, not source patient care dates or clinical assessments.');
+ const rowHtml=(r,index,undated=false)=>`<tr class="${!undated&&viewPhase==='monthly'&&index===monthlyIndex?'selected-plan-day':''}"><th scope="row">${undated?t('미기재','Unspecified'):`<button data-monthly-row="${index}">${planDateLabel(r.day)}<small>${r.day}${t('일차',' day')}</small></button>`}<small>${undated?t('원본 행 ','Source row ')+(r.sourceRow??r.source_row??''):''}</small></th>${r.beds.map((cell,bed)=>{const live=!undated&&index===monthlyIndex?planFrame()?.slots[bed]:null,status=live?.status||(['red','blue','green','yellow','empty'].includes(cell.status)?cell.status:'empty'),base=cell.event||(status==='empty'?t('빈 병상 · 계획','Empty · plan'):status==='yellow'?t('입실 예약 · 계획','Reserved · plan'):t('계속 입실 · 계획','Continued stay · plan'));const visibleId=live?live.case_id:cell.case_id,linked=visibleId&&displayCases().some(c=>c.id===visibleId&&c.dataset===hospital);const content=`${live?`<b>${esc(slotDisplay(bed,null).label)}</b><small>${t('원래 계획','Original plan')}: ${esc(base)}</small>`:`<b>${esc(base)}</b>`}${linked?`<strong>${esc(patientLabel(displayCases().find(c=>c.id===visibleId)))}</strong>`:''}<small>${linked?(cell.cell_event_match_status==='unconfirmed'?t('계획 사건 · 기록 미확인','Planned event · Unconfirmed record'):''):t('환자 기록 미연결','Patient record unlinked')}${cell.checkpoint_outside_replay?' · '+t('재생 범위 밖','Outside replay'):''}</small>`;return `<td class="${status}" ${live?`style="background:${slotDisplay(bed,null).color};color:${slotDisplay(bed,null).ink}"`:""}>${undated?content:`<button class="monthly-cell" data-monthly-row="${index}" data-monthly-bed="${bed}">${content}</button>`}</td>`;}).join('')}</tr>`;
+ $('#planTable').innerHTML=`<thead><tr><th>${t('시나리오 날짜','Scenario date')}</th>${Array.from({length:8},(_,i)=>`<th>${t('병상','Bed')} ${i+1}</th>`).join('')}</tr></thead><tbody>${rows.map((r,i)=>rowHtml(r,i)).join('')}${unknown.map((r,i)=>rowHtml(r,i,true)).join('')}</tbody>`;
+ $('#planTable').onclick=e=>{const b=e.target.closest('[data-monthly-row]');if(b){const index=Number(b.dataset.monthlyRow),bed=b.dataset.monthlyBed===undefined?null:Number(b.dataset.monthlyBed);if(planReplay.active){if(index!==monthlyIndex)seekPlanReplay((monthlyRows()[index].day-1)*1440);else{stopPlanReplay();renderPlanReplay();}const c=bed===null?null:monthlySlots()[bed];if(c)openCase(displayCaseIndex(c));}else selectMonthlyRow(index,bed);}};
+}
+
+function renderSourceTables(cases){
+ const slots=Array.from({length:8},(_,i)=>cases[i]||null),label=c=>c?esc(c.id):t('사례 없음','No case');
+ const events=c=>c?.gs_selection?.scenario_events||[];
+ renderMonthlyWorkbook();
+ $('#flowNote').textContent=t('각 열은 서로 다른 환자의 ICU 입실 후 30일입니다. 같은 날짜의 실제 병상 점유표가 아닙니다. 원본에서 시각이 확인된 사건만 표시하며, 빈칸(—)은 연결 사건 없음이지 빈 병상·안정·계속 입실을 뜻하지 않습니다. 선택 시점 이후 사건은 후향적 기록으로만 표시합니다.','Each column covers the first 30 days after a different patient’s ICU admission, not simultaneous occupancy. Only linked timed events are shown. A dash means no linked event, not an empty bed, stability or continued admission. Later events are retrospective only.');
+ const short={ed_within_24h_before_icu:'ER',surgery_ended_before_icu_24h:'OP',surgery_record_during_icu:'OP',death_during_icu:'ICU Death',cpr_start:'CPR',cpr_recorded:'CPR',ecmo_flow_recorded:'ECMO',ventilator_on:'Vent ON',ventilator_off:'Vent OFF',operation_flag:'OP flag',next_unit_unclassified:t('이동','Transfer')};
+ $('#flowTable').innerHTML=`<thead><tr><th>${t('입실 후 일차','Day after admission')}</th>${slots.map(label).map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${Array.from({length:30},(_,day)=>`<tr><th scope="row">${day+1}</th>${slots.map(c=>{const es=events(c).filter(e=>e.minute>=day*1440&&e.minute<(day+1)*1440),minute=c?selectedMinute(c,at(c)):0;return `<td class="${es.length?'source-event':'source-unknown'}">${es.length?es.map(e=>`<span title="${esc(scenarioName(e.kind)+' · '+whenMinute(e.minute)+' · '+e.table)}">${esc(short[e.kind]||scenarioName(e.kind))}${e.minute>minute?`<small>${t('이후 기록','Later record')}</small>`:''}</span>`).join('<br>'):'—'}</td>`;}).join('')}</tr>`).join('')}</tbody>`;
+ const visible=cases.flatMap(c=>events(c).filter(e=>e.minute<=selectedMinute(c,at(c))).map(e=>({c,e}))).slice(0,12);
+ $('#log').innerHTML=visible.length?visible.map(({c,e})=>`<p><b>${esc(c.id)}</b> · ${esc(scenarioName(e.kind))}<br><small>${whenMinute(e.minute)} · ${esc(e.table)} · ${t('후향적 사건','Retrospective event')}</small></p>`).join(''):t('선택 시점까지 연결된 사건 기록 없음','No linked event records through the selected time');
+}
+
+function render(){
+ document.documentElement.lang=lang;
+ const words={title:['외과 중환자실 간호 상황판','Surgical ICU Nursing Dashboard'],notice:['KHDP 인증 전용 · 실제 K-MIMIC 과거 기록. 각 칸은 사례 표시 위치이며 실제 동시 점유 병상·현재 수용 가능 병상이 아닙니다.','KHDP authenticated access · Historical K-MIMIC records. Slots are case displays, not concurrent occupancy or current availability.'],networkTitle:['병원별 ICU · 연결된 환자 기록','Hospital ICU · Linked patient records'],networkNote:['병원 코드로 구분한 실제 기록입니다. 현재 연결된 데이터만 선택할 수 있습니다.','Source hospital codes. Only connected records can be selected.'],hospitalLabel:['병원 데이터','Hospital dataset'],wardLabel:['ICU','ICU'],mapTitle:['병동 지도 · 환자 기록','Ward map · Patient records'],cardsTitle:['환자 · 처치와 장비','Patients · Treatments and devices'],statusTitle:['색상 · 판정 상태','Color · Review status'],staffTitle:['대기 인력 · 대응 가능 여부','Standby / response availability'],staffNote:['실제 의료진 배정·위치가 연결되지 않아 인력 아이콘은 표시하지 않습니다. 처치 기록 행 수는 간호사별 수행 건수와 다릅니다.','Staff assignments and locations are not linked. Procedure rows are not nurse-specific workload counts.'],selectionTitle:['환자 상세 · 간호 지원 AI','Patient details · Nursing assistant'],sourcesTitle:['자료 다운로드','Data downloads'],evidenceTitle:['선택 시점까지의 처치 기록','Recorded care by selected time'],cohortLink:['외과 ICU 자료 집계','Surgical ICU data summary'],xlsx:['Excel 다운로드','Download Excel'],xlsxPreview:['미리보기','Preview'],reloadData:['데이터 새로고침','Refresh data'],profileTitle:['GS 외과 ICU · 8병상 보기','GS surgical ICU · Eight-slot view'],timeLabel:['입실 후 시점','Time since ICU admission'],showMonthlyPlan:['월간 환자 테이블','Monthly patient table'],showCasePool:['전체 GS 사례 보기','Browse GS cases'],replayTitle:['기록 재생 설정','Record replay controls'],replayNote:['서로 다른 실제 입실 사례의 과거 기록입니다. 환자별 시작 시점이 다르며, 실제 동시 병상 현황이 아닙니다.','Historical records from separate admissions. Per-case checkpoints differ; this is not simultaneous bed occupancy.'],slotsLabel:['8개 표시 슬롯','8 display slots'],alertsTitle:['진행 중인 알림 · 근거','Active alerts · evidence'],shiftTitle:['현재 · 다음 근무','Current / next shift'],handoverTitle:['최근 근무 인계','Latest shift handover'],logTitle:['선택 범위 원본 기록','Scoped source records'],planTitle:['8병상 시나리오 · GS 환자 대응표','Eight-slot scenario · GS case matching'],flowTitle:['30일 환자 경과표 · 실제 기록','30-day patient course · Source records']};
+ for(const [id,pair] of Object.entries(words))$('#'+id).textContent=t(...pair);
+ document.querySelectorAll('[data-language]').forEach(b=>{b.setAttribute('aria-pressed',String(b.dataset.language===lang));b.classList.toggle('on',b.dataset.language===lang);});$('#close').textContent=t('✕ 닫기 · Esc','✕ Close · Esc');
+ $('#slots').textContent=t('병상 네모칸의 다섯 아이콘은 CPR·ECMO/CRRT·승압제·인공호흡기·당일 수술입니다. 클릭하면 해당 사례의 Digital Twin과 상담이 열립니다.','Five bed icons: CPR, ECMO/CRRT, pressors, ventilator and surgery. Select a slot for its Digital Twin and consultation.');
+ $('#legend').textContent=t('색 채움: 최근 사용 기록 · 윤곽: 명시적 OFF·제거 기록 · 점선 ?: 연결 기록 없음. CPR·수술은 해당 날짜의 기록입니다. 그림에 마우스를 올리면 마지막 확인 시각이 보입니다.','Filled: last use record · Outline: explicit OFF/removal · Dashed ?: no linked record. CPR and surgery use records from the selected calendar day. Hover for the last observation time.');
+ $('#statusLegend').innerHTML=`<p><span class="state-pill" style="background:#3475c5;color:white">BLUE</span> ${t('전실 검토 · 핵심 정보 미확인','Transfer review · Required evidence incomplete')}</p><p class="tag">${t('현재 장기 지원·수용 병동 확인이 미완료라 GREEN으로 판정하지 않습니다. 활력징후만으로 RED를 추정하지 않습니다.','Support and receiving-team checks are incomplete; GREEN is not assigned. Vitals alone do not establish RED.')}</p><p class="tag">${t('연한 회색: 이 페이지의 사례 없음. 실제 빈 병상이 아닙니다.','Light gray: no case in this slot, not a confirmed empty bed.')}</p>`;
+ $('#coverage').textContent=t('입원·진단: 병원 001의 207개 파티션 연결. 검사실·검사: 일부 범위 연결. 상세 화면에서 환자별 출처와 미연결 항목을 확인하세요.','Admission/diagnosis linkage covers 207 partitions of hospital 001. Lab/test linkage is partial. Inspect per-case source coverage in details.');
+ $('#selectedSummary').textContent=selected===null?t('병상을 누르면 진단·입원 요약·검사 결과와 선택 시점 상담을 볼 수 있습니다.','Select a bed for diagnoses, admission summary, tests and timepoint consultation.'):(displayCases()[selected]?patientLabel(displayCases()[selected]):'');
+ const stamp=d=>d.toLocaleString(lang==='ko'?'ko-KR':'en-GB',{timeZone:'Asia/Seoul'})+' KST';
+ $('#refreshStamp').innerHTML=`<span>${t('데이터 갱신: ','Data refreshed: ')}<time>${lastLoaded?esc(stamp(lastLoaded)):t('불러오는 중…','Loading…')}</time></span><span>${t('화면 업데이트: ','UI updated: ')}<time>${esc(stamp(new Date(PRESENTATION_UPDATED_AT)))}</time></span>`;
+ $('#incs').textContent=t('실제 병동 알림·호출 기록 미연결','Actual ward alerts and calls are not linked');$('#rosterSummary').textContent=t('간호사·의사 근무표 및 배정 원본 미연결','Nurse/physician rosters and source assignments are not linked');$('#handoverSummary').textContent=t('원본 인계 기록 미연결 · AI 상담에서 검토용 SBAR를 작성할 수 있습니다.','Source handover records are not linked. AI consultation can prepare a reviewable SBAR draft.');$('#procedureNote').textContent=t('후향적 종료 기록 행 수 · 독립 처치나 간호사별 수행 건수가 아닙니다.','Retrospective ended record rows; not unique procedures or nurse-attributed workload.');$('#careIconLegend').innerHTML=Network.careStrip(null,true);if(lang==='ko')for(const [en,ko] of [['CPR today','당일 CPR'],['Pressor escalation / unstable','승압제 증량·불안정'],['Ventilator','인공호흡기'],['Surgery today','당일 수술']])$('#careIconLegend').innerHTML=$('#careIconLegend').innerHTML.replaceAll(en,ko);
+ if(!data)return;
+ if(data.gs_cohort){$('#cohortLink').href='gs/summary.json';$('#cohortLink').textContent=t('전체 GS 자료 집계','Full GS data summary');$('#xlsx').href='gs/monthly.xlsx';$('#xlsx').textContent=t('GS 월간 배정표 · Excel','GS monthly allocation · Excel');$('#gsFullCsv').hidden=false;$('#gsFullCsv').textContent=t('전체 GS 14,321건 CSV','All 14,321 GS stays · CSV');$('#monthlySummary').hidden=false;$('#monthlySummary').textContent=t('월간 배정 집계','Monthly allocation summary');$('#monthlyExportNote').textContent=t(`월간 Excel은 전체 GS ${data.gs_cohort.strict_cohort_stays.toLocaleString()}건에서 조건에 맞춰 배정한 결과입니다. 이 웹 상황판에서 상세·그래프가 연결된 사례는 ${data.count}건이며, Excel의 모든 배정 사례가 웹 상세에 연결된 것은 아닙니다.`,`The monthly Excel allocates matching cases from all ${data.gs_cohort.strict_cohort_stays.toLocaleString()} GS stays. This web board has ${data.count} linked replay cases; not every Excel allocation has linked web details or graphs.`);$('#xlsxPreview').href='gs/imaging-summary.json';$('#xlsxPreview').textContent=t('영상 연결 조사 현황','Imaging linkage audit');$('#coverage').textContent=t('활력징후·입원·진단·검사 결과를 환자 상세에서 확인할 수 있습니다.','Vital signs, admissions, diagnoses and test results are available in patient details.');}
+ const hospitals=[...new Set(data.cases.map(c=>c.dataset))];if(!hospitals.includes(hospital))hospital=hospitals[0];
+ if(data.monthly_plan&&monthlySourceLoaded!==data){const requested=Number(new URLSearchParams(location.search).get('planDay')||1);monthlyIndex=Math.max(0,monthlyRows().findIndex(r=>r.day===requested));viewPhase='monthly';monthlyTimeOverrides.clear();monthlySourceLoaded=data;}
+ const units=[...new Set(data.cases.filter(c=>c.dataset===hospital).map(c=>c.unit))];if(unit&&!units.includes(unit))unit='';
+ $('#hospitalScope').innerHTML=hospitals.map(h=>`<option value="${esc(h)}">${esc(h)}</option>`).join('');$('#hospitalScope').value=hospital;
+ $('#wardScope').innerHTML=`<option value="">${t('연결된 ICU 전체','All connected ICUs')}</option>`+units.map(u=>`<option value="${esc(u)}">${esc(u)}</option>`).join('');$('#wardScope').value=unit;
+ $('#networkCards').innerHTML=hospitals.map(h=>{const all=data.cases.filter(c=>c.dataset===h);return `<article class="hospital-card ${h===hospital?'selected':''}"><h3>${esc(h)}</h3><div class="hospital-numbers"><div><strong>—</strong><small>${t('수용 가능 병상','Available beds')}</small></div><div><strong>${all.length}</strong><small>${t('연결된 GS 사례','Linked GS cases')}</small></div><div><strong>—</strong><small>${t('예약 병상','Reserved beds')}</small></div></div><p class="tag">${t('실제 과거 기록 · 인력 정보 미연결','Historical records · Staffing not linked')}</p><div class="acceptance">${t('실시간 수용 가능 여부 미확인','Live acceptance unconfirmed')}</div><div class="hospital-actions"><button data-hospital="${esc(h)}">${t('이 병원 보기','View hospital')}</button><button disabled title="${t('실제 병원 수용 요청 시스템이 연결되지 않았습니다.','No hospital acceptance request system is connected.')}">${t('수용 확인 미연결','Acceptance not linked')}</button></div></article>`}).join('');
+ const all=scoped();page=Math.min(page,Math.max(0,Math.ceil(all.length/8)-1));const cases=selectCases();configureRecordPlayback(cases);const slotCases=viewPhase==='monthly'?monthlySlots():Array.from({length:8},(_,i)=>cases[i]||null);
+ $('#scopeSummary').textContent=`${hospital} · ${unit||units.join(' / ')} · ${all.length} ${t('입실 사례','admission cases')}`;
+ $('#page').textContent=`${page+1} / ${Math.max(1,Math.ceil(all.length/8))}`;$('#prev').disabled=viewPhase==='monthly'||page===0;$('#next').disabled=viewPhase==='monthly'||(page+1)*8>=all.length;
+ $('#time').innerHTML=`<option value="initial">${data.gs_cohort?t('환자별 시작 시점','Patient starting checkpoints'):t('사례별 최초 완전 관측 구간','First complete window per case')}</option>`+Array.from({length:24},(_,i)=>`<option value="${i*60}">ICU + ${i} h</option>`).join('');if(time!=='initial'&&!Array.from($('#time').options).some(o=>o.value===time))$('#time').add(new Option('ICU + '+time+' min',time));$('#time').value=time;$('#time').disabled=viewPhase==='monthly';$('#time').title=viewPhase==='monthly'?t('월간 표에서는 환자별 연결 시점을 사용합니다. 전체 GS 사례 보기에서 공통 시점을 선택하세요.','Monthly view uses each linked case checkpoint. Browse GS cases to choose a common time.'):'';$('#showCasePool').disabled=viewPhase!=='monthly';$('#showCasePool').onclick=()=>{stopPlanReplay(true);viewPhase='cases';monthlyTimeOverrides.clear();render();};$('#showMonthlyPlan').onclick=()=>{$('#workbookPlan').open=true;$('#workbookPlan').scrollIntoView({behavior:'smooth',block:'start'});};
+ $('#networkClock').textContent=data.gs_cohort&&time==='initial'?t('환자별 기록 시점','Per-patient record time'):t('과거 기록 · 상대 시간 재생','Historical records · Relative time replay');
+ $('#bedCounts').textContent=`${t('표시 사례','Displayed cases')}: ${cases.length} / 8 · BLUE ${cases.length} · ${t('추가 사례 없음','Unassigned slots')} ${8-cases.length}`;if(viewPhase==='monthly'){const beds=monthlyRow()?.beds||[],occupied=beds.filter(b=>['red','blue','green'].includes(b.status)).length,reserved=beds.filter(b=>b.status==='yellow').length,empty=beds.filter(b=>b.status==='empty').length;$('#bedCounts').textContent=t(`10월 ${monthlyRow()?.day}일 · ${monthlyRow()?.day}일차 · 입실 ${occupied} · 예약 ${reserved} · 빈 병상 ${empty}`,`Oct ${monthlyRow()?.day} · Day ${monthlyRow()?.day} · Occupied ${occupied} · Reserved ${reserved} · Empty ${empty}`);}
+ const counts=cases.map(c=>procedureCount(c,at(c)));$('#facts').innerHTML=`<p><b>${counts.some(n=>n!==null)?counts.reduce((sum,n)=>sum+(n??0),0):'—'}</b><small>${t('종료 기록 행','Ended source rows')}</small></p><p><b>${cases.filter(c=>c.clinical_linked).length}</b><small>${t('상세 연결 사례','Cases with details')}</small></p>`;$('#clock').textContent=viewPhase==='monthly'?planDateLabel(monthlyRow()?.day)+t(` · ${monthlyRow()?.day}일차`,` · Day ${monthlyRow()?.day}`):time==='initial'?t('사례별 시점','Case checkpoints'):whenMinute(Number(time));
+ const tiles=Array.from({length:8},(_,i)=>{const c=slotCases[i],display=slotDisplay(i,c),x=4+i%4*8,y=i<4?2.2:19.8,index=c?displayCaseIndex(c):null,r=c?at(c):null;
+ return `<g data-map-bed="${i}" data-map-status="${display.key}" ${c?`role="button" tabindex="0" data-case="${index}" aria-label="${patientLabel(c)} · ${t('환자 상세 열기','Open patient detail')}"`:''}><rect class="bed" x="${x-3.5}" y="${y-1.8}" width="7" height="3.6" rx=".4" style="fill:${display.color}"/><text class="bed-id" x="${x}" y="${i<4?y-2.05:y+2.6}" text-anchor="middle">${String(i+1).padStart(2,'0')}</text>${c?`<g class="bed-care-icons" transform="translate(${x-3.33} ${y-1.4}) scale(1.5)">${Network.careMapIcons(support(c,r))}</g><text x="${x}" y="${y+.65}" text-anchor="middle" class="bed-equipment-summary" fill="${display.ink}">${esc(bedEquipmentLabel(c,r))}</text>`:''}<text class="bed-t" x="${x}" y="${y+1.35}" text-anchor="middle" style="fill:${display.ink}">${display.label}</text></g>`;
+ }).join('');
+ $('#floors').innerHTML=`<div class="floor"><h2>${esc(hospital)} · ${t('배치 예시 · 실제 병동 평면 아님','Display layout · Not an actual floor plan')}</h2><div class="ward-map-heading"><h3>${t('외과 중환자실','Surgical ICU')} <span>· ${esc(unit||units.join('/'))}</span></h3><div class="ward-map-clock" role="status" aria-label="${t('현재 재생 날짜','Current replay date')}"><small>${t('시나리오 재생','Scenario replay')} · ${planReplay.timer!==null?t('재생 중','Playing'):t('일시정지','Paused')}</small><strong>${viewPhase==='monthly'?planDateLabel(planFrame()?.day||monthlyRow()?.day||1):t('환자별 시점','Per-patient time')} <time>${planFrame()?String(Math.floor(planFrame().clockMinute/60)).padStart(2,'0')+':'+String(planFrame().clockMinute%60).padStart(2,'0'):'00:00'}</time></strong></div></div><div class="ward-map-viewport"><svg viewBox="-1 -1 34 25.5" role="group" aria-label="${t('외과 ICU 환자 지도','Surgical ICU patient map')}"><rect class="unit-r" x="0" y="0" width="32" height="22" rx=".6"/><path class="ward-corridor" d="M.5 10.8H31.5M.5 13.2H31.5"/>${tiles}</svg></div></div>`;
+ $('#patientCards').innerHTML=`<div class="bed-grid">`+Array.from({length:8},(_,i)=>{const c=slotCases[i],display=slotDisplay(i,c);if(!c)return `<article class="patient-card vacant ${display.key}" data-bed-status="${display.key}" style="--bed-color:${display.color}"><b>${t('표시 슬롯','Display slot')} ${i+1}</b><p>${viewPhase==='monthly'?esc(display.label):t('추가 사례 없음','No additional case')}</p><small>${viewPhase==='monthly'?(planReplay.active?t('시나리오 시각에 따른 병상 상태','Bed state at scenario time'):t('이 계획 칸에 연결된 GS 환자 없음','No GS case linked to this planned slot')):t('실제 병상 가용 상태 미확인','Actual availability unknown')}</small></article>`;const r=at(c),displayVitals=displayVitalSnapshot(c,r);return `<button class="patient-card" style="--bed-color:${display.color};--flow-ink:${display.ink}" data-case="${displayCaseIndex(c)}" data-bed-status="${display.key}"><div class="card-top"><b>${esc(patientLabel(c))}</b><span class="state-pill">${display.label}</span></div><p class="patient-id">${c.unit} · ${t('표시 슬롯','Slot')} ${i+1}</p><div class="vitals-line">HR ${window.VitalIndicators?VitalIndicators.valueMarkup('hr',displayVitals.vitals.hr,lang):value(displayVitals.vitals.hr)} · MAP ${window.VitalIndicators?VitalIndicators.valueMarkup('map',displayVitals.vitals.map,lang):value(displayVitals.vitals.map)} · SpO₂ ${window.VitalIndicators?VitalIndicators.valueMarkup('spo2',displayVitals.vitals.spo2,lang):value(displayVitals.vitals.spo2)} · RR ${window.VitalIndicators?VitalIndicators.valueMarkup('rr',displayVitals.vitals.rr,lang):value(displayVitals.vitals.rr)}</div>${displayVitals.historicalInputsUsed?`<small class="record-time-note">${t('기록 시각 기준','By chart time')}</small>`:''}${cardCare(c,r)}${equipmentChips(c,r)}<p class="finding-summary">${state(r)}</p><div class="source-meta"><span>${whenMinute(selectedMinute(c,r))}</span><span>${t('후향적 종료 기록 행','Retrospective ended rows')}: ${value(procedureCount(c,r))}</span></div><small>${r===c.rows.at(-1)?t('재생 기록 끝 · ','End of record replay · '):''}${clinicalSourceCase(c).clinical_linked?t('상세 기록 연결됨','Clinical detail linked'):t('관측 재생 · 상세 미연결','Observation replay · Clinical detail unlinked')}</small></button>`}).join('')+'</div>';
+ renderSourceTables(cases);
+ renderRecordPlayback();
+ renderPlanReplay();
+ renderEightBedSummary(slotCases);
+ if(window.StaffSimulation)StaffSimulation.mount({svg:$('#floors .ward-map-viewport > svg'),hospital,unit,lang,planDay:viewPhase==='monthly'?monthlyRow()?.day:null,bedStatuses:viewPhase==='monthly'?monthlyRow()?.beds.map(b=>b.status):null,beds:slotCases.map((c,i)=>({index:i,hasLinkedRecord:!!c}))});
+ syncStaffReplay();
+ if(planReplay.active){const frame=planFrame(),assignment=window.MonthlyReplay.staffAssignment(frame);window.StaffSimulation?.setReplayFrame({...assignment,minute:frame.minute,running:planReplay.timer!==null});$('#clock').textContent=planDateLabel(frame.day)+t(` · ${frame.day}일차 `,` · Day ${frame.day} `)+String(Math.floor(frame.clockMinute/60)).padStart(2,'0')+':'+String(frame.clockMinute%60).padStart(2,'0');const occupiedCount=frame.slots.filter(s=>s.case_id).length,reserved=frame.slots.filter(s=>s.status==='yellow').length,empty=frame.slots.filter(s=>s.status==='empty').length;$('#bedCounts').textContent=t(`10월 ${frame.day}일 · ${frame.day}일차 · 입실 ${occupiedCount} · 예약 ${reserved} · 빈 병상 ${empty}`,`Oct ${frame.day} · Day ${frame.day} · Occupied ${occupiedCount} · Reserved ${reserved} · Empty ${empty}`);}
+ renderPlanTransport();
+ syncUrl();
+}
+
+function openCase(index){selected=index;const c=displayCases()[index],r=at(c),displayVitals=displayVitalSnapshot(c,r);$('#detailTitle').textContent=`${patientLabel(c)} · Digital Twin`;
+ $('#detailBody').innerHTML=`<p class="muted">${esc(clinicalSourceCase(c).dataset)} / ${esc(clinicalSourceCase(c).partition)} · ${c.unit} · ICU + ${r?.minute??Number(time)} min</p><div class="vitals">${Object.entries(names).map(([k,[ko,en,u]])=>`<div class="vital">${t(ko,en)}<strong>${value(displayVitals.vitals[k])}</strong><small>${u} · ${displayVitals.age[k]!=null?t(`${displayVitals.age[k]}분 전 관측`,`${displayVitals.age[k]} min old`):t('미확인','Unknown')}</small></div>`).join('')}</div>${displayVitals.historicalInputsUsed?`<p class="record-time-note">${t('기록 시각 기준 · AI 상담은 당시 가용성이 확인된 자료만 사용합니다.','By chart time · AI consultation uses only evidence with confirmed availability at that time.')}</p>`:''}${PatientDetail.render(c,lang)}${Anatomy.render(c,lang)}<h3>${t('기록 기반 요약','Record-based summary')}</h3><p>${state(r)}. ${t('값은 원본 관측값을 상대 시간에 정렬한 것입니다. 이번 입원 진단은 기록 시각이 없어 후향적으로만 표시하며, 출혈 여부·수술 종류를 임의로 추정하지 않습니다.','Values are source observations aligned to relative admission time. Untimed admission diagnoses are retrospective only. Bleeding and surgery type are not inferred.')}</p><h3>${t('종료 처치 기록','Ended procedure records')}: ${value(procedureCount(c,r))}</h3><p>${t('입실 후 선택 시점까지 종료 시간이 확인된 PROCEDUREEVENTS 기록 행 수입니다. 같은 수술에 여러 기록이 있을 수 있어 독립 처치 건수나 간호사 업무량과 같지 않습니다. 시행 간호사 연결 정보는 없습니다.','Count of PROCEDUREEVENTS rows ending between admission and the selected time. A surgery may have multiple rows; this is not a count of unique procedures or nurse workload. Performing nurses are not mapped.')}</p><details><summary>${t('집계 근거 보기','View counted records')}</summary><ul>${(c.procedures||[]).filter(e=>e.end_min<=(r?.minute??(time==='initial'?0:Number(time)))).map(e=>`<li>${esc(e.itemid)} · ${esc(e.category)} · +${Math.round(e.start_min)}–${Math.round(e.end_min)} min</li>`).join('')||t('이 범위에서 연결된 종료 기록 없음','No linked ended records in this interval')}</ul></details><h3>${t('장비·처치 연결 상태','Device and treatment mapping')}</h3><p>${t('인공호흡기는 원본 ON/OFF 기록으로 확인합니다. 30분 이내 기록만 표시하며, 다른 장비·처치는 아직 연결되지 않아 미확인입니다.','Ventilator status uses explicit source ON/OFF records within 30 minutes. Other treatments and devices remain unmapped and unknown.')}</p><ul>${careNames.map(([ko,en],i)=>`<li>${t(ko,en)}: ${i===3&&support(c,r).devices.ventilator!=null?(support(c,r).devices.ventilator?t('ON 기록','Recorded ON'):t('OFF 기록','Recorded OFF')):t('미확인','Unknown')}</li>`).join('')}</ul><p class="muted">${support(c,r).ventEvidence?esc('CHARTEVENTS · '+support(c,r).ventEvidence.itemid+' · VALUE='+support(c,r).ventEvidence.raw+' · ICU +'+support(c,r).ventEvidence.minute+' min'):''}</p><h3>${t('최근 2시간 관측 추이','Last two hours of observations')}</h3><div id="trends"></div><p class="muted">${t('30분까지만 이전 관측값을 유지하며 이후에는 빈 값으로 표시합니다. 일반 ICU 코드나 수술 플래그만으로 외과 ICU를 추정하지 않습니다. 실제 병상 배치·간호사 배정·CXR는 연결되지 않았습니다.','Prior observations are carried forward for at most 30 minutes, then shown as missing. Surgical ICU is selected by explicit SICU code. Actual bed assignment, staffing and CXR are not linked.')}</p>`;
+ for(const [k,[ko,en,u]] of Object.entries(names)){const idx=r?c.rows.indexOf(r):-1,rows=idx<0?[]:c.rows.slice(0,idx+1).filter(point=>point.minute>=r.minute-120);const valid=rows.filter(x=>x.vitals[k]!=null);const box=document.createElement('div');box.innerHTML=`<b>${t(ko,en)} (${u})</b>`;if(!valid.length)box.insertAdjacentHTML('beforeend',`<p class="muted">${t('해당 구간에 관측값 없음','No observations in this interval')}</p>`);else{let lo=Math.min(...valid.map(x=>x.vitals[k])),hi=Math.max(...valid.map(x=>x.vitals[k]));if(hi===lo){lo-=1;hi+=1}let d='',connected=false;rows.forEach((x,i)=>{if(x.vitals[k]==null){connected=false;return}d+=`${connected?'L':'M'}${10+i*580/Math.max(1,rows.length-1)},${75-(x.vitals[k]-lo)*55/(hi-lo)} `;connected=true;});box.insertAdjacentHTML('beforeend',`<svg class="trend" viewBox="0 0 600 100" role="img" aria-label="${t(ko,en)}"><text x="10" y="10">${hi}</text><path d="${d}"/>${rows.map((x,i)=>window.VitalIndicators?.classify(k,x.vitals[k]).out?`<circle cx="${10+i*580/Math.max(1,rows.length-1)}" cy="${75-(x.vitals[k]-lo)*55/(hi-lo)}" r="4" style="fill:#b42332;stroke:#fff;stroke-width:1"><title>${x.vitals[k]} ${u}</title></circle>`:'').join('')}<text x="10" y="95">+${rows[0].minute} min</text><text x="510" y="95">+${rows.at(-1).minute} min</text></svg>`)}$('#trends').append(box)}
+ const trendBlock=$('#trends'),trendTitle=trendBlock.previousElementSibling;$('#detailBody').querySelector('.vitals').after(trendTitle,trendBlock);
+ PatientDetail.mount($('#detailBody'),clinicalSourceCase(c),r?c.rows.indexOf(r):-1,lang);
+ const chatCase={...clinicalSourceCase(c),display_id:patientLabel(c)}; GroundedChat.mount($('#detailBody'),chatCase,r?c.rows.indexOf(r):-1,lang,next=>{setCaseReplayMinute(c,c.rows[next].minute);render();openCase(index);});
+ if(!$('#detail').open)$('#detail').showModal();$('#close').focus();
+}
+
+function removeLegacyMappingBlock(body){
+ const heading=[...body.querySelectorAll('h3')].find(h=>h.textContent===t('장비·처치 연결 상태','Device and treatment mapping'));if(!heading)return;
+ // Exactly the legacy description, list and source note; never walk into chat.
+ let node=heading.nextElementSibling;for(const tag of ['P','UL','P']){if(!node||node.tagName!==tag)break;const next=node.nextElementSibling;node.remove();node=next;}heading.remove();
+}
+let lastOpener=null;
+const sourceOpenCase=openCase;
+openCase=function(index){
+ pauseRecordPlaybackForDetail();
+ sourceOpenCase(index);
+ const c=displayCases()[index],r=at(c);if(!c)return;
+ const currentVitals=displayVitalSnapshot(c,r).vitals;$('#detailBody').querySelectorAll('.vitals .vital').forEach((el,i)=>{const k=Object.keys(names)[i],flag=window.VitalIndicators?.classify(k,currentVitals[k]);if(!flag)return;el.classList.toggle('vital-out-of-range',flag.out);el.querySelector('strong').innerHTML=VitalIndicators.valueMarkup(k,currentVitals[k],lang);el.title=t('표시 범위: ','Display range: ')+flag.rangeText;});
+ $('#trends').insertAdjacentHTML('afterend',transferDetails(c,r)+equipmentDetails(c,r)+historicalVitalPlots(c,r));
+ const procedureHeading=[...$('#detailBody').querySelectorAll('h3')].find(h=>h.textContent.startsWith(t('종료 처치 기록','Ended procedure records')));
+ if(procedureHeading?.nextElementSibling)procedureHeading.nextElementSibling.insertAdjacentHTML('beforeend',` <strong>${t('후향적 사건 시각 기준 집계입니다. 원본 기록 가용 시각이 미확인인 처치는 당시 알려진 사실로 AI에 전달하지 않습니다.','This count uses retrospective event times. Procedures with unknown record availability are not sent to the AI as facts known at that time.')}</strong>`);
+ // The inherited detail shell predates the additional audited device mappings.
+ removeLegacyMappingBlock($('#detailBody'));
+};
+$('#detail').addEventListener('close',()=>{GroundedChat.close();lastOpener?.isConnected&&lastOpener.focus();});
+$('#close').onclick=()=>$('#detail').close();
+document.querySelectorAll('[data-language]').forEach(b=>b.onclick=()=>{lang=b.dataset.language;render();if($('#detail').open)openCase(selected)});
+$('#prev').onclick=()=>{page--;selected=null;render()};$('#next').onclick=()=>{page++;selected=null;render()};
+$('#time').onchange=e=>applyGlobalReplayTime(e.target.value);
+function changeScope(h,u=''){stopPlanReplay(true);recordPlayback.clear();GroundedChat.close();if($('#detail').open)$('#detail').close();hospital=h;unit=u;page=0;selected=null;render();}
+$('#hospitalScope').onchange=e=>changeScope(e.target.value);
+$('#wardScope').onchange=e=>changeScope(hospital,e.target.value);
+document.addEventListener('click',e=>{const b=e.target.closest('[data-case]');if(b){lastOpener=b;openCase(Number(b.dataset.case));$('#selectedSummary').textContent=patientLabel(displayCases()[Number(b.dataset.case)]);}const h=e.target.closest('[data-hospital]');if(h)changeScope(h.dataset.hospital);});
+$('#detailBody').addEventListener('click',e=>{const b=e.target.closest('[data-checkpoint]');if(!b)return;const caseIndex=Number(b.dataset.checkpointCase),rowIndex=Number(b.dataset.checkpoint),c=displayCases()[caseIndex];if(!c||caseIndex!==selected||!Number.isInteger(rowIndex)||!c.rows[rowIndex])return;GroundedChat.close();setCaseReplayMinute(c,c.rows[rowIndex].minute);render();openCase(caseIndex);});
+$('#floors').addEventListener('keydown',e=>{const b=e.target.closest('[data-case]');if(b&&(e.key==='Enter'||e.key===' ')){e.preventDefault();lastOpener=b;openCase(Number(b.dataset.case));}});
+async function load(){
+ stopPlanReplay(true);
+ recordPlayback.pause(false);renderRecordPlayback();
+ $('#reloadData').disabled=true;$('#error').textContent='';
+ try{const r=await fetch('api/cases',{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);const d=await r.json();if(d.source!=='K-MIMIC'||!d.cases?.length)throw Error('No verified source cases');data=d;page=0;selected=null;if(d.gs_cohort)time='initial';lastLoaded=new Date();render();}
+ catch(e){$('#error').textContent=t('실제 기록을 불러오지 못했습니다. ','Source records unavailable. ')+e.message;}
+ finally{$('#reloadData').disabled=false;}
+}
+$('#reloadData').onclick=()=>{if($('#detail').open)$('#detail').close();load()};
+window.addEventListener('staff-simulation-manual',()=>{stopPlanReplay();recordPlayback.manual();renderRecordPlayback();renderPlanReplay();});
+window.addEventListener('pagehide',()=>{stopPlanReplay(true);recordPlayback.clear();});
+render();load();
+
+/* SICU_PRIVATE_UI_START */
+const SICU_UPDATED_AT="2026-10-16T20:59:58+00:00";
+const SICU_ASSETS={"bed": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAiIGhlaWdodD0iMjM2IiB2aWV3Qm94PSIwIDAgMTYwIDIzNiIgZmlsbD0ibm9uZSIgYXJpYS1oaWRkZW49InRydWUiIGZvY3VzYWJsZT0iZmFsc2UiPjxnPjxnIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTM2IDMyVjE4UTM2IDEyIDQzIDEySDExN1ExMjQgMTIgMTI0IDE4VjMyIiBmaWxsPSJ2YXIoLS1iZWQtaGVhZCwjRDlFNkYzKSIgc3Ryb2tlPSJ2YXIoLS1iZWQtZnJhbWUsIzVCN0M5RSkiIHN0cm9rZS13aWR0aD0iMS41Ii8+PHBhdGggZD0iTTMwIDIwMlYyMTNIMTMwVjIwMiIgZmlsbD0iI0VERjNGOCIgc3Ryb2tlPSJ2YXIoLS1iZWQtZnJhbWUsIzVCN0M5RSkiIHN0cm9rZS13aWR0aD0iMS4zIi8+PGcgZmlsbD0iI0ZGRiIgc3Ryb2tlPSJ2YXIoLS1iZWQtZnJhbWUsIzVCN0M5RSkiIHN0cm9rZS13aWR0aD0iMS40Ij48cmVjdCB4PSIzMSIgeT0iMjA4IiB3aWR0aD0iMTQiIGhlaWdodD0iMTEiIHJ4PSI0Ii8+PHJlY3QgeD0iMTE1IiB5PSIyMDgiIHdpZHRoPSIxNCIgaGVpZ2h0PSIxMSIgcng9IjQiLz48cGF0aCBkPSJNMzggMjEwVjIxN00xMjIgMjEwVjIxNyIvPjwvZz48cmVjdCB4PSIzMCIgeT0iMjUiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTgwIiByeD0iMTMiIGZpbGw9InZhcigtLWJlZC1wbGF0Zm9ybSwjRjVGOEZDKSIgc3Ryb2tlPSJ2YXIoLS1iZWQtZnJhbWUsIzVCN0M5RSkiIHN0cm9rZS13aWR0aD0iMS42Ii8+PHJlY3QgeD0iMzciIHk9IjMyIiB3aWR0aD0iODYiIGhlaWdodD0iMTYxIiByeD0iMTAiIGZpbGw9InZhcigtLWJlZC1tYXR0cmVzcywjRkZGKSIgc3Ryb2tlPSJ2YXIoLS1iZWQtc2VhbSwjQzlEN0U2KSIgc3Ryb2tlLXdpZHRoPSIxLjEiLz48cmVjdCB4PSI0NyIgeT0iNDMiIHdpZHRoPSI2NiIgaGVpZ2h0PSIzMiIgcng9IjkiIGZpbGw9InZhcigtLWJlZC1waWxsb3csI0Y4RkJGRSkiIHN0cm9rZT0idmFyKC0tYmVkLWVkZ2UsIzc4OTZCNCkiIHN0cm9rZS13aWR0aD0iMS4yIi8+PHBhdGggZD0iTTU0IDQ5UTgwIDQ1IDEwNiA0OSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ2YXIoLS1iZWQtc2VhbSwjQzlEN0U2KSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHBhdGggZD0iTTQ0IDg4UTgwIDgyIDExNiA4OFYxNzdRODAgMTgxIDQ0IDE3N1oiIGZpbGw9InZhcigtLWJlZC1jb3ZlciwjRTdGMEY5KSIgc3Ryb2tlPSJ2YXIoLS1iZWQtZWRnZSwjNzg5NkI0KSIgc3Ryb2tlLXdpZHRoPSIxLjE1Ii8+PHBhdGggZD0iTTQ1IDEwMFE4MCA5NiAxMTUgMTAwTTQ4IDE3MFE4MCAxNzMgMTEyIDE3MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ2YXIoLS1iZWQtZWRnZSwjNzg5NkI0KSIgc3Ryb2tlLW9wYWNpdHk9Ii41IiBzdHJva2Utd2lkdGg9IjEuMSIvPjxwYXRoIGQ9Ik01MiAxMDZWMTYzIiBmaWxsPSJub25lIiBzdHJva2U9IiNGRkYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PGcgZmlsbD0idmFyKC0tYmVkLXJhaWwsI0VERjNGQSkiIHN0cm9rZT0idmFyKC0tYmVkLWZyYW1lLCM1QjdDOUUpIiBzdHJva2Utd2lkdGg9IjEuNCI+PHJlY3QgeD0iMjIiIHk9Ijg5IiB3aWR0aD0iNyIgaGVpZ2h0PSI2NiIgcng9IjMuNSIvPjxyZWN0IHg9IjEzMSIgeT0iODkiIHdpZHRoPSI3IiBoZWlnaHQ9IjY2IiByeD0iMy41Ii8+PC9nPjxwYXRoIGQ9Ik0yNS41IDk4VjE0NU0xMzQuNSA5OFYxNDUiIHN0cm9rZT0iI0ZGRiIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSIxMzkiIHk9IjExMSIgd2lkdGg9IjEwIiBoZWlnaHQ9IjI0IiByeD0iMyIgZmlsbD0iI0ZGRiIgc3Ryb2tlPSJ2YXIoLS1iZWQtZnJhbWUsIzVCN0M5RSkiIHN0cm9rZS13aWR0aD0iMS4yIi8+PGNpcmNsZSBjeD0iMTQ0IiBjeT0iMTE4IiByPSIxLjQiIGZpbGw9InZhcigtLWJlZC1hY2NlbnQsIzAxNjBCQSkiLz48cGF0aCBkPSJNMTQyIDEyNEgxNDZNMTQyIDEyOEgxNDYiIHN0cm9rZT0idmFyKC0tYmVkLWVkZ2UsIzc4OTZCNCkiIHN0cm9rZS13aWR0aD0iMSIvPjxwYXRoIGQ9Ik00MCAxOTBIMTIwVjIwMUg0MFoiIGZpbGw9InZhcigtLWJlZC1oZWFkLCNEOUU2RjMpIiBzdHJva2U9InZhcigtLWJlZC1mcmFtZSwjNUI3QzlFKSIgc3Ryb2tlLXdpZHRoPSIxLjM1Ii8+PHBhdGggZD0iTTQ4IDE5NUgxMTIiIHN0cm9rZT0iI0ZGRiIgc3Ryb2tlLXdpZHRoPSIxLjQiLz48L2c+PC9nPjwvc3ZnPg==", "empty": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAiIGhlaWdodD0iMjM2IiB2aWV3Qm94PSIwIDAgMTYwIDIzNiIgZmlsbD0ibm9uZSIgYXJpYS1oaWRkZW49InRydWUiIGZvY3VzYWJsZT0iZmFsc2UiPjxnPjxnIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTM2IDMyVjE4UTM2IDEyIDQzIDEySDExN1ExMjQgMTIgMTI0IDE4VjMyIiBmaWxsPSJ2YXIoLS1iZWQtaGVhZCwjRDlFNkYzKSIgc3Ryb2tlPSJ2YXIoLS1iZWQtZnJhbWUsIzVCN0M5RSkiIHN0cm9rZS13aWR0aD0iMS41Ii8+PHBhdGggZD0iTTMwIDIwMlYyMTNIMTMwVjIwMiIgZmlsbD0iI0VERjNGOCIgc3Ryb2tlPSJ2YXIoLS1iZWQtZnJhbWUsIzVCN0M5RSkiIHN0cm9rZS13aWR0aD0iMS4zIi8+PGcgZmlsbD0iI0ZGRiIgc3Ryb2tlPSJ2YXIoLS1iZWQtZnJhbWUsIzVCN0M5RSkiIHN0cm9rZS13aWR0aD0iMS40Ij48cmVjdCB4PSIzMSIgeT0iMjA4IiB3aWR0aD0iMTQiIGhlaWdodD0iMTEiIHJ4PSI0Ii8+PHJlY3QgeD0iMTE1IiB5PSIyMDgiIHdpZHRoPSIxNCIgaGVpZ2h0PSIxMSIgcng9IjQiLz48cGF0aCBkPSJNMzggMjEwVjIxN00xMjIgMjEwVjIxNyIvPjwvZz48cmVjdCB4PSIzMCIgeT0iMjUiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTgwIiByeD0iMTMiIGZpbGw9InZhcigtLWJlZC1wbGF0Zm9ybSwjRjVGOEZDKSIgc3Ryb2tlPSJ2YXIoLS1iZWQtZnJhbWUsIzVCN0M5RSkiIHN0cm9rZS13aWR0aD0iMS42Ii8+PHJlY3QgeD0iMzciIHk9IjMyIiB3aWR0aD0iODYiIGhlaWdodD0iMTYxIiByeD0iMTAiIGZpbGw9InZhcigtLWJlZC1tYXR0cmVzcywjRkZGKSIgc3Ryb2tlPSJ2YXIoLS1iZWQtc2VhbSwjQzlEN0U2KSIgc3Ryb2tlLXdpZHRoPSIxLjEiLz48cmVjdCB4PSI0NyIgeT0iNDMiIHdpZHRoPSI2NiIgaGVpZ2h0PSIzMiIgcng9IjkiIGZpbGw9InZhcigtLWJlZC1waWxsb3csI0Y4RkJGRSkiIHN0cm9rZT0idmFyKC0tYmVkLWVkZ2UsIzc4OTZCNCkiIHN0cm9rZS13aWR0aD0iMS4yIi8+PHBhdGggZD0iTTU0IDQ5UTgwIDQ1IDEwNiA0OSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ2YXIoLS1iZWQtc2VhbSwjQzlEN0U2KSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHBhdGggZD0iTTQ0IDE1M0gxMTZWMTc4SDQ0WiIgZmlsbD0idmFyKC0tYmVkLWNvdmVyLCNFN0YwRjkpIiBzdHJva2U9InZhcigtLWJlZC1lZGdlLCM3ODk2QjQpIiBzdHJva2Utd2lkdGg9IjEuMSIvPjxwYXRoIGQ9Ik00NSAxNjBIMTE1IiBzdHJva2U9InZhcigtLWJlZC1lZGdlLCM3ODk2QjQpIiBzdHJva2Utb3BhY2l0eT0iLjQ1IiBzdHJva2Utd2lkdGg9IjEuMSIvPjxnIGZpbGw9InZhcigtLWJlZC1yYWlsLCNFREYzRkEpIiBzdHJva2U9InZhcigtLWJlZC1mcmFtZSwjNUI3QzlFKSIgc3Ryb2tlLXdpZHRoPSIxLjQiPjxyZWN0IHg9IjIyIiB5PSI4OSIgd2lkdGg9IjciIGhlaWdodD0iNjYiIHJ4PSIzLjUiLz48cmVjdCB4PSIxMzEiIHk9Ijg5IiB3aWR0aD0iNyIgaGVpZ2h0PSI2NiIgcng9IjMuNSIvPjwvZz48cGF0aCBkPSJNMjUuNSA5OFYxNDVNMTM0LjUgOThWMTQ1IiBzdHJva2U9IiNGRkYiIHN0cm9rZS13aWR0aD0iMS4zIi8+PHJlY3QgeD0iMTM5IiB5PSIxMTEiIHdpZHRoPSIxMCIgaGVpZ2h0PSIyNCIgcng9IjMiIGZpbGw9IiNGRkYiIHN0cm9rZT0idmFyKC0tYmVkLWZyYW1lLCM1QjdDOUUpIiBzdHJva2Utd2lkdGg9IjEuMiIvPjxjaXJjbGUgY3g9IjE0NCIgY3k9IjExOCIgcj0iMS40IiBmaWxsPSJ2YXIoLS1iZWQtYWNjZW50LCMwMTYwQkEpIi8+PHBhdGggZD0iTTE0MiAxMjRIMTQ2TTE0MiAxMjhIMTQ2IiBzdHJva2U9InZhcigtLWJlZC1lZGdlLCM3ODk2QjQpIiBzdHJva2Utd2lkdGg9IjEiLz48cGF0aCBkPSJNNDAgMTkwSDEyMFYyMDFINDBaIiBmaWxsPSJ2YXIoLS1iZWQtaGVhZCwjRDlFNkYzKSIgc3Ryb2tlPSJ2YXIoLS1iZWQtZnJhbWUsIzVCN0M5RSkiIHN0cm9rZS13aWR0aD0iMS4zNSIvPjxwYXRoIGQ9Ik00OCAxOTVIMTEyIiBzdHJva2U9IiNGRkYiIHN0cm9rZS13aWR0aD0iMS40Ii8+PC9nPjwvZz48L3N2Zz4=", "logo": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDY0IDY0IiBmaWxsPSJub25lIiBhcmlhLWhpZGRlbj0idHJ1ZSIgZm9jdXNhYmxlPSJmYWxzZSI+PHBhdGggZD0iTTIzIDhINDFDNDUuNCA4IDQ5IDExLjYgNDkgMTZWNDhDNDkgNTIuNCA0NS40IDU2IDQxIDU2SDIzQzE4LjYgNTYgMTUgNTIuNCAxNSA0OFYxNkMxNSAxMS42IDE4LjYgOCAyMyA4WiIgZmlsbD0iIzBDM0M2RSIvPjxyZWN0IHg9IjIyIiB5PSIxNSIgd2lkdGg9IjIwIiBoZWlnaHQ9IjEyIiByeD0iNCIgZmlsbD0iI0ZGRiIvPjxwYXRoIGQ9Ik0yMiAzNEg0MlY0NkM0MiA0Ny43IDQwLjcgNDkgMzkgNDlIMjVDMjMuMyA0OSAyMiA0Ny43IDIyIDQ2VjM0WiIgZmlsbD0iI0ZGRiIvPjxwYXRoIGQ9Ik0yMiAzNEMyNyAzMi43IDM3IDMyLjcgNDIgMzQiIHN0cm9rZT0iIzAxNjBCQSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTkgMjZWMzlNNTUgMjVWMzgiIHN0cm9rZT0iIzAxNjBCQSIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik00IDMySDlNNTUgMzFINjAiIHN0cm9rZT0iIzAxNjBCQSIgc3Ryb2tlLXdpZHRoPSIyIi8+PGNpcmNsZSBjeD0iMyIgY3k9IjMyIiByPSIyLjUiIGZpbGw9IiMwMTYwQkEiLz48Y2lyY2xlIGN4PSI2MSIgY3k9IjMxIiByPSIyLjUiIGZpbGw9IiMwMTYwQkEiLz48L3N2Zz4="};
+/* Original clinician figures. Upstream owns identity, status and movement.
+ * The four named child nodes remain compatible with the native draw loop.
+ */
+(function (root, factory) {
+  const api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  if (root) root.SICUStaffVisuals = api;
+})(typeof window !== 'undefined' ? window : null, function () {
+  'use strict';
+
+  function escape(value) {
+    return String(value).replace(/[&<>"']/g, function (character) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character];
+    });
+  }
+
+  function uniformColor(staff, isDoctor) {
+    if (isDoctor) return '#FFFFFF';
+    return staff && staff.role === 'charge' ? '#76518F' : '#287B9A';
+  }
+
+  function avatar(staff, isDoctor) {
+    staff = staff || {};
+    const charge = !isDoctor && staff.role === 'charge';
+    const number = String(staff.id || '').match(/\d+$/);
+    const identifier = isDoctor ? 'Dr.' : charge ? 'NC' : number ? 'N' + number[0] : 'N';
+    const role = isDoctor ? 'Physician' : charge ? 'Charge nurse' : 'Nurse';
+    const torso = uniformColor(staff, isDoctor);
+    // Hair identifies the role consistently in the map, legend and nurse sheet.
+    const hairStyle = charge ? 'bun' : 'bob';
+    const originalOutline = 'M0-1.5c-.34 0-.58.27-.58.6 0 .27.13.45.3.54v.06C-.76-.2-1 .05-1 .43V.7q0 .12.14.12H.86Q1 .82 1 .7V.43C1 .05.76-.2.28-.3v-.06C.45-.45.58-.63.58-.9.58-1.23.34-1.5 0-1.5Z';
+    const outline = isDoctor ? originalOutline : hairStyle === 'bun'
+      ? 'M0-1.55c-.37 0-.63.28-.63.65 0 .28.16.48.35.56v.04C-.76-.2-1 .05-1 .43V.7q0 .12.14.12H.86Q1 .82 1 .7V.43C1 .05.76-.2.28-.3v-.04q.2-.1.27-.31c.25.04.4-.1.4-.32 0-.21-.15-.34-.37-.32C.5-1.43.29-1.55 0-1.55Z'
+      : 'M0-1.55c-.4 0-.67.27-.67.66l-.06.53q.23.13.45.02v.04C-.76-.2-1 .05-1 .43V.7q0 .12.14.12H.86Q1 .82 1 .7V.43C1 .05.76-.2.28-.3v-.04q.22.11.45-.02L.67-.89c0-.39-.27-.66-.67-.66Z';
+    const hairBack = isDoctor ? '' : hairStyle === 'bun'
+      ? '<path class="sicu-clinician-hair-back sicu-nurse-bun" d="M.4-.97c0-.18.11-.28.27-.28s.26.1.26.28-.1.28-.26.28S.4-.79.4-.97Z" fill="#173F68"/><path class="sicu-nurse-hair-seam" d="M.69-1.12q.13.12.01.29" fill="none" stroke="#6585A4" stroke-width=".045" stroke-linecap="round"/>'
+      : '<path class="sicu-clinician-hair-back sicu-nurse-bob" d="M-.6-.97q0-.52.6-.52t.6.52l.07.56q-.18.13-.41.02h-.52q-.23.11-.41-.02Z" fill="#173F68"/>';
+    const hairFront = isDoctor
+      ? '<path class="sicu-clinician-cap" d="M-.49-1.02q-.01-.47.49-.47t.49.47Q.25-1.15 0-1.15t-.49.13Z" fill="#173F68"/>'
+      : hairStyle === 'bun'
+        ? '<path class="sicu-clinician-hair-front" d="M-.51-.96c-.02-.37.16-.54.51-.54s.53.22.53.54v.22L.4-.81l-.07-.27Q.08-1.08-.08-1.29q-.14.26-.43.33Z" fill="#173F68"/><path class="sicu-nurse-hair-part" d="M-.08-1.29q.21-.12.4.08" fill="none" stroke="#6585A4" stroke-width=".045" stroke-linecap="round"/>'
+        : '<path class="sicu-clinician-hair-front" d="M-.55-1q0-.5.55-.5t.55.5v.45L.38-.66l-.08-.4Q.04-1.11-.12-1.31q-.14.28-.43.31Z" fill="#173F68"/><path class="sicu-nurse-hair-part" d="M-.12-1.31q.2-.1.39.06" fill="none" stroke="#6585A4" stroke-width=".045" stroke-linecap="round"/>';
+    const coat = isDoctor
+      ? '<path class="sicu-clinician-coat" d="M-.22-.26 0 .11.22-.26M-.34-.2-.19.16 0 .31.19.16.34-.2M0 .31V.7" fill="none" stroke="#8CA5BC" stroke-width=".055"/>' +
+        '<path class="sicu-clinician-stethoscope" d="M-.27-.21V.13Q-.27.39 0 .39T.27.13V-.21M0 .39V.52Q0 .65.16.65H.31" fill="none" stroke="#315F89" stroke-width=".07"/>' +
+        '<path class="sicu-clinician-chestpiece" d="M.43.65a.12.12 0 1 1-.24 0 .12.12 0 1 1 .24 0Z" fill="#E9F1F8" stroke="#315F89" stroke-width=".055"/>'
+      : '<path class="sicu-clinician-collar" d="M-.23-.25 0-.02.23-.25" fill="none" stroke="#FFFFFF" stroke-width=".095"/>' +
+        '<path class="sicu-clinician-pocket" d="M.32.23h.24v.19H.32Z" fill="#FFFFFF" fill-opacity=".2" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".035"/>';
+    const leader = charge
+      ? '<path class="sicu-charge-badge" d="m.46-.13.19-.07.19.07v.2Q.84.25.65.32.46.25.46.07Z" fill="#E0B963" stroke="#FFFFFF" stroke-width=".035"/>' +
+        '<path class="sicu-charge-badge-mark" d="m.55.05.07.07.13-.14" fill="none" stroke="#193F66" stroke-width=".055"/>'
+      : '';
+
+    return '<g class="staff-avatar sicu-staff-avatar" data-clinician-role="' + (isDoctor ? 'physician' : charge ? 'charge' : 'nurse') + '" data-visual-style="' + (isDoctor ? 'classic' : hairStyle) + '">' +
+      '<title>' + escape(role + ' · ' + (staff.id || 'Fictional staff')) + '</title>' +
+      '<path class="avatar-care" d="' + outline + '" fill="#FFFFFF" stroke="#BACCDD" stroke-width=".105" stroke-linejoin="round"/>' +
+      hairBack +
+      '<path class="avatar-scrubs" d="M-.24-.28h.48l.36.15Q.87-.02.87.29V.7H-.87V.29q0-.31.27-.42Z" fill="' + torso + '" stroke="#476C8D" stroke-width=".055" stroke-linejoin="round"/>' +
+      '<path class="sicu-clinician-neck" d="M-.16-.58h.32v.28L0-.1-.16-.3Z" fill="#EAF1F8"/>' +
+      '<path class="sicu-clinician-face" d="M-.46-1.02q0-.43.46-.43t.46.43v.13c0 .3-.18.48-.46.48s-.46-.18-.46-.48Z" fill="#EAF1F8" stroke="#456A8D" stroke-width=".055"/>' +
+      hairFront +
+      '<path class="sicu-clinician-face-line" d="M-.15-.64q.15.08.3 0" fill="none" stroke="#91A9C0" stroke-width=".045" stroke-linecap="round"/>' +
+      coat + leader +
+      '<path class="sicu-staff-id-surface" d="M-.6.8h1.2q.15 0 .15.15v.28q0 .15-.15.15H-.6q-.15 0-.15-.15V.95q0-.15.15-.15Z" fill="#153F6A" stroke="#FFFFFF" stroke-width=".035"/>' +
+      '<text class="staff-glyph sicu-staff-id" x="0" y="1.225" fill="#FFFFFF" text-anchor="middle" font-size=".5" font-weight="700" font-family="Pretendard,Arial,sans-serif" letter-spacing="0">' + escape(identifier) + '</text>' +
+      '</g>';
+  }
+
+  return Object.freeze({ avatar: avatar, uniformColor: uniformColor });
+});
+
+/* Quiet architectural plan symbols. Original SVG artwork, rendered in currentColor. */
+(function (root, factory) {
+  const api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  if (root) root.SICUSpatialSymbols = api;
+})(typeof window !== 'undefined' ? window : null, function () {
+  'use strict';
+
+  function svg(width, height, viewBox, drawing) {
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="' + width + '" height="' + height + '" viewBox="' + viewBox + '" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + drawing + '</svg>';
+  }
+
+  function bed(options) {
+    options = options || {};
+    const occupied = options.occupied !== false;
+    const orientation = options.orientation === 'south' ? 'rotate(180 50 70)' : '';
+    const linen = occupied
+      ? '<path d="M29 55c12-3 30-3 42 0v47a5 5 0 0 1-5 5H34a5 5 0 0 1-5-5V55Z" fill="var(--bed-blanket, currentColor)" fill-opacity=".085" stroke-opacity=".55" stroke-width="1.4"/><path d="M30 62h40" stroke-opacity=".32" stroke-width="1.1"/>'
+      : '<path d="M30 60h40m-40 8h40" stroke-opacity=".18" stroke-width="1.1"/>';
+    return svg(100, 140, '0 0 100 140',
+      '<g transform="' + orientation + '">' +
+      '<path d="M29 17v-3m42 3v-3M29 123v4m42-4v4" stroke-width="2.2" stroke-opacity=".65"/>' +
+      '<rect x="22" y="18" width="56" height="105" rx="7" stroke-width="1.8"/>' +
+      '<rect x="27" y="24" width="46" height="91" rx="5" fill="var(--bed-mattress, #fff)" stroke-width="1.1" stroke-opacity=".38"/>' +
+      '<rect x="31" y="29" width="38" height="20" rx="5" fill="var(--bed-pillow, currentColor)" fill-opacity=".055" stroke-width="1.25" stroke-opacity=".6"/>' +
+      linen +
+      '<path d="M17 48v39m66-39v39" stroke-width="2.1" stroke-opacity=".7"/>' +
+      '<path d="M17 53h5m-5 29h5m56-29h5m-5 29h5" stroke-width="1.1" stroke-opacity=".4"/>' +
+      '<path d="M29 119h42" stroke-width="1.6" stroke-opacity=".55"/>' +
+      '</g>');
+  }
+
+  function door(options) {
+    options = options || {};
+    const mirrorX = options.hinge === 'right';
+    const mirrorY = options.opening === 'down';
+    const transform = 'translate(' + (mirrorX ? '24' : '0') + ' ' + (mirrorY ? '24' : '0') + ') scale(' + (mirrorX ? '-1' : '1') + ' ' + (mirrorY ? '-1' : '1') + ')';
+    return svg(24, 24, '0 0 24 24',
+      '<g transform="' + transform + '">' +
+      '<path d="M20 20A16 16 0 0 0 4 4" stroke-width=".9" stroke-opacity=".48"/>' +
+      '<path d="M4 20V4" stroke-width="1.6"/>' +
+      '<path d="M1 20h3m16 0h3" stroke-width="2.2"/>' +
+      '<circle cx="4" cy="20" r="1" fill="currentColor" stroke="none"/>' +
+      '</g>');
+  }
+
+  function station() {
+    return svg(120, 45, '0 0 120 45',
+      '<path d="M9 9h102a3 3 0 0 1 3 3v20H6V12a3 3 0 0 1 3-3Z" fill="var(--station-surface, currentColor)" fill-opacity=".035" stroke-width="1.4"/>' +
+      '<path d="M6 32h108M11 36h98" stroke-width="1.1" stroke-opacity=".42"/>' +
+      '<path d="M44 10v21m32-21v21" stroke-width=".9" stroke-opacity=".24"/>' +
+      '<g stroke-width="1.2" stroke-opacity=".68">' +
+      '<rect x="20" y="14" width="15" height="9" rx="1.5"/><path d="M27.5 23v3m-4 0h8"/>' +
+      '<rect x="53" y="14" width="15" height="9" rx="1.5"/><path d="M60.5 23v3m-4 0h8"/>' +
+      '<rect x="86" y="14" width="15" height="9" rx="1.5"/><path d="M93.5 23v3m-4 0h8"/>' +
+      '</g>' +
+      '<path d="M22 4h10m23 0h10m23 0h10" stroke-width="2" stroke-opacity=".38"/>');
+  }
+
+  return Object.freeze({ bed: bed, door: door, station: station });
+});
+
+/* SICU LINK presentation adapter. No fetch, clinical inference or data replacement.
+ * The existing clinical controller owns all patient IDs, observations, replay and API calls.
+ */
+(function(){
+ 'use strict';
+ const q=s=>document.querySelector(s),NS='http://www.w3.org/2000/svg';
+ let view='ward',historyOpen=false;
+ const label=(ko,en)=>lang==='en'?en:ko;
+ const labels={ward:['병동 현황','Ward'],patients:['환자 목록 · 검사','Patients & tests'],planning:['31일 운영 계획','31-day plan'],sources:['데이터 연결','Data connection']};
+ function node(tag,attrs={}){const el=document.createElementNS(NS,tag);for(const [k,v]of Object.entries(attrs))el.setAttribute(k,v);return el;}
+ function setView(next){
+  if(!Object.hasOwn(labels,next))return;
+  view=next;document.body.dataset.sicuView=view;
+  if(view==='planning')q('#workbookPlan').open=true;
+  if(view==='sources')q('.research-notes').open=true;
+  syncLabels();
+ }
+ function syncLabels(){
+  const updated=q('#refreshStamp span:last-child time');if(updated)updated.textContent=new Date(SICU_UPDATED_AT).toLocaleString(lang==='en'?'en-GB':'ko-KR',{timeZone:'Asia/Seoul'})+' KST';
+  q('#sicuViewTitle').textContent=label(...labels[view]);
+  q('#sicuSubtitle').textContent=label('환자 상태 · 간호 지원 · 이송 흐름','Patient status · Care support · Transfers');
+  q('#sicuIdentity').textContent=label('K-MIMIC · GS 환자 기록','K-MIMIC · GS patient records');
+  for(const b of document.querySelectorAll('#sicuNav [data-sicu-view]')){b.textContent=label(...labels[b.dataset.sicuView]);b.setAttribute('aria-pressed',String(b.dataset.sicuView===view));}
+  q('#sicuToolsLabel').textContent=label('시점·시연 설정','Time & simulation settings');
+  q('#sicuClinicalToolsLabel').textContent=label('개별 환자 기록 재생','Patient record replay');
+  q('#sicuStaffToolsLabel').textContent=label('간호사·의사 수동 시연','Manual staff simulation');
+  q('#sicuKey').textContent=label('RED 전실 보류 · BLUE 검토 · GREEN 후보 · 노랑 예약 · 회색 빈 병상 — 월간표 시나리오 색상','RED hold · BLUE review · GREEN candidate · Yellow reserved · Gray empty — monthly scenario colors');
+ }
+ function init(){
+  if(q('#sicuNav'))return;
+  document.body.classList.add('sicu-private');document.body.dataset.sicuView='ward';
+  const header=q('body > header'),brand=document.createElement('a');brand.className='sicu-brand';brand.href='#ward';brand.setAttribute('aria-label','SICU LINK');
+  brand.innerHTML='<img alt="" src="'+SICU_ASSETS.logo+'"><span>SICU <b>LINK</b><small>TEAM 4</small></span>';
+  brand.onclick=e=>{e.preventDefault();setView('ward');window.scrollTo({top:0,behavior:'smooth'});};
+  const identity=document.createElement('span');identity.id='sicuIdentity';identity.className='sicu-identity';
+  header.prepend(brand,identity);
+  const nav=document.createElement('nav');nav.id='sicuNav';nav.setAttribute('aria-label','Workspace');
+  for(const key of Object.keys(labels)){const b=document.createElement('button');b.type='button';b.dataset.sicuView=key;b.onclick=()=>setView(key);nav.append(b);}
+  header.after(nav);
+  const heading=document.createElement('section');heading.id='sicuHeading';heading.innerHTML='<div><span class="sicu-eyebrow">SURGICAL ICU · CARE COORDINATION</span><h1 id="sicuViewTitle"></h1><p id="sicuSubtitle"></p></div><div id="sicuCounters"></div>';
+  nav.after(heading);q('#sicuCounters').append(q('#bedCounts'));
+  q('.scenario-card').hidden=true;
+  const controls=document.createElement('details');controls.id='sicuTools';controls.innerHTML='<summary id="sicuToolsLabel"></summary>';
+  q('.scopebar').append(controls);controls.append(q('#simulationControls'));q('#simulationControls').open=true;
+  const stamp=q('#refreshStamp');nav.before(stamp);
+  const info=document.createElement('footer');info.id='sicuFooter';document.body.append(info);info.append(q('#notice'),q('#src'));
+  const record=document.createElement('details');record.id='sicuRecordTools';record.innerHTML='<summary id="sicuClinicalToolsLabel"></summary>';q('#recordPlayback').before(record);record.append(q('#recordPlayback'));
+  const staff=document.createElement('details');staff.id='sicuStaffTools';staff.innerHTML='<summary id="sicuStaffToolsLabel"></summary>';record.after(staff);controls.append(record,staff);record.append(q('#slots'));
+  const key=document.createElement('p');key.id='sicuKey';q('#floors').before(key);
+  q('#showMonthlyPlan').addEventListener('click',()=>setView('planning'));
+  q('#showCasePool').addEventListener('click',()=>setView('patients'));
+  q('#planTable').addEventListener('click',e=>{if(e.target.closest('[data-monthly-row]'))setView('ward');});
+  syncLabels();
+ }
+ function decorateMap(){
+  const svg=q('#floors .ward-map-viewport > svg');if(!svg)return;
+  for(const bed of svg.querySelectorAll('[data-map-bed]')){
+   if(bed.dataset.sicuDecorated)continue;bed.dataset.sicuDecorated='true';
+   const i=Number(bed.dataset.mapBed),x=4+i%4*8,y=i<4?2.2:19.8,rect=bed.querySelector('.bed');
+   rect.style.stroke=rect.style.fill;rect.style.fillOpacity=bed.dataset.mapStatus==='empty'?'0.65':bed.dataset.mapStatus==='reserved'?'0.75':'0.13';
+   const occupied=bed.hasAttribute('data-case'),img=node('image',{href:occupied?SICU_ASSETS.bed:SICU_ASSETS.empty,x:x+.8,y:y-1.7,width:2.5,height:3.35,'pointer-events':'none'});bed.append(img);
+   if(occupied){const head=node('ellipse',{cx:x+2.05,cy:y-.85,rx:.26,ry:.21,fill:'#c6d7e9',stroke:'#577a9e','stroke-width':'.04','pointer-events':'none'});bed.append(head);}
+   const icons=bed.querySelector('.bed-care-icons');if(icons){icons.setAttribute('transform',`translate(${x-3.15} ${y-1.45}) scale(1.1)`);Array.from(icons.children).forEach((icon,n)=>icon.setAttribute('transform',`translate(${n%3*.97} ${Math.floor(n/3)*.91})`));}
+   const equipment=bed.querySelector('.bed-equipment-summary');if(equipment){equipment.setAttribute('x',x-3.15);equipment.setAttribute('y',y+.83);equipment.setAttribute('text-anchor','start');const full=equipment.textContent;equipment.textContent=full.length>23?full.slice(0,22)+'…':full;const title=node('title');title.textContent=full;equipment.append(title);}
+   const state=bed.querySelector('.bed-t');state.setAttribute('x',x-3.15);state.setAttribute('y',y+1.42);state.setAttribute('text-anchor','start');
+  }
+  if(!svg.querySelector('.sicu-station')){const g=node('g',{class:'sicu-station','pointer-events':'none'});g.innerHTML=SICUSpatialSymbols.station();const inner=g.querySelector('svg');inner.setAttribute('x','12');inner.setAttribute('y','8');inner.setAttribute('width','8');inner.setAttribute('height','2.4');const txt=node('text',{x:16,y:10.65,'text-anchor':'middle','font-size':'.42',fill:'#5e7690'});txt.textContent=label('간호 스테이션','Nursing station');g.append(txt);svg.insertBefore(g,svg.querySelector('[data-map-bed]'));}
+  for(const person of svg.querySelectorAll('[data-sim-staff]')){
+   const old=person.querySelector('.staff-avatar');if(!old||old.classList.contains('sicu-staff-avatar'))continue;
+   const id=person.dataset.simStaff,doctor=id==='Dr.',charge=id==='NC',holder=node('g');holder.innerHTML=SICUStaffVisuals.avatar({id,role:charge?'charge':doctor?'doctor':'nurse'},doctor);
+   const avatar=holder.firstElementChild;
+   if(id==='N2'||id==='N4'){
+    avatar.querySelector('.sicu-clinician-hair-back')?.remove();
+    const hair=avatar.querySelector('.sicu-clinician-hair-front');
+    if(hair)hair.setAttribute('d','M-.49-1.02q-.01-.47.49-.47t.49.47Q.25-1.15 0-1.15t-.49.13Z');
+    avatar.querySelector('.sicu-nurse-hair-part')?.remove();
+    avatar.dataset.character='male';
+   }else avatar.dataset.character=doctor?'male':'female';
+   // Preserve upstream work-state fill and care-history outline.
+   for(const [selector,attr] of [['.avatar-scrubs','fill'],['.avatar-care','stroke-dasharray']]){const v=old.querySelector(selector)?.getAttribute(attr);if(v)avatar.querySelector(selector).setAttribute(attr,v);}
+   old.replaceWith(avatar);
+  }
+ }
+ function sync(){init();syncLabels();const monthly=q('#monthlyReplay');if(monthly&&!monthly.classList.contains('sicu-monthly')){monthly.classList.add('sicu-monthly');q('main').before(monthly);}
+  const events=monthly?.querySelector('details');if(events&&!events.dataset.sicuHistory){events.dataset.sicuHistory='true';events.open=historyOpen;events.addEventListener('toggle',()=>{historyOpen=events.open;});}
+  const staff=q('#staffSimulationPanel');if(staff&&staff.parentElement!==q('#sicuStaffTools'))q('#sicuStaffTools').append(staff);
+  decorateMap();
+ }
+ const upstreamRender=render;
+ render=function(){const result=upstreamRender.apply(this,arguments);sync();return result;};
+ window.SICUPrivateUI=Object.freeze({sync,setView});sync();
+})();
