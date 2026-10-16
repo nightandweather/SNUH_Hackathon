@@ -54,3 +54,7 @@ html='''<!doctype html><html lang="ko" data-theme="light"><head><meta charset="u
 (root/'static/shared-clinical.html').write_text(html)
 (root/'static/shared-shell-version.json').write_text(json.dumps({'source':'canonical public presentation','source_sha256':hashlib.sha256(source.encode()).hexdigest(),'private_ui_version':'shared-clinical-v3-source-frame','updated_at':updated_at},indent=2))
 print('Built private shared shell from canonical presentation; clinical data remains API-only.')
+
+# Keep the approved SICU LINK visual adapter on regeneration.
+from build_sicu_private_shell import bundle as bundle_sicu
+bundle_sicu(root)

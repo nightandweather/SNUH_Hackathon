@@ -351,3 +351,232 @@ $('#reloadData').onclick=()=>{if($('#detail').open)$('#detail').close();load()};
 window.addEventListener('staff-simulation-manual',()=>{stopPlanReplay();recordPlayback.manual();renderRecordPlayback();renderPlanReplay();});
 window.addEventListener('pagehide',()=>{stopPlanReplay(true);recordPlayback.clear();});
 render();load();
+
+/* SICU_PRIVATE_UI_START */
+const SICU_UPDATED_AT="2026-10-16T20:59:58+00:00";
+const SICU_ASSETS={"bed": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAiIGhlaWdodD0iMjM2IiB2aWV3Qm94PSIwIDAgMTYwIDIzNiIgZmlsbD0ibm9uZSIgYXJpYS1oaWRkZW49InRydWUiIGZvY3VzYWJsZT0iZmFsc2UiPjxnPjxnIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTM2IDMyVjE4UTM2IDEyIDQzIDEySDExN1ExMjQgMTIgMTI0IDE4VjMyIiBmaWxsPSJ2YXIoLS1iZWQtaGVhZCwjRDlFNkYzKSIgc3Ryb2tlPSJ2YXIoLS1iZWQtZnJhbWUsIzVCN0M5RSkiIHN0cm9rZS13aWR0aD0iMS41Ii8+PHBhdGggZD0iTTMwIDIwMlYyMTNIMTMwVjIwMiIgZmlsbD0iI0VERjNGOCIgc3Ryb2tlPSJ2YXIoLS1iZWQtZnJhbWUsIzVCN0M5RSkiIHN0cm9rZS13aWR0aD0iMS4zIi8+PGcgZmlsbD0iI0ZGRiIgc3Ryb2tlPSJ2YXIoLS1iZWQtZnJhbWUsIzVCN0M5RSkiIHN0cm9rZS13aWR0aD0iMS40Ij48cmVjdCB4PSIzMSIgeT0iMjA4IiB3aWR0aD0iMTQiIGhlaWdodD0iMTEiIHJ4PSI0Ii8+PHJlY3QgeD0iMTE1IiB5PSIyMDgiIHdpZHRoPSIxNCIgaGVpZ2h0PSIxMSIgcng9IjQiLz48cGF0aCBkPSJNMzggMjEwVjIxN00xMjIgMjEwVjIxNyIvPjwvZz48cmVjdCB4PSIzMCIgeT0iMjUiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTgwIiByeD0iMTMiIGZpbGw9InZhcigtLWJlZC1wbGF0Zm9ybSwjRjVGOEZDKSIgc3Ryb2tlPSJ2YXIoLS1iZWQtZnJhbWUsIzVCN0M5RSkiIHN0cm9rZS13aWR0aD0iMS42Ii8+PHJlY3QgeD0iMzciIHk9IjMyIiB3aWR0aD0iODYiIGhlaWdodD0iMTYxIiByeD0iMTAiIGZpbGw9InZhcigtLWJlZC1tYXR0cmVzcywjRkZGKSIgc3Ryb2tlPSJ2YXIoLS1iZWQtc2VhbSwjQzlEN0U2KSIgc3Ryb2tlLXdpZHRoPSIxLjEiLz48cmVjdCB4PSI0NyIgeT0iNDMiIHdpZHRoPSI2NiIgaGVpZ2h0PSIzMiIgcng9IjkiIGZpbGw9InZhcigtLWJlZC1waWxsb3csI0Y4RkJGRSkiIHN0cm9rZT0idmFyKC0tYmVkLWVkZ2UsIzc4OTZCNCkiIHN0cm9rZS13aWR0aD0iMS4yIi8+PHBhdGggZD0iTTU0IDQ5UTgwIDQ1IDEwNiA0OSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ2YXIoLS1iZWQtc2VhbSwjQzlEN0U2KSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHBhdGggZD0iTTQ0IDg4UTgwIDgyIDExNiA4OFYxNzdRODAgMTgxIDQ0IDE3N1oiIGZpbGw9InZhcigtLWJlZC1jb3ZlciwjRTdGMEY5KSIgc3Ryb2tlPSJ2YXIoLS1iZWQtZWRnZSwjNzg5NkI0KSIgc3Ryb2tlLXdpZHRoPSIxLjE1Ii8+PHBhdGggZD0iTTQ1IDEwMFE4MCA5NiAxMTUgMTAwTTQ4IDE3MFE4MCAxNzMgMTEyIDE3MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ2YXIoLS1iZWQtZWRnZSwjNzg5NkI0KSIgc3Ryb2tlLW9wYWNpdHk9Ii41IiBzdHJva2Utd2lkdGg9IjEuMSIvPjxwYXRoIGQ9Ik01MiAxMDZWMTYzIiBmaWxsPSJub25lIiBzdHJva2U9IiNGRkYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PGcgZmlsbD0idmFyKC0tYmVkLXJhaWwsI0VERjNGQSkiIHN0cm9rZT0idmFyKC0tYmVkLWZyYW1lLCM1QjdDOUUpIiBzdHJva2Utd2lkdGg9IjEuNCI+PHJlY3QgeD0iMjIiIHk9Ijg5IiB3aWR0aD0iNyIgaGVpZ2h0PSI2NiIgcng9IjMuNSIvPjxyZWN0IHg9IjEzMSIgeT0iODkiIHdpZHRoPSI3IiBoZWlnaHQ9IjY2IiByeD0iMy41Ii8+PC9nPjxwYXRoIGQ9Ik0yNS41IDk4VjE0NU0xMzQuNSA5OFYxNDUiIHN0cm9rZT0iI0ZGRiIgc3Ryb2tlLXdpZHRoPSIxLjMiLz48cmVjdCB4PSIxMzkiIHk9IjExMSIgd2lkdGg9IjEwIiBoZWlnaHQ9IjI0IiByeD0iMyIgZmlsbD0iI0ZGRiIgc3Ryb2tlPSJ2YXIoLS1iZWQtZnJhbWUsIzVCN0M5RSkiIHN0cm9rZS13aWR0aD0iMS4yIi8+PGNpcmNsZSBjeD0iMTQ0IiBjeT0iMTE4IiByPSIxLjQiIGZpbGw9InZhcigtLWJlZC1hY2NlbnQsIzAxNjBCQSkiLz48cGF0aCBkPSJNMTQyIDEyNEgxNDZNMTQyIDEyOEgxNDYiIHN0cm9rZT0idmFyKC0tYmVkLWVkZ2UsIzc4OTZCNCkiIHN0cm9rZS13aWR0aD0iMSIvPjxwYXRoIGQ9Ik00MCAxOTBIMTIwVjIwMUg0MFoiIGZpbGw9InZhcigtLWJlZC1oZWFkLCNEOUU2RjMpIiBzdHJva2U9InZhcigtLWJlZC1mcmFtZSwjNUI3QzlFKSIgc3Ryb2tlLXdpZHRoPSIxLjM1Ii8+PHBhdGggZD0iTTQ4IDE5NUgxMTIiIHN0cm9rZT0iI0ZGRiIgc3Ryb2tlLXdpZHRoPSIxLjQiLz48L2c+PC9nPjwvc3ZnPg==", "empty": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAiIGhlaWdodD0iMjM2IiB2aWV3Qm94PSIwIDAgMTYwIDIzNiIgZmlsbD0ibm9uZSIgYXJpYS1oaWRkZW49InRydWUiIGZvY3VzYWJsZT0iZmFsc2UiPjxnPjxnIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTM2IDMyVjE4UTM2IDEyIDQzIDEySDExN1ExMjQgMTIgMTI0IDE4VjMyIiBmaWxsPSJ2YXIoLS1iZWQtaGVhZCwjRDlFNkYzKSIgc3Ryb2tlPSJ2YXIoLS1iZWQtZnJhbWUsIzVCN0M5RSkiIHN0cm9rZS13aWR0aD0iMS41Ii8+PHBhdGggZD0iTTMwIDIwMlYyMTNIMTMwVjIwMiIgZmlsbD0iI0VERjNGOCIgc3Ryb2tlPSJ2YXIoLS1iZWQtZnJhbWUsIzVCN0M5RSkiIHN0cm9rZS13aWR0aD0iMS4zIi8+PGcgZmlsbD0iI0ZGRiIgc3Ryb2tlPSJ2YXIoLS1iZWQtZnJhbWUsIzVCN0M5RSkiIHN0cm9rZS13aWR0aD0iMS40Ij48cmVjdCB4PSIzMSIgeT0iMjA4IiB3aWR0aD0iMTQiIGhlaWdodD0iMTEiIHJ4PSI0Ii8+PHJlY3QgeD0iMTE1IiB5PSIyMDgiIHdpZHRoPSIxNCIgaGVpZ2h0PSIxMSIgcng9IjQiLz48cGF0aCBkPSJNMzggMjEwVjIxN00xMjIgMjEwVjIxNyIvPjwvZz48cmVjdCB4PSIzMCIgeT0iMjUiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTgwIiByeD0iMTMiIGZpbGw9InZhcigtLWJlZC1wbGF0Zm9ybSwjRjVGOEZDKSIgc3Ryb2tlPSJ2YXIoLS1iZWQtZnJhbWUsIzVCN0M5RSkiIHN0cm9rZS13aWR0aD0iMS42Ii8+PHJlY3QgeD0iMzciIHk9IjMyIiB3aWR0aD0iODYiIGhlaWdodD0iMTYxIiByeD0iMTAiIGZpbGw9InZhcigtLWJlZC1tYXR0cmVzcywjRkZGKSIgc3Ryb2tlPSJ2YXIoLS1iZWQtc2VhbSwjQzlEN0U2KSIgc3Ryb2tlLXdpZHRoPSIxLjEiLz48cmVjdCB4PSI0NyIgeT0iNDMiIHdpZHRoPSI2NiIgaGVpZ2h0PSIzMiIgcng9IjkiIGZpbGw9InZhcigtLWJlZC1waWxsb3csI0Y4RkJGRSkiIHN0cm9rZT0idmFyKC0tYmVkLWVkZ2UsIzc4OTZCNCkiIHN0cm9rZS13aWR0aD0iMS4yIi8+PHBhdGggZD0iTTU0IDQ5UTgwIDQ1IDEwNiA0OSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ2YXIoLS1iZWQtc2VhbSwjQzlEN0U2KSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHBhdGggZD0iTTQ0IDE1M0gxMTZWMTc4SDQ0WiIgZmlsbD0idmFyKC0tYmVkLWNvdmVyLCNFN0YwRjkpIiBzdHJva2U9InZhcigtLWJlZC1lZGdlLCM3ODk2QjQpIiBzdHJva2Utd2lkdGg9IjEuMSIvPjxwYXRoIGQ9Ik00NSAxNjBIMTE1IiBzdHJva2U9InZhcigtLWJlZC1lZGdlLCM3ODk2QjQpIiBzdHJva2Utb3BhY2l0eT0iLjQ1IiBzdHJva2Utd2lkdGg9IjEuMSIvPjxnIGZpbGw9InZhcigtLWJlZC1yYWlsLCNFREYzRkEpIiBzdHJva2U9InZhcigtLWJlZC1mcmFtZSwjNUI3QzlFKSIgc3Ryb2tlLXdpZHRoPSIxLjQiPjxyZWN0IHg9IjIyIiB5PSI4OSIgd2lkdGg9IjciIGhlaWdodD0iNjYiIHJ4PSIzLjUiLz48cmVjdCB4PSIxMzEiIHk9Ijg5IiB3aWR0aD0iNyIgaGVpZ2h0PSI2NiIgcng9IjMuNSIvPjwvZz48cGF0aCBkPSJNMjUuNSA5OFYxNDVNMTM0LjUgOThWMTQ1IiBzdHJva2U9IiNGRkYiIHN0cm9rZS13aWR0aD0iMS4zIi8+PHJlY3QgeD0iMTM5IiB5PSIxMTEiIHdpZHRoPSIxMCIgaGVpZ2h0PSIyNCIgcng9IjMiIGZpbGw9IiNGRkYiIHN0cm9rZT0idmFyKC0tYmVkLWZyYW1lLCM1QjdDOUUpIiBzdHJva2Utd2lkdGg9IjEuMiIvPjxjaXJjbGUgY3g9IjE0NCIgY3k9IjExOCIgcj0iMS40IiBmaWxsPSJ2YXIoLS1iZWQtYWNjZW50LCMwMTYwQkEpIi8+PHBhdGggZD0iTTE0MiAxMjRIMTQ2TTE0MiAxMjhIMTQ2IiBzdHJva2U9InZhcigtLWJlZC1lZGdlLCM3ODk2QjQpIiBzdHJva2Utd2lkdGg9IjEiLz48cGF0aCBkPSJNNDAgMTkwSDEyMFYyMDFINDBaIiBmaWxsPSJ2YXIoLS1iZWQtaGVhZCwjRDlFNkYzKSIgc3Ryb2tlPSJ2YXIoLS1iZWQtZnJhbWUsIzVCN0M5RSkiIHN0cm9rZS13aWR0aD0iMS4zNSIvPjxwYXRoIGQ9Ik00OCAxOTVIMTEyIiBzdHJva2U9IiNGRkYiIHN0cm9rZS13aWR0aD0iMS40Ii8+PC9nPjwvZz48L3N2Zz4=", "logo": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDY0IDY0IiBmaWxsPSJub25lIiBhcmlhLWhpZGRlbj0idHJ1ZSIgZm9jdXNhYmxlPSJmYWxzZSI+PHBhdGggZD0iTTIzIDhINDFDNDUuNCA4IDQ5IDExLjYgNDkgMTZWNDhDNDkgNTIuNCA0NS40IDU2IDQxIDU2SDIzQzE4LjYgNTYgMTUgNTIuNCAxNSA0OFYxNkMxNSAxMS42IDE4LjYgOCAyMyA4WiIgZmlsbD0iIzBDM0M2RSIvPjxyZWN0IHg9IjIyIiB5PSIxNSIgd2lkdGg9IjIwIiBoZWlnaHQ9IjEyIiByeD0iNCIgZmlsbD0iI0ZGRiIvPjxwYXRoIGQ9Ik0yMiAzNEg0MlY0NkM0MiA0Ny43IDQwLjcgNDkgMzkgNDlIMjVDMjMuMyA0OSAyMiA0Ny43IDIyIDQ2VjM0WiIgZmlsbD0iI0ZGRiIvPjxwYXRoIGQ9Ik0yMiAzNEMyNyAzMi43IDM3IDMyLjcgNDIgMzQiIHN0cm9rZT0iIzAxNjBCQSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTkgMjZWMzlNNTUgMjVWMzgiIHN0cm9rZT0iIzAxNjBCQSIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik00IDMySDlNNTUgMzFINjAiIHN0cm9rZT0iIzAxNjBCQSIgc3Ryb2tlLXdpZHRoPSIyIi8+PGNpcmNsZSBjeD0iMyIgY3k9IjMyIiByPSIyLjUiIGZpbGw9IiMwMTYwQkEiLz48Y2lyY2xlIGN4PSI2MSIgY3k9IjMxIiByPSIyLjUiIGZpbGw9IiMwMTYwQkEiLz48L3N2Zz4="};
+/* Original clinician figures. Upstream owns identity, status and movement.
+ * The four named child nodes remain compatible with the native draw loop.
+ */
+(function (root, factory) {
+  const api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  if (root) root.SICUStaffVisuals = api;
+})(typeof window !== 'undefined' ? window : null, function () {
+  'use strict';
+
+  function escape(value) {
+    return String(value).replace(/[&<>"']/g, function (character) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character];
+    });
+  }
+
+  function uniformColor(staff, isDoctor) {
+    if (isDoctor) return '#FFFFFF';
+    return staff && staff.role === 'charge' ? '#76518F' : '#287B9A';
+  }
+
+  function avatar(staff, isDoctor) {
+    staff = staff || {};
+    const charge = !isDoctor && staff.role === 'charge';
+    const number = String(staff.id || '').match(/\d+$/);
+    const identifier = isDoctor ? 'Dr.' : charge ? 'NC' : number ? 'N' + number[0] : 'N';
+    const role = isDoctor ? 'Physician' : charge ? 'Charge nurse' : 'Nurse';
+    const torso = uniformColor(staff, isDoctor);
+    // Hair identifies the role consistently in the map, legend and nurse sheet.
+    const hairStyle = charge ? 'bun' : 'bob';
+    const originalOutline = 'M0-1.5c-.34 0-.58.27-.58.6 0 .27.13.45.3.54v.06C-.76-.2-1 .05-1 .43V.7q0 .12.14.12H.86Q1 .82 1 .7V.43C1 .05.76-.2.28-.3v-.06C.45-.45.58-.63.58-.9.58-1.23.34-1.5 0-1.5Z';
+    const outline = isDoctor ? originalOutline : hairStyle === 'bun'
+      ? 'M0-1.55c-.37 0-.63.28-.63.65 0 .28.16.48.35.56v.04C-.76-.2-1 .05-1 .43V.7q0 .12.14.12H.86Q1 .82 1 .7V.43C1 .05.76-.2.28-.3v-.04q.2-.1.27-.31c.25.04.4-.1.4-.32 0-.21-.15-.34-.37-.32C.5-1.43.29-1.55 0-1.55Z'
+      : 'M0-1.55c-.4 0-.67.27-.67.66l-.06.53q.23.13.45.02v.04C-.76-.2-1 .05-1 .43V.7q0 .12.14.12H.86Q1 .82 1 .7V.43C1 .05.76-.2.28-.3v-.04q.22.11.45-.02L.67-.89c0-.39-.27-.66-.67-.66Z';
+    const hairBack = isDoctor ? '' : hairStyle === 'bun'
+      ? '<path class="sicu-clinician-hair-back sicu-nurse-bun" d="M.4-.97c0-.18.11-.28.27-.28s.26.1.26.28-.1.28-.26.28S.4-.79.4-.97Z" fill="#173F68"/><path class="sicu-nurse-hair-seam" d="M.69-1.12q.13.12.01.29" fill="none" stroke="#6585A4" stroke-width=".045" stroke-linecap="round"/>'
+      : '<path class="sicu-clinician-hair-back sicu-nurse-bob" d="M-.6-.97q0-.52.6-.52t.6.52l.07.56q-.18.13-.41.02h-.52q-.23.11-.41-.02Z" fill="#173F68"/>';
+    const hairFront = isDoctor
+      ? '<path class="sicu-clinician-cap" d="M-.49-1.02q-.01-.47.49-.47t.49.47Q.25-1.15 0-1.15t-.49.13Z" fill="#173F68"/>'
+      : hairStyle === 'bun'
+        ? '<path class="sicu-clinician-hair-front" d="M-.51-.96c-.02-.37.16-.54.51-.54s.53.22.53.54v.22L.4-.81l-.07-.27Q.08-1.08-.08-1.29q-.14.26-.43.33Z" fill="#173F68"/><path class="sicu-nurse-hair-part" d="M-.08-1.29q.21-.12.4.08" fill="none" stroke="#6585A4" stroke-width=".045" stroke-linecap="round"/>'
+        : '<path class="sicu-clinician-hair-front" d="M-.55-1q0-.5.55-.5t.55.5v.45L.38-.66l-.08-.4Q.04-1.11-.12-1.31q-.14.28-.43.31Z" fill="#173F68"/><path class="sicu-nurse-hair-part" d="M-.12-1.31q.2-.1.39.06" fill="none" stroke="#6585A4" stroke-width=".045" stroke-linecap="round"/>';
+    const coat = isDoctor
+      ? '<path class="sicu-clinician-coat" d="M-.22-.26 0 .11.22-.26M-.34-.2-.19.16 0 .31.19.16.34-.2M0 .31V.7" fill="none" stroke="#8CA5BC" stroke-width=".055"/>' +
+        '<path class="sicu-clinician-stethoscope" d="M-.27-.21V.13Q-.27.39 0 .39T.27.13V-.21M0 .39V.52Q0 .65.16.65H.31" fill="none" stroke="#315F89" stroke-width=".07"/>' +
+        '<path class="sicu-clinician-chestpiece" d="M.43.65a.12.12 0 1 1-.24 0 .12.12 0 1 1 .24 0Z" fill="#E9F1F8" stroke="#315F89" stroke-width=".055"/>'
+      : '<path class="sicu-clinician-collar" d="M-.23-.25 0-.02.23-.25" fill="none" stroke="#FFFFFF" stroke-width=".095"/>' +
+        '<path class="sicu-clinician-pocket" d="M.32.23h.24v.19H.32Z" fill="#FFFFFF" fill-opacity=".2" stroke="#FFFFFF" stroke-opacity=".55" stroke-width=".035"/>';
+    const leader = charge
+      ? '<path class="sicu-charge-badge" d="m.46-.13.19-.07.19.07v.2Q.84.25.65.32.46.25.46.07Z" fill="#E0B963" stroke="#FFFFFF" stroke-width=".035"/>' +
+        '<path class="sicu-charge-badge-mark" d="m.55.05.07.07.13-.14" fill="none" stroke="#193F66" stroke-width=".055"/>'
+      : '';
+
+    return '<g class="staff-avatar sicu-staff-avatar" data-clinician-role="' + (isDoctor ? 'physician' : charge ? 'charge' : 'nurse') + '" data-visual-style="' + (isDoctor ? 'classic' : hairStyle) + '">' +
+      '<title>' + escape(role + ' · ' + (staff.id || 'Fictional staff')) + '</title>' +
+      '<path class="avatar-care" d="' + outline + '" fill="#FFFFFF" stroke="#BACCDD" stroke-width=".105" stroke-linejoin="round"/>' +
+      hairBack +
+      '<path class="avatar-scrubs" d="M-.24-.28h.48l.36.15Q.87-.02.87.29V.7H-.87V.29q0-.31.27-.42Z" fill="' + torso + '" stroke="#476C8D" stroke-width=".055" stroke-linejoin="round"/>' +
+      '<path class="sicu-clinician-neck" d="M-.16-.58h.32v.28L0-.1-.16-.3Z" fill="#EAF1F8"/>' +
+      '<path class="sicu-clinician-face" d="M-.46-1.02q0-.43.46-.43t.46.43v.13c0 .3-.18.48-.46.48s-.46-.18-.46-.48Z" fill="#EAF1F8" stroke="#456A8D" stroke-width=".055"/>' +
+      hairFront +
+      '<path class="sicu-clinician-face-line" d="M-.15-.64q.15.08.3 0" fill="none" stroke="#91A9C0" stroke-width=".045" stroke-linecap="round"/>' +
+      coat + leader +
+      '<path class="sicu-staff-id-surface" d="M-.6.8h1.2q.15 0 .15.15v.28q0 .15-.15.15H-.6q-.15 0-.15-.15V.95q0-.15.15-.15Z" fill="#153F6A" stroke="#FFFFFF" stroke-width=".035"/>' +
+      '<text class="staff-glyph sicu-staff-id" x="0" y="1.225" fill="#FFFFFF" text-anchor="middle" font-size=".5" font-weight="700" font-family="Pretendard,Arial,sans-serif" letter-spacing="0">' + escape(identifier) + '</text>' +
+      '</g>';
+  }
+
+  return Object.freeze({ avatar: avatar, uniformColor: uniformColor });
+});
+
+/* Quiet architectural plan symbols. Original SVG artwork, rendered in currentColor. */
+(function (root, factory) {
+  const api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  if (root) root.SICUSpatialSymbols = api;
+})(typeof window !== 'undefined' ? window : null, function () {
+  'use strict';
+
+  function svg(width, height, viewBox, drawing) {
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="' + width + '" height="' + height + '" viewBox="' + viewBox + '" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + drawing + '</svg>';
+  }
+
+  function bed(options) {
+    options = options || {};
+    const occupied = options.occupied !== false;
+    const orientation = options.orientation === 'south' ? 'rotate(180 50 70)' : '';
+    const linen = occupied
+      ? '<path d="M29 55c12-3 30-3 42 0v47a5 5 0 0 1-5 5H34a5 5 0 0 1-5-5V55Z" fill="var(--bed-blanket, currentColor)" fill-opacity=".085" stroke-opacity=".55" stroke-width="1.4"/><path d="M30 62h40" stroke-opacity=".32" stroke-width="1.1"/>'
+      : '<path d="M30 60h40m-40 8h40" stroke-opacity=".18" stroke-width="1.1"/>';
+    return svg(100, 140, '0 0 100 140',
+      '<g transform="' + orientation + '">' +
+      '<path d="M29 17v-3m42 3v-3M29 123v4m42-4v4" stroke-width="2.2" stroke-opacity=".65"/>' +
+      '<rect x="22" y="18" width="56" height="105" rx="7" stroke-width="1.8"/>' +
+      '<rect x="27" y="24" width="46" height="91" rx="5" fill="var(--bed-mattress, #fff)" stroke-width="1.1" stroke-opacity=".38"/>' +
+      '<rect x="31" y="29" width="38" height="20" rx="5" fill="var(--bed-pillow, currentColor)" fill-opacity=".055" stroke-width="1.25" stroke-opacity=".6"/>' +
+      linen +
+      '<path d="M17 48v39m66-39v39" stroke-width="2.1" stroke-opacity=".7"/>' +
+      '<path d="M17 53h5m-5 29h5m56-29h5m-5 29h5" stroke-width="1.1" stroke-opacity=".4"/>' +
+      '<path d="M29 119h42" stroke-width="1.6" stroke-opacity=".55"/>' +
+      '</g>');
+  }
+
+  function door(options) {
+    options = options || {};
+    const mirrorX = options.hinge === 'right';
+    const mirrorY = options.opening === 'down';
+    const transform = 'translate(' + (mirrorX ? '24' : '0') + ' ' + (mirrorY ? '24' : '0') + ') scale(' + (mirrorX ? '-1' : '1') + ' ' + (mirrorY ? '-1' : '1') + ')';
+    return svg(24, 24, '0 0 24 24',
+      '<g transform="' + transform + '">' +
+      '<path d="M20 20A16 16 0 0 0 4 4" stroke-width=".9" stroke-opacity=".48"/>' +
+      '<path d="M4 20V4" stroke-width="1.6"/>' +
+      '<path d="M1 20h3m16 0h3" stroke-width="2.2"/>' +
+      '<circle cx="4" cy="20" r="1" fill="currentColor" stroke="none"/>' +
+      '</g>');
+  }
+
+  function station() {
+    return svg(120, 45, '0 0 120 45',
+      '<path d="M9 9h102a3 3 0 0 1 3 3v20H6V12a3 3 0 0 1 3-3Z" fill="var(--station-surface, currentColor)" fill-opacity=".035" stroke-width="1.4"/>' +
+      '<path d="M6 32h108M11 36h98" stroke-width="1.1" stroke-opacity=".42"/>' +
+      '<path d="M44 10v21m32-21v21" stroke-width=".9" stroke-opacity=".24"/>' +
+      '<g stroke-width="1.2" stroke-opacity=".68">' +
+      '<rect x="20" y="14" width="15" height="9" rx="1.5"/><path d="M27.5 23v3m-4 0h8"/>' +
+      '<rect x="53" y="14" width="15" height="9" rx="1.5"/><path d="M60.5 23v3m-4 0h8"/>' +
+      '<rect x="86" y="14" width="15" height="9" rx="1.5"/><path d="M93.5 23v3m-4 0h8"/>' +
+      '</g>' +
+      '<path d="M22 4h10m23 0h10m23 0h10" stroke-width="2" stroke-opacity=".38"/>');
+  }
+
+  return Object.freeze({ bed: bed, door: door, station: station });
+});
+
+/* SICU LINK presentation adapter. No fetch, clinical inference or data replacement.
+ * The existing clinical controller owns all patient IDs, observations, replay and API calls.
+ */
+(function(){
+ 'use strict';
+ const q=s=>document.querySelector(s),NS='http://www.w3.org/2000/svg';
+ let view='ward',historyOpen=false;
+ const label=(ko,en)=>lang==='en'?en:ko;
+ const labels={ward:['병동 현황','Ward'],patients:['환자 목록 · 검사','Patients & tests'],planning:['31일 운영 계획','31-day plan'],sources:['데이터 연결','Data connection']};
+ function node(tag,attrs={}){const el=document.createElementNS(NS,tag);for(const [k,v]of Object.entries(attrs))el.setAttribute(k,v);return el;}
+ function setView(next){
+  if(!Object.hasOwn(labels,next))return;
+  view=next;document.body.dataset.sicuView=view;
+  if(view==='planning')q('#workbookPlan').open=true;
+  if(view==='sources')q('.research-notes').open=true;
+  syncLabels();
+ }
+ function syncLabels(){
+  const updated=q('#refreshStamp span:last-child time');if(updated)updated.textContent=new Date(SICU_UPDATED_AT).toLocaleString(lang==='en'?'en-GB':'ko-KR',{timeZone:'Asia/Seoul'})+' KST';
+  q('#sicuViewTitle').textContent=label(...labels[view]);
+  q('#sicuSubtitle').textContent=label('환자 상태 · 간호 지원 · 이송 흐름','Patient status · Care support · Transfers');
+  q('#sicuIdentity').textContent=label('K-MIMIC · GS 환자 기록','K-MIMIC · GS patient records');
+  for(const b of document.querySelectorAll('#sicuNav [data-sicu-view]')){b.textContent=label(...labels[b.dataset.sicuView]);b.setAttribute('aria-pressed',String(b.dataset.sicuView===view));}
+  q('#sicuToolsLabel').textContent=label('시점·시연 설정','Time & simulation settings');
+  q('#sicuClinicalToolsLabel').textContent=label('개별 환자 기록 재생','Patient record replay');
+  q('#sicuStaffToolsLabel').textContent=label('간호사·의사 수동 시연','Manual staff simulation');
+  q('#sicuKey').textContent=label('RED 전실 보류 · BLUE 검토 · GREEN 후보 · 노랑 예약 · 회색 빈 병상 — 월간표 시나리오 색상','RED hold · BLUE review · GREEN candidate · Yellow reserved · Gray empty — monthly scenario colors');
+ }
+ function init(){
+  if(q('#sicuNav'))return;
+  document.body.classList.add('sicu-private');document.body.dataset.sicuView='ward';
+  const header=q('body > header'),brand=document.createElement('a');brand.className='sicu-brand';brand.href='#ward';brand.setAttribute('aria-label','SICU LINK');
+  brand.innerHTML='<img alt="" src="'+SICU_ASSETS.logo+'"><span>SICU <b>LINK</b><small>TEAM 4</small></span>';
+  brand.onclick=e=>{e.preventDefault();setView('ward');window.scrollTo({top:0,behavior:'smooth'});};
+  const identity=document.createElement('span');identity.id='sicuIdentity';identity.className='sicu-identity';
+  header.prepend(brand,identity);
+  const nav=document.createElement('nav');nav.id='sicuNav';nav.setAttribute('aria-label','Workspace');
+  for(const key of Object.keys(labels)){const b=document.createElement('button');b.type='button';b.dataset.sicuView=key;b.onclick=()=>setView(key);nav.append(b);}
+  header.after(nav);
+  const heading=document.createElement('section');heading.id='sicuHeading';heading.innerHTML='<div><span class="sicu-eyebrow">SURGICAL ICU · CARE COORDINATION</span><h1 id="sicuViewTitle"></h1><p id="sicuSubtitle"></p></div><div id="sicuCounters"></div>';
+  nav.after(heading);q('#sicuCounters').append(q('#bedCounts'));
+  q('.scenario-card').hidden=true;
+  const controls=document.createElement('details');controls.id='sicuTools';controls.innerHTML='<summary id="sicuToolsLabel"></summary>';
+  q('.scopebar').append(controls);controls.append(q('#simulationControls'));q('#simulationControls').open=true;
+  const stamp=q('#refreshStamp');nav.before(stamp);
+  const info=document.createElement('footer');info.id='sicuFooter';document.body.append(info);info.append(q('#notice'),q('#src'));
+  const record=document.createElement('details');record.id='sicuRecordTools';record.innerHTML='<summary id="sicuClinicalToolsLabel"></summary>';q('#recordPlayback').before(record);record.append(q('#recordPlayback'));
+  const staff=document.createElement('details');staff.id='sicuStaffTools';staff.innerHTML='<summary id="sicuStaffToolsLabel"></summary>';record.after(staff);controls.append(record,staff);record.append(q('#slots'));
+  const key=document.createElement('p');key.id='sicuKey';q('#floors').before(key);
+  q('#showMonthlyPlan').addEventListener('click',()=>setView('planning'));
+  q('#showCasePool').addEventListener('click',()=>setView('patients'));
+  q('#planTable').addEventListener('click',e=>{if(e.target.closest('[data-monthly-row]'))setView('ward');});
+  syncLabels();
+ }
+ function decorateMap(){
+  const svg=q('#floors .ward-map-viewport > svg');if(!svg)return;
+  for(const bed of svg.querySelectorAll('[data-map-bed]')){
+   if(bed.dataset.sicuDecorated)continue;bed.dataset.sicuDecorated='true';
+   const i=Number(bed.dataset.mapBed),x=4+i%4*8,y=i<4?2.2:19.8,rect=bed.querySelector('.bed');
+   rect.style.stroke=rect.style.fill;rect.style.fillOpacity=bed.dataset.mapStatus==='empty'?'0.65':bed.dataset.mapStatus==='reserved'?'0.75':'0.13';
+   const occupied=bed.hasAttribute('data-case'),img=node('image',{href:occupied?SICU_ASSETS.bed:SICU_ASSETS.empty,x:x+.8,y:y-1.7,width:2.5,height:3.35,'pointer-events':'none'});bed.append(img);
+   if(occupied){const head=node('ellipse',{cx:x+2.05,cy:y-.85,rx:.26,ry:.21,fill:'#c6d7e9',stroke:'#577a9e','stroke-width':'.04','pointer-events':'none'});bed.append(head);}
+   const icons=bed.querySelector('.bed-care-icons');if(icons){icons.setAttribute('transform',`translate(${x-3.15} ${y-1.45}) scale(1.1)`);Array.from(icons.children).forEach((icon,n)=>icon.setAttribute('transform',`translate(${n%3*.97} ${Math.floor(n/3)*.91})`));}
+   const equipment=bed.querySelector('.bed-equipment-summary');if(equipment){equipment.setAttribute('x',x-3.15);equipment.setAttribute('y',y+.83);equipment.setAttribute('text-anchor','start');const full=equipment.textContent;equipment.textContent=full.length>23?full.slice(0,22)+'…':full;const title=node('title');title.textContent=full;equipment.append(title);}
+   const state=bed.querySelector('.bed-t');state.setAttribute('x',x-3.15);state.setAttribute('y',y+1.42);state.setAttribute('text-anchor','start');
+  }
+  if(!svg.querySelector('.sicu-station')){const g=node('g',{class:'sicu-station','pointer-events':'none'});g.innerHTML=SICUSpatialSymbols.station();const inner=g.querySelector('svg');inner.setAttribute('x','12');inner.setAttribute('y','8');inner.setAttribute('width','8');inner.setAttribute('height','2.4');const txt=node('text',{x:16,y:10.65,'text-anchor':'middle','font-size':'.42',fill:'#5e7690'});txt.textContent=label('간호 스테이션','Nursing station');g.append(txt);svg.insertBefore(g,svg.querySelector('[data-map-bed]'));}
+  for(const person of svg.querySelectorAll('[data-sim-staff]')){
+   const old=person.querySelector('.staff-avatar');if(!old||old.classList.contains('sicu-staff-avatar'))continue;
+   const id=person.dataset.simStaff,doctor=id==='Dr.',charge=id==='NC',holder=node('g');holder.innerHTML=SICUStaffVisuals.avatar({id,role:charge?'charge':doctor?'doctor':'nurse'},doctor);
+   const avatar=holder.firstElementChild;
+   if(id==='N2'||id==='N4'){
+    avatar.querySelector('.sicu-clinician-hair-back')?.remove();
+    const hair=avatar.querySelector('.sicu-clinician-hair-front');
+    if(hair)hair.setAttribute('d','M-.49-1.02q-.01-.47.49-.47t.49.47Q.25-1.15 0-1.15t-.49.13Z');
+    avatar.querySelector('.sicu-nurse-hair-part')?.remove();
+    avatar.dataset.character='male';
+   }else avatar.dataset.character=doctor?'male':'female';
+   // Preserve upstream work-state fill and care-history outline.
+   for(const [selector,attr] of [['.avatar-scrubs','fill'],['.avatar-care','stroke-dasharray']]){const v=old.querySelector(selector)?.getAttribute(attr);if(v)avatar.querySelector(selector).setAttribute(attr,v);}
+   old.replaceWith(avatar);
+  }
+ }
+ function sync(){init();syncLabels();const monthly=q('#monthlyReplay');if(monthly&&!monthly.classList.contains('sicu-monthly')){monthly.classList.add('sicu-monthly');q('main').before(monthly);}
+  const events=monthly?.querySelector('details');if(events&&!events.dataset.sicuHistory){events.dataset.sicuHistory='true';events.open=historyOpen;events.addEventListener('toggle',()=>{historyOpen=events.open;});}
+  const staff=q('#staffSimulationPanel');if(staff&&staff.parentElement!==q('#sicuStaffTools'))q('#sicuStaffTools').append(staff);
+  decorateMap();
+ }
+ const upstreamRender=render;
+ render=function(){const result=upstreamRender.apply(this,arguments);sync();return result;};
+ window.SICUPrivateUI=Object.freeze({sync,setView});sync();
+})();
