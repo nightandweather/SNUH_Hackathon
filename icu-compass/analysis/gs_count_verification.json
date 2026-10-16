@@ -1,0 +1,25 @@
+{
+  "source": "KHDP mounted SERVICES joined to surgical_icu_stays.csv; remote aggregate terminal verified",
+  "hospitals": 7,
+  "service_partitions": 920,
+  "coverage_complete": true,
+  "base_icu_stays": 68061,
+  "literal_GS": {
+    "at_icu_entry": 14321,
+    "distinct_hospital_subjects_at_entry": 12264,
+    "during_icu": 14843,
+    "exclusively_whole_icu": 13989,
+    "unknown_at_entry": 3652,
+    "completed_at": "2026-10-16T15:44:49.769651+00:00"
+  },
+  "unvalidated_GS_prefix_candidates": {
+    "at_icu_entry": 16475,
+    "distinct_hospital_subjects_at_entry": 14176,
+    "during_icu": 17048,
+    "exclusively_whole_icu": 16083,
+    "unknown_at_entry": 3652,
+    "completed_at": "2026-10-16T15:47:08.510308+00:00"
+  },
+  "definition": "Current service at ICU entry; literal GS exact vs separate startswith GS candidate analysis; not inferred from ward or surgery flag",
+  "caveat": "GS-prefix hospital-specific meanings not verified; subjects counted within hospital namespaces; no change to dashboard pool."
+}

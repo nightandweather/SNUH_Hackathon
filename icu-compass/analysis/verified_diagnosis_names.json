@@ -1,0 +1,11 @@
+{
+  "source": "https://www.koicd.kr/mobile/kcd/list.do",
+  "checked_at": "2026-10-17",
+  "method": "KCD-5 selected explicitly in the search UI; exact code entry, not morphology synonyms or current-edition detail page. Search evidence saved in verification/kcd5-*-source.txt.",
+  "entries": [
+    {"version":"KCD5","code":"C220","name_ko":"간세포암종","name_en":"Liver cell carcinoma"},
+    {"version":"KCD5","code":"C240","name_ko":"간외 쓸개관(담관) 악성신생물","name_en":"Malignant neoplasm of extrahepatic bile duct"},
+    {"version":"KCD5","code":"C250","name_ko":"췌장(이자)의 두부 악성신생물","name_en":"Malignant neoplasm of head of pancreas"}
+  ],
+  "limitation": "Only these three exact KCD5 codes are verified. Other codes remain unmapped. This maps a coded record to a label; it does not establish diagnosis timing, primary diagnosis or clinical validity."
+}

@@ -1,0 +1,24 @@
+# Private datasets, patient records, credentials and generated runtime outputs.
+data/
+private/
+*.private.*
+.env*
+!.env.example
+*.dcm
+*.vital
+*.csv
+*.xlsx
+*.zip
+*.tar.gz
+*.log
+*.pid
+*.png
+*.jpg
+__pycache__/
+tmp/
+verification/english-backup/
+verification/*.json
+!verification/imaging-linkage-status.json
+!verification/repository-checks.json
+verification/*.txt
+static/cxr/

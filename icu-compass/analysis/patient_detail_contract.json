@@ -1,0 +1,107 @@
+{
+  "title": "Digital Twin",
+  "subtitle_ko": "K-MIMIC 과거 기록 재구성",
+  "status": "pilot_linked_partial",
+  "identity": [
+    "hospital",
+    "SUBJECT_ID",
+    "HADM_ID",
+    "STAY_ID"
+  ],
+  "sections": [
+    {
+      "key": "primary_disease",
+      "ko": "질환명",
+      "source": "DIAGNOSES_ICD + verified code vocabulary",
+      "rule": "Do not infer a primary diagnosis from row order without verified SEQ_NUM semantics."
+    },
+    {
+      "key": "past_diagnoses",
+      "ko": "과거 진단명",
+      "source": "Earlier completed ADMISSIONS + DIAGNOSES_ICD",
+      "rule": "Same hospital and subject; prior admission discharge before this admission. Source absence requires complete scan."
+    },
+    {
+      "key": "current_admission_diagnoses",
+      "ko": "현재 진단명 / 이번 입원에 연결된 진단",
+      "source": "Current HADM_ID + DIAGNOSES_ICD",
+      "rule": "DIAGNOSES_ICD has no diagnosis timestamp in inspected schema; label retrospective/recorded time unknown. Do not expose later diagnoses as known at an earlier replay time."
+    },
+    {
+      "key": "admission_summary",
+      "ko": "입원 요약",
+      "source": "ADMISSIONS, ICUSTAYS, verified procedures and diagnoses",
+      "rule": "Distinguish source note from record-derived summary. Preserve evidence references."
+    },
+    {
+      "key": "imaging_reports",
+      "ko": "영상 판독 결과",
+      "source": "TESTEVENTS + D_TESTITEMS + verified report file",
+      "rule": "FILE_PATH alone does not establish a radiology report or image interpretation. Do not attach another patient or exemplar image."
+    },
+    {
+      "key": "laboratory_results",
+      "ko": "검사실 검사",
+      "source": "LABEVENTS + D_LABITEMS",
+      "columns": [
+        "test_name",
+        "value",
+        "unit",
+        "reference_low",
+        "reference_high",
+        "flag",
+        "charttime",
+        "source_event_id"
+      ],
+      "rule": "Preserve units and source reference ranges. Missing or not-yet-linked is not normal."
+    }
+  ],
+  "all_sections": [
+    "record_time",
+    "source_table",
+    "source_row_or_code",
+    "linkage_status"
+  ],
+  "publication": "Actual records only on authenticated KHDP; public Site remains fictional demo.",
+  "clinical_support_status": "Whole-cohort CPR/ECMO/CRRT/ventilator/pressor mapping still pending.",
+  "ui_status": "Deployed to authenticated KHDP port 8007: CASE-001–008 linked, 38 replay admissions retained.",
+  "agent": {
+    "mode": "nursing_support",
+    "role": "agent only",
+    "sections": [
+      "verified_state",
+      "bedside_questions",
+      "response_preparation",
+      "escalation",
+      "SBAR",
+      "limitations"
+    ],
+    "new_observations": "Nurse-reported, not independently verified",
+    "prompt_version": "kmimic-linked-clinical-timepoint-v4",
+    "timepoint": "User-selectable observation index; case/time frozen per discussion; changing time resets history and updates vitals",
+    "order_review": "Clinician-review suggestions with rationale and prerequisites; not executable prescriptions",
+    "clinical_context": "Latest numeric unit-bearing lab results available by chosen time, with conflict exclusions. Untimed admission diagnoses excluded."
+  },
+  "linkage_scope": {
+    "hospital": "001",
+    "source_partition": "268",
+    "admissions_partitions": 207,
+    "diagnosis_partitions": 207,
+    "live_lab_partitions": 1,
+    "live_test_partitions": 1,
+    "full_lab_test_scan": "running on Pod; not yet complete or promoted",
+    "prior_completed_admission_diagnoses_in_pilot": 0,
+    "verified_name_codes": [
+      "KCD5:C220",
+      "KCD5:C240",
+      "KCD5:C250"
+    ],
+    "imaging": "Test names and times linked; reports and image files unlinked",
+    "admission_summary": "Structured source field summary; original narrative unlinked"
+  },
+  "verification": {
+    "unit_tests": 18,
+    "live_qwen": "qwen3-8-flash-next-ax response verified on CASE-001 at minute 0, citing source labs and distinguishing old values",
+    "time_switch": "CASE-001 minute 0: 91 available lab rows; minute 30: 112. Switching time resets transcript."
+  }
+}

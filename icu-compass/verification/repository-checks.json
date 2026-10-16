@@ -1,0 +1,27 @@
+{
+  "checked_at": "2026-10-17T05:07:29.147893+09:00",
+  "scope": "Staged source files copied into an isolated temporary directory without local datasets or credentials",
+  "python_tests": 132,
+  "checks": [
+    {
+      "command": "python3 -m unittest test_vision_review test_patient_imaging test_grounded_chat test_kmimic_board test_clinical_detail",
+      "returncode": 0
+    },
+    {
+      "command": "python3 -m unittest discover -s analysis -p test_*.py",
+      "returncode": 0
+    }
+  ],
+  "javascript_syntax_files": 40,
+  "credential_pattern_matches": 0,
+  "patient_identifier_pattern_matches": 0,
+  "excluded": [
+    "patient pools",
+    "EMR and DICOM",
+    "credentials",
+    "private screenshots",
+    "deployment archives",
+    "presentation binaries"
+  ],
+  "clinical_validation": false
+}

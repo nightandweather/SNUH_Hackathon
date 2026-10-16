@@ -1,0 +1,30 @@
+{
+  "_note": "F 배치·Bed 수는 가정값. Real 서울대병원 배치로 고쳐 쓰기.",
+  "staffing_note": "간호 배치·대신 보기·응급 Dispatched은 같은 ICU 안에서만. ICU당 MD 1 staff·응급 필요 인원·주입 활력·해소  h은 Simulation 가정이며 간호 3Shift change를 의사 근무표로 사용하지 않음.",
+  "start_clock": "07:00",
+  "shifts": [
+    {"code": "D", "label": "Day", "start_clock": "07:00", "end_clock": "15:00"},
+    {"code": "E", "label": "Evening", "start_clock": "15:00", "end_clock": "23:00"},
+    {"code": "N", "label": "Night", "start_clock": "23:00", "end_clock": "07:00"}
+  ],
+  "nurses_per_unit": 5,
+  "floors": [
+    {"floor": 7, "units": [
+      {"id": "PICU", "name": "Pediatric ICU", "type": "PICU", "beds": 8},
+      {"id": "NICU", "name": "Neonatal ICU", "type": "NICU", "beds": 8}]},
+    {"floor": 6, "units": [
+      {"id": "MICU", "name": "Medical ICU", "type": "MICU", "beds": 8},
+      {"id": "CCU", "name": "Coronary Care Unit", "type": "CCU", "beds": 8}]},
+    {"floor": 5, "units": [
+      {"id": "CSICU", "name": "Cardiothoracic Surgical ICU", "type": "CSICU", "beds": 8},
+      {"id": "SICU2", "name": "Surgical ICU 2", "type": "SICU", "beds": 8}]},
+    {"floor": 4, "units": [
+      {"id": "SICU1", "name": "Surgical ICU 1", "type": "SICU", "beds": 8},
+      {"id": "EICU", "name": "Emergency ICU", "type": "EICU", "beds": 8}]}
+  ],
+  "thresholds": {
+    "adult": {"hr_high": 140, "hr_low": 40, "map_low": 60, "spo2_low": 88, "rr_high": 35, "arrest_hr": 30, "arrest_map": 30},
+    "PICU":  {"hr_high": 170, "hr_low": 60, "map_low": 50, "spo2_low": 88, "rr_high": 50, "arrest_hr": 50, "arrest_map": 25},
+    "NICU":  {"hr_high": 200, "hr_low": 90, "map_low": 30, "spo2_low": 85, "rr_high": 80, "arrest_hr": 60, "arrest_map": 20}
+  }
+}

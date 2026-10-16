@@ -1,0 +1,16 @@
+/* Scope every rule to the simulated personnel component. */
+.staff-simulation{margin:14px 0 16px;padding:16px 18px;border:1px solid #c8d9e9;border-radius:10px;background:#f2f7fc;color:#203c56}
+.staff-simulation-head{display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap}.staff-simulation h3{font-size:17px;margin:0}.staff-demo-badge{display:inline-block;padding:3px 8px;border:1px solid #a9c3da;border-radius:5px;color:#345f7d;background:#eaf3fa;font-size:11px;font-weight:700}
+.staff-simulation-note{font-size:12px;line-height:1.65;margin:8px 0 12px;color:#526a80}.staff-simulation-controls{display:flex;flex-wrap:wrap;align-items:end;gap:10px}.staff-simulation-controls label{display:flex;flex-direction:column;gap:4px;font-size:12px}.staff-simulation-controls button,.staff-simulation-controls select{min-height:38px;padding:7px 11px;font:inherit;font-size:13px;border:1px solid #b9cbdd;border-radius:6px;background:#fff;color:#23405c}.staff-simulation-controls button{cursor:pointer}.staff-simulation-controls button:hover{background:#e8f1f9}.staff-simulation-controls button:disabled{opacity:.5;cursor:default}.staff-simulation-controls :focus-visible{outline:3px solid #397aaf;outline-offset:2px}.staff-simulation-status{margin-top:12px;font-size:13px;font-weight:600;min-height:20px}.staff-simulation-selection{margin-top:9px;padding:8px 10px;border-left:3px solid #397aaf;background:white;font-size:13px}
+#floors .staff-simulation-layer .sim-person{cursor:pointer;transition:transform 1.4s linear;transform-box:view-box;transform-origin:0 0;outline:none}
+#floors .staff-simulation-layer .staff-avatar{filter:drop-shadow(0 .06px .06px #20405c25)}
+#floors .staff-simulation-layer .staff-glyph{font-size:.51px;fill:#fff;dominant-baseline:auto;paint-order:normal;stroke:none;font-weight:700;text-anchor:middle}
+#floors .staff-simulation-layer .doctor .staff-avatar rect{fill:#6b567c;stroke:#fff;stroke-width:.07px}
+#floors .staff-simulation-layer .staff-avatar circle{stroke:none;fill:#283b4b}
+#floors .staff-simulation-layer .sim-person-state{font-size:.46px;fill:#34526c;font-weight:600;paint-order:stroke;stroke:white;stroke-width:.13px;dominant-baseline:auto;pointer-events:none}
+#floors .staff-simulation-layer .is-picked .avatar-care,#floors .staff-simulation-layer .sim-person:focus-visible .avatar-care{stroke:#164e9d;stroke-width:.25px}
+#floors .staff-simulation-layer .sim-map-caption{font-size:.5px;fill:#526a80;paint-order:stroke;stroke:#fff;stroke-width:.12px}
+#floors .staff-simulation-layer .sim-porter{transition:transform 1.4s linear;transform-box:view-box;transform-origin:0 0}
+#floors .staff-simulation-layer .sim-porter-route{stroke:#397fa5;stroke-width:.06;stroke-dasharray:.22 .18;opacity:.65}
+.sim-roster-row{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid #e7edf4;font-size:12px}.sim-roster-row b{color:#245476}.sim-roster-row small{font-size:10px;color:#677d92;white-space:nowrap}
+@media(prefers-reduced-motion:reduce){#floors .staff-simulation-layer .sim-person,#floors .staff-simulation-layer .sim-porter{transition:none}}

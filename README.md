@@ -1,5 +1,23 @@
 # SNUH Hackathon — ICU 상황판과 병상 계획
 
+## 강훈 작업 브랜치 · ICU Compass (2026-10-17)
+
+최신 8병상·31일 GS ICU 상황판, 환자 상세·장비 표시·간호 지원 LLM·CXR 연결 코드는 **[icu-compass/](icu-compass/README.md)**에 정리했습니다. 기존 `icu-board/` 로그인·예약 데모와 `SCH-YcHan/` 팀원 작업은 그대로 보존했습니다.
+
+- [시행착오와 개발 과정](icu-compass/docs/DEVELOPMENT_LOG.md)
+- [현재 완료 범위·남은 연결 문제](icu-compass/docs/STATUS.md)
+- [원본 환자 데이터 없이 검증한 결과](icu-compass/verification/repository-checks.json)
+
+공개 합성 시연은 다음 명령으로 볼 수 있습니다.
+
+```bash
+python3 -m http.server 8080 --bind 127.0.0.1 --directory icu-compass/public-presentation
+```
+
+실제 환자 데이터·원본 CXR·API 토큰은 이 저장소에 포함하지 않습니다. CXR 모델 입력은 확인했지만, IMAGE와 EMR의 공식 연결표가 없어 환자별 CXR 교체는 아직 완료되지 않았습니다.
+
+---
+
 환자 상태 변화를 지속적으로 반영해 ICU 필요도와 병상 예약 시점을 최적화하는 Agentic AI 시스템을 위한 시연·연구 코드입니다.
 
 ## 지금 보던 ICU 상황판 실행

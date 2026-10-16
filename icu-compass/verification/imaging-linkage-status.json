@@ -1,0 +1,60 @@
+{
+  "status": "viewer_and_vision_review_deployed_patient_linkage_blocked",
+  "checked_at": "2026-10-16T19:49:14.646935+00:00",
+  "port": 8007,
+  "monthly_plan_days": 31,
+  "source_cases": 12,
+  "patient_replacement_authorized": true,
+  "patients_replaced": 0,
+  "verified_patient_images": 0,
+  "index_scan": {
+    "records": 195552,
+    "current_pool_subject_matches": 0,
+    "full_gs_id_string_overlap_stays": 12,
+    "full_gs_id_string_overlap_subjects": 10,
+    "overlap_image_records": 132,
+    "exact_study_matches_in_candidate_stay_partitions": 0,
+    "identity_confirmed": false
+  },
+  "blocker": "Image and EMR timestamps differ by years; DICOM identifying/date tags empty. ID string overlaps alone do not establish shared identity. Official cross-dataset identity/study/date mapping is needed.",
+  "khpd_ai_document_check": {
+    "conversation": "https://khdp.ai/chat/c/662d6e83-4bda-449a-9424-5abcff4bba25",
+    "finding": "README describes within-image patient IDs and shifted dates, but no IMAGE to kmimic-emr mapping or date-shift rule was identified."
+  },
+  "vision": {
+    "model": "qwen3-8-flash-next-ax",
+    "synthetic_image_input_test": "passed",
+    "actual_cxr_input_test": "passed",
+    "actual_cxr_dimensions": [
+      2568,
+      2989
+    ],
+    "actual_cxr_response_schema_fields": 6,
+    "test_patient_linked": false,
+    "clinical_accuracy_validated": false,
+    "private_test_result": "/home/khdp-user/workspace/icu-runtime/patient-imaging/unlinked-validation/validation.private.json"
+  },
+  "implemented": [
+    "CXR/portable CXR/CT/other filters",
+    "Name/code search across all time-eligible records with pagination",
+    "Metadata-only explicit allowlist; no raw source paths sent to client",
+    "AP alone does not imply portable imaging",
+    "Patient/stay/test/time-bound private PNG registry and endpoint",
+    "Preview zoom and brightness controls (real-image browser test pending)",
+    "DICOM grayscale decoder with MONOCHROME1 inversion; raw DICOM is never web-served",
+    "Explicit per-image nurse question form",
+    "Frozen selected-patient/time-bound multimodal request to KHDP",
+    "Structured AI review separate from official report",
+    "Empty anonymized DICOM transform tag handling"
+  ],
+  "validation": {
+    "backend_unit_tests_passed": 28,
+    "dicom_preview_tests_passed": 4,
+    "javascript_syntax": "passed",
+    "pod_gateway": "passed",
+    "staging_vs_live_patient_and_monthly_payload": "identical",
+    "unlinked_image_review": "rejected with 404",
+    "browser": "31-day board and patient image section loaded"
+  },
+  "public_patient_data_published": false
+}
