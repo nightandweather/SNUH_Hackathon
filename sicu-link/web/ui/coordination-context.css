@@ -1,0 +1,4 @@
+/* Center is an operating overview; clinical controls belong to hospital mode. */
+body[data-workspace-mode=center] :is(#wardView,#patientsView,#planningView,.side,.scopebar,#demoTools,#contextReferences,#operationsSummary,#workspacePurpose,#modal,#publicPatient,#nurseSheet,#operationsDetail,#transferDetail,#transportSceneDetail){display:none!important}
+body[data-workspace-mode=center] #workspaceNav [data-workspace-view]:not([data-workspace-view=network]){display:none!important}
+body[data-workspace-mode=center] #workspaceStats{display:none!important}

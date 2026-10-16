@@ -1,0 +1,40 @@
+/* Supporting explanations follow all operational content. */
+body[data-board-design] #contextReferences{margin:8px 32px 0;padding:15px 0 18px;border-top:1px solid #dce5ee;background:transparent;color:#647b90}
+#contextReferences>summary{display:flex;align-items:center;gap:18px;list-style:none;cursor:pointer;min-height:44px;font-size:12px;font-weight:550}
+#contextReferences>summary::-webkit-details-marker{display:none}
+#contextReferenceCaption{font-size:10px;font-weight:450;color:#8396a8}.context-reference-chevron{margin-left:auto;font-size:17px;color:#8396a8;transition:transform .15s}
+#contextReferences[open] .context-reference-chevron{transform:rotate(180deg)}
+#contextReferenceBody{max-width:1100px;padding-top:7px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px}
+#contextReferenceBody>details{padding:10px 0 14px;border-bottom:1px solid #e3ebf3;min-width:0;align-self:start}
+#contextReferenceBody>details>summary{font-size:13px;font-weight:550;min-height:44px;line-height:1.7;cursor:pointer;padding:10px 0;color:#506d87}
+#contextReferenceBody p,#contextReferenceBody .tag{font-size:12px;line-height:1.9;color:#70869a;margin:6px 0 12px}
+#contextTimeBody p{max-width:64ch}
+#contextLegend .legend{gap:10px 20px;font-size:12px;line-height:1.9;color:#647b90}
+#contextLegend .legend>span{display:inline-flex;align-items:center;gap:5px}
+#contextCareBody .care-key{margin:14px 0;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+#contextCareBody .care-key .care-label{font-size:11px;min-height:0}
+#contextCareBody .icon-rules{margin:10px 0 18px}
+#contextCareBody .icon-rules>summary{font-size:11px;line-height:1.7;min-height:44px;cursor:pointer}
+#contextCareBody .map-caption{display:block;margin:12px 0;font-size:11px;color:#70869a}
+#contextReferenceBody table{font-size:12px;max-width:100%}
+#contextReferenceBody .log{font-size:11px;max-height:260px;overflow:auto}
+#contextReferenceBody button:focus-visible,#contextReferences summary:focus-visible{outline:3px solid #77b4ee;outline-offset:3px}
+/* Relocation must not expose the original private comparison controls. */
+#contextMetrics .compare-controls{display:none!important}
+body[data-board-design] #patientDataBasis{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:17px;padding:13px 32px;background:#f7fafd;border-bottom:1px solid #e6edf4;min-width:0}
+.patient-basis-clock{display:flex;align-items:baseline;gap:8px;padding-right:18px;border-right:1px solid #dde7f1;white-space:nowrap}
+.patient-basis-clock small{font-size:10px;color:#758b9e}.patient-basis-clock strong{font-size:17px;line-height:1.3;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.025em;color:#315773}
+body[data-board-design] #publicPatientBody #patientDataBasis>p{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;line-height:1.7;margin:0;font-size:11px;color:#758b9e}
+#patientDataBasis>p b{font-size:11px;font-weight:550;color:#56728c}
+.patient-basis-help{font-size:10px;color:#758b9e;min-width:0}
+.patient-basis-help>summary{min-height:30px;padding:5px 0;cursor:pointer;line-height:1.7;white-space:nowrap}
+.patient-basis-help[open]{grid-column:1/-1;display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:start}
+body[data-board-design] #publicPatientBody .patient-basis-help>p{font-size:11px;line-height:1.8;color:#758b9e;margin:4px 0}
+@media(max-width:1250px){body[data-board-design] #contextReferences{margin-left:24px;margin-right:24px}}
+@media(max-width:760px){body[data-board-design] #contextReferences{margin-left:20px;margin-right:20px}#contextReferenceBody{grid-template-columns:minmax(0,1fr);gap:0}body[data-board-design] #patientDataBasis{padding:13px 24px;gap:12px}.patient-basis-clock{padding-right:12px}.patient-basis-clock small{font-size:9px}.patient-basis-clock strong{font-size:16px}#patientDataBasis>p span{font-size:10px}.patient-basis-help>summary{font-size:10px}}
+@media(max-width:560px){body[data-board-design] #contextReferences{margin-left:16px;margin-right:16px}#contextReferences>summary{font-size:11px;gap:12px}#contextReferenceCaption{font-size:9px}#contextReferenceBody>details>summary{font-size:12px}body[data-board-design] #patientDataBasis{grid-template-columns:auto minmax(0,1fr);padding:12px 20px;gap:10px 12px}.patient-basis-clock{flex-direction:column;align-items:flex-start;gap:3px;grid-row:1}.patient-basis-clock strong{font-size:17px}#patientDataBasis>p{grid-column:2;grid-row:1}#patientDataBasis>.patient-basis-help{grid-column:1/-1;display:block}body[data-board-design] #publicPatientBody #patientDataBasis>p{gap:2px;flex-direction:column;align-items:flex-start}#patientDataBasis>p b{font-size:10px}#patientDataBasis>p span{font-size:10px}.patient-basis-help>summary{min-height:22px;padding:1px 0}.patient-basis-help[open]{display:block}.patient-basis-help>p{margin-top:8px!important}}
+body[data-text-size=large] #patientDataBasis{grid-template-columns:auto minmax(0,1fr)}
+body[data-text-size=large] #patientDataBasis>.patient-basis-help{grid-column:1/-1}
+body[data-text-size=large] .patient-basis-clock strong{font-size:21px}
+body[data-board-design][data-text-size=large] #publicPatientBody #patientDataBasis>p,body[data-text-size=large] #patientDataBasis>p b{font-size:14px}
+@media(prefers-reduced-motion:reduce){.context-reference-chevron{transition:none}}

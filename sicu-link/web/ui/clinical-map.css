@@ -1,0 +1,29 @@
+/* Scoped map presentation; the native bed/staff targets remain interactive. */
+#floors svg.clinical-map-ready > .corr{fill:#f3f6fa;stroke:#e1e8ef;stroke-width:.045}
+#floors svg.clinical-map-ready .spatial-elevator-context,
+#floors svg.clinical-map-ready .clinical-original-elevator-label{display:none}
+#floors .clinical-procedure-room,
+#floors .clinical-elevator-marker,
+#floors .clinical-occupants{pointer-events:none}
+#floors .clinical-procedure-room{stroke-linecap:round;stroke-linejoin:round}
+#floors .clinical-procedure-room text,
+#floors .clinical-elevator-marker text{font-family:inherit;letter-spacing:normal}
+#floors .clinical-procedure-surface{fill:#fff;stroke:none}
+#floors .clinical-procedure-wall{fill:none;stroke:#8ea9c2;stroke-width:.075}
+#floors .clinical-procedure-inset{fill:none;stroke:#dbe5ef;stroke-width:.045}
+#floors .clinical-procedure-label{fill:#294f71;font-size:.51px;font-weight:650}
+#floors .clinical-procedure-bed-frame{fill:#f0f5fa;stroke:#7497b7;stroke-width:.055}
+#floors .clinical-procedure-linen{fill:#fff;stroke:#c4d5e4;stroke-width:.04}
+#floors .clinical-procedure-pillow{fill:#eff5fb;stroke:#9fb9cf;stroke-width:.04}
+#floors .clinical-procedure-bed-detail{fill:none;stroke:#7f9fbd;stroke-width:.05}
+#floors .clinical-procedure-monitor{fill:#e8f1f9;stroke:#7f9fbd;stroke-width:.05}
+#floors .clinical-procedure-screen{fill:none;stroke:#6286a6;stroke-width:.045}
+#floors .clinical-procedure-door{fill:none;stroke:#8ea9c2;stroke-width:.055}
+#floors .clinical-procedure-door-threshold{fill:none;stroke:#c7d9e8;stroke-width:.04;stroke-dasharray:.1 .12}
+#floors .clinical-elevator-icon{fill:none;stroke:#849bb0;stroke-width:.045;stroke-linecap:round;stroke-linejoin:round}
+#floors .clinical-elevator-label{fill:#687e93;font-size:.42px;font-weight:500}
+#floors .clinical-bed-patient{pointer-events:none}
+#floors .clinical-bed-patient .transport-patient-blanket{fill:#c5dcef;stroke:#6e94b6}
+
+#floors .clinical-bed-status[data-map-color-only=true]{display:none}
+#floors .spatial-station-label{font-family:inherit;font-size:.42px;font-weight:550;fill:#476680;letter-spacing:normal}

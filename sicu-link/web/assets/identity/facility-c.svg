@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="520" viewBox="0 0 760 520" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">가상 병원 C · 한쪽으로 놓인 여섯 병상</title>
+  <desc id="desc">한쪽에 놓인 여섯 병상과 세 번째 개방형 병상, 개별실, 간호 스테이션과 처치 공간을 구분한 단일 ICU 개념 그림입니다. 실제 병원 도면이나 환자 상태를 나타내지 않습니다.</desc>
+  <defs>
+    <symbol id="facility-bed" viewBox="0 0 160 236">
+      <g>
+        <g stroke-linecap="round" stroke-linejoin="round">
+          <path d="M36 32V18Q36 12 43 12H117Q124 12 124 18V32" fill="var(--bed-head,#D9E6F3)" stroke="var(--bed-frame,#5B7C9E)" stroke-width="1.5" />
+          <path d="M30 202V213H130V202" fill="#EDF3F8" stroke="var(--bed-frame,#5B7C9E)" stroke-width="1.3" />
+          <g fill="#FFF" stroke="var(--bed-frame,#5B7C9E)" stroke-width="1.4">
+            <rect x="31" y="208" width="14" height="11" rx="4" />
+            <rect x="115" y="208" width="14" height="11" rx="4" />
+            <path d="M38 210V217M122 210V217" />
+          </g>
+          <rect x="30" y="25" width="100" height="180" rx="13" fill="var(--bed-platform,#F5F8FC)" stroke="var(--bed-frame,#5B7C9E)" stroke-width="1.6" />
+          <rect x="37" y="32" width="86" height="161" rx="10" fill="var(--bed-mattress,#FFF)" stroke="var(--bed-seam,#C9D7E6)" stroke-width="1.1" />
+          <rect x="47" y="43" width="66" height="32" rx="9" fill="var(--bed-pillow,#F8FBFE)" stroke="var(--bed-edge,#7896B4)" stroke-width="1.2" />
+          <path d="M54 49Q80 45 106 49" fill="none" stroke="var(--bed-seam,#C9D7E6)" stroke-width="1" />
+          <path d="M44 153H116V178H44Z" fill="var(--bed-cover,#E7F0F9)" stroke="var(--bed-edge,#7896B4)" stroke-width="1.1" />
+          <path d="M45 160H115" stroke="var(--bed-edge,#7896B4)" stroke-opacity=".45" stroke-width="1.1" />
+          <g fill="var(--bed-rail,#EDF3FA)" stroke="var(--bed-frame,#5B7C9E)" stroke-width="1.4">
+            <rect x="22" y="89" width="7" height="66" rx="3.5" />
+            <rect x="131" y="89" width="7" height="66" rx="3.5" />
+          </g>
+          <path d="M25.5 98V145M134.5 98V145" stroke="#FFF" stroke-width="1.3" />
+          <rect x="139" y="111" width="10" height="24" rx="3" fill="#FFF" stroke="var(--bed-frame,#5B7C9E)" stroke-width="1.2" />
+          <circle cx="144" cy="118" r="1.4" fill="var(--bed-accent,#0160BA)" />
+          <path d="M142 124H146M142 128H146" stroke="var(--bed-edge,#7896B4)" stroke-width="1" />
+          <path d="M40 190H120V201H40Z" fill="var(--bed-head,#D9E6F3)" stroke="var(--bed-frame,#5B7C9E)" stroke-width="1.35" />
+          <path d="M48 195H112" stroke="#FFF" stroke-width="1.4" />
+        </g>
+      </g>
+    </symbol>
+  </defs>
+  <path d="M596 347H668V278" stroke="#D5E2EF" stroke-width="29" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M596 347H668V278" stroke="#EFF5FB" stroke-width="27" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M596 347H668V278" stroke="#ABC2D9" stroke-width="0.8" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 5" opacity=".7" />
+  <path d="M668 347V369" stroke="#D5E2EF" stroke-width="18" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M668 347V369" stroke="#EFF5FB" stroke-width="16" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M668 347V369" stroke="#ABC2D9" stroke-width="0.8" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 5" opacity=".7" />
+  <g data-entry-procedure="true">
+    <rect x="622" y="159" width="96" height="122" rx="6" fill="#0C3C6E" stroke="none" stroke-width="1" opacity=".025" />
+    <rect x="620" y="156" width="96" height="122" rx="5" fill="#FBFDFF" stroke="#88A9CA" stroke-width="1.15" />
+    <text x="668" y="171" font-family="Pretendard,Arial,sans-serif" font-size="8.5" font-weight="600" fill="#507CA8" text-anchor="middle" letter-spacing=".9">PROCEDURE</text>
+    <rect x="642.48" y="180" width="28" height="43" rx="2" fill="#F4F8FD" stroke="#8CA9C6" stroke-width="0.85" />
+    <rect x="645.48" y="183" width="22" height="8.6" rx="1.5" fill="#E4EEF8" stroke="#8CA9C6" stroke-width="0.65" />
+    <path d="M646.48 217h20M646.48 223v4M666.48 223v4" stroke="#8CA9C6" stroke-width="0.8" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <rect x="684.46" y="186" width="17" height="12" rx="1.2" fill="#EAF3FC" stroke="#8CA9C6" stroke-width="0.8" />
+    <path d="M692.96 198v11m-5 0h10" stroke="#8CA9C6" stroke-width="0.85" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <g data-entry-door="procedure">
+      <path d="M655.5 278h25" stroke="#EFF5FB" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M654.5 275v6M681.5 275v6" stroke="#8CA9C6" stroke-width="0.8" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M655.5 278h9.75m5.5 0h9.75" stroke="#769BBF" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+  </g>
+  <g data-entry-elevator="true" opacity=".62">
+    <rect x="655.5" y="369" width="25" height="29" rx="2.5" fill="#F5F9FD" stroke="#B5C9DD" stroke-width="0.9" />
+    <path d="M668 372v19M658.5 393h19" stroke="#A2BBD2" stroke-width="0.75" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="m661 380 2-3 2 3m6 1 2 3 2-3" stroke="#8CA9C6" stroke-width="0.85" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+  <text x="44" y="120" font-family="Pretendard,Arial,sans-serif" font-size="12" font-weight="650" fill="#507CA8" text-anchor="start" letter-spacing=".7">1F</text>
+  <g data-entry-unit="C-SICU" data-bed-count="6" class="entry-icu">
+    <rect x="47" y="156" width="552" height="250" rx="12" fill="#0C3C6E" stroke="none" stroke-width="1" opacity=".025" />
+    <rect x="44" y="152" width="552" height="250" rx="11" fill="#FFFFFF" stroke="#D3DFEC" stroke-width="1.2" />
+    <rect x="44.7" y="299.5" width="550.6" height="95" rx="0" fill="#EFF5FB" stroke="none" stroke-width="1" />
+    <path d="M136 153V299.5" stroke="#DCE7F1" stroke-width="0.95" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <g data-entry-door="room">
+      <path d="M44 299.5H118M132 299.5H136" stroke="#C4D4E5" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M132 299.5v-14" stroke="#8CA9C6" stroke-width="0.85" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M118 299.5a14 14 0 0 1 14 -14" stroke="#8CA9C6" stroke-width="0.65" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+    <path d="M53 158H127" stroke="#DCE7F1" stroke-width="1.25" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <g>
+      <use href="#facility-bed" x="58.81" y="160" width="62.37" height="92" data-capacity-bed="true" data-bay="isolated" data-room-index="1" class="entry-capacity-bed" />
+    </g>
+    <path d="M228 153V299.5" stroke="#DCE7F1" stroke-width="0.95" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <g data-entry-door="room">
+      <path d="M136 299.5H210M224 299.5H228" stroke="#C4D4E5" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M224 299.5v-14" stroke="#8CA9C6" stroke-width="0.85" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M210 299.5a14 14 0 0 1 14 -14" stroke="#8CA9C6" stroke-width="0.65" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+    <path d="M145 158H219" stroke="#DCE7F1" stroke-width="1.25" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <g>
+      <use href="#facility-bed" x="150.81" y="160" width="62.37" height="92" data-capacity-bed="true" data-bay="isolated" data-room-index="2" class="entry-capacity-bed" />
+    </g>
+    <rect x="229" y="153" width="90" height="145.5" rx="3" fill="#EAF2FA" stroke="none" stroke-width="1" opacity=".38" />
+    <path d="M237 158H311" stroke="#DCE7F1" stroke-width="1.25" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <g>
+      <use href="#facility-bed" x="242.81" y="160" width="62.37" height="92" data-capacity-bed="true" data-bay="open" data-room-index="3" class="entry-capacity-bed" />
+    </g>
+    <path d="M320 153V299.5" stroke="#DCE7F1" stroke-width="0.95" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M412 153V299.5" stroke="#DCE7F1" stroke-width="0.95" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <g data-entry-door="room">
+      <path d="M320 299.5H394M408 299.5H412" stroke="#C4D4E5" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M408 299.5v-14" stroke="#8CA9C6" stroke-width="0.85" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M394 299.5a14 14 0 0 1 14 -14" stroke="#8CA9C6" stroke-width="0.65" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+    <path d="M329 158H403" stroke="#DCE7F1" stroke-width="1.25" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <g>
+      <use href="#facility-bed" x="334.81" y="160" width="62.37" height="92" data-capacity-bed="true" data-bay="isolated" data-room-index="4" class="entry-capacity-bed" />
+    </g>
+    <path d="M504 153V299.5" stroke="#DCE7F1" stroke-width="0.95" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <g data-entry-door="room">
+      <path d="M412 299.5H486M500 299.5H504" stroke="#C4D4E5" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M500 299.5v-14" stroke="#8CA9C6" stroke-width="0.85" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M486 299.5a14 14 0 0 1 14 -14" stroke="#8CA9C6" stroke-width="0.65" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+    <path d="M421 158H495" stroke="#DCE7F1" stroke-width="1.25" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <g>
+      <use href="#facility-bed" x="426.81" y="160" width="62.37" height="92" data-capacity-bed="true" data-bay="isolated" data-room-index="5" class="entry-capacity-bed" />
+    </g>
+    <g data-entry-door="room">
+      <path d="M504 299.5H578M592 299.5H596" stroke="#C4D4E5" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M592 299.5v-14" stroke="#8CA9C6" stroke-width="0.85" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M578 299.5a14 14 0 0 1 14 -14" stroke="#8CA9C6" stroke-width="0.65" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+    <path d="M513 158H587" stroke="#DCE7F1" stroke-width="1.25" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <g>
+      <use href="#facility-bed" x="518.81" y="160" width="62.37" height="92" data-capacity-bed="true" data-bay="isolated" data-room-index="6" class="entry-capacity-bed" />
+    </g>
+    <g data-entry-station="true">
+      <rect x="264" y="329.5" width="112" height="29" rx="4" fill="#FFFFFF" stroke="#C3D4E5" stroke-width="1" />
+      <path d="M271 350.09H369" stroke="#8CA9C6" stroke-width="0.9" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <rect x="281.36" y="336.17" width="16.8" height="8.7" rx="1.1" fill="#F4F8FD" stroke="#507CA8" stroke-width="0.8" />
+      <path d="M289.76 344.87v5.22" stroke="#507CA8" stroke-width="0.7" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <rect x="311.6" y="336.17" width="16.8" height="8.7" rx="1.1" fill="#F4F8FD" stroke="#507CA8" stroke-width="0.8" />
+      <path d="M320 344.87v5.22" stroke="#507CA8" stroke-width="0.7" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <rect x="341.84" y="336.17" width="16.8" height="8.7" rx="1.1" fill="#F4F8FD" stroke="#507CA8" stroke-width="0.8" />
+      <path d="M350.24 344.87v5.22" stroke="#507CA8" stroke-width="0.7" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <text x="320" y="367.5" font-family="Pretendard,Arial,sans-serif" font-size="7.2" font-weight="500" fill="#507CA8" text-anchor="middle" letter-spacing=".7">STATION</text>
+    </g>
+    <g data-entry-door="icu">
+      <path d="M596 331V363" stroke="#EFF5FB" stroke-width="4.4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <rect x="594.3" y="331" width="3.4" height="13" rx="0.4" fill="#DFECF8" stroke="#7E9FBF" stroke-width="0.75" />
+      <path d="M592 330v15M600 330v15" stroke="#8CA9C6" stroke-width="0.7" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <rect x="594.3" y="350" width="3.4" height="13" rx="0.4" fill="#DFECF8" stroke="#7E9FBF" stroke-width="0.75" />
+      <path d="M592 349v15M600 349v15" stroke="#8CA9C6" stroke-width="0.7" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M591 330h10M591 364h10" stroke="#8CA9C6" stroke-width="0.8" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+    <path d="M56 152.3H584" stroke="#DCE7F1" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="45" y="142" font-family="Pretendard,Arial,sans-serif" font-size="10.5" font-weight="600" fill="#507CA8" text-anchor="start" letter-spacing=".6">C-SICU</text>
+  </g>
+</svg>
