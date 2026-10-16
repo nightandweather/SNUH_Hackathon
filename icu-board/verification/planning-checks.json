@@ -1,0 +1,19 @@
+{
+  "release": "2026-10-12-pod-demo-1",
+  "scope": "synthetic_operational_demo",
+  "canonical_unit_tests": 149,
+  "new_planner_and_preparation_tests": 38,
+  "http_checks": 10,
+  "browser_checks": 9,
+  "synthetic_seeds": 10,
+  "synthetic_policy_runs": 20,
+  "failure_scenarios": 100,
+  "all_constraints_pass": true,
+  "all_failure_scenarios_pass": true,
+  "real_model_call_verified": false,
+  "kmimic_connection_verified": false,
+  "clinical_prediction_validated": false,
+  "code_import_permission": "unconfirmed",
+  "verified_at": "2026-10-12T05:23:47.355Z",
+  "failure_scenario_groups": 20
+}

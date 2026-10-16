@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "fresh_unpack": true,
+  "source_hashes_verified": true,
+  "no_patient_data_cache": true,
+  "outbound_network_blocked": true,
+  "offline_ready": true,
+  "package_unit_tests": 38,
+  "http_check_count": 10,
+  "real_model_call_verified": false,
+  "nurse_handover_without_cached_images": true,
+  "ward_model_transport": "stubbed_unavailable",
+  "scope": "synthetic_operational_demo"
+}

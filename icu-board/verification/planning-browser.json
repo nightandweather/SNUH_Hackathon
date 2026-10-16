@@ -1,0 +1,29 @@
+{
+  "status": "passed",
+  "scope": "synthetic_operational_demo",
+  "real_model_call_verified": false,
+  "checks": [
+    "visible_patient_selection",
+    "proposal_approval_separate",
+    "conflict_reject_replan_approve",
+    "weekend_calendar_and_monday",
+    "kst_jumps_in_utc_browser",
+    "responsive_390_and_320",
+    "no_external_requests",
+    "no_javascript_errors",
+    "missing_model_configuration_is_not_success"
+  ],
+  "widths": [
+    {
+      "width": 390,
+      "scroll": 390
+    },
+    {
+      "width": 320,
+      "scroll": 320
+    }
+  ],
+  "external_requests": [],
+  "javascript_errors": [],
+  "verified_at": "2026-10-12T05:23:47.355Z"
+}

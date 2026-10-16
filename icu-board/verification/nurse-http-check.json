@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "checks": [
+    "authentication required and invalid PIN rejected",
+    "120 shift accounts plus HN01",
+    "bedside scope matches current assignments, cover and response",
+    "unrelated ICU and forged role/staff rejected",
+    "own patient history accessible and stale admission rejected",
+    "charge account sees its ICU only",
+    "head nurse sees all current patients and cannot impersonate a writer",
+    "off-duty session has no current patient access",
+    "public board and care records unchanged",
+    "logout invalidates the session"
+  ],
+  "clock": "07:18",
+  "accounts": 121,
+  "bedside_account": "D-MICU-1",
+  "bedside_patients": 2,
+  "charge_account": "D-MICU-C",
+  "charge_patients": 5,
+  "head_patients": 44
+}

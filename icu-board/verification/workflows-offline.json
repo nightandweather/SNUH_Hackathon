@@ -1,0 +1,88 @@
+{
+  "passed": true,
+  "source": "synth",
+  "synthetic_only": true,
+  "source_pool_sha256": "2ef971a45f8e69e235a4a0e6cbabc799dce334ce4497b72a0bf474c230ff7bf9",
+  "source_pool_unchanged": true,
+  "runs": [
+    {
+      "policy": "fixed",
+      "minutes": 480,
+      "completed_shifts": 1,
+      "history_checked_for_occupied_beds": 55,
+      "diagnostics": [
+        {
+          "kind": "blood_draw",
+          "status": "specimen_sent"
+        },
+        {
+          "kind": "portable_xray",
+          "status": "image_available"
+        }
+      ],
+      "same_icu_scope": true,
+      "one_break_per_icu": true
+    },
+    {
+      "policy": "fixed",
+      "minutes": 1440,
+      "completed_shifts": 3,
+      "history_checked_for_occupied_beds": 54,
+      "diagnostics": [
+        {
+          "kind": "blood_draw",
+          "status": "specimen_sent"
+        },
+        {
+          "kind": "portable_xray",
+          "status": "image_available"
+        }
+      ],
+      "same_icu_scope": true,
+      "one_break_per_icu": true
+    },
+    {
+      "policy": "auto",
+      "minutes": 480,
+      "completed_shifts": 1,
+      "history_checked_for_occupied_beds": 55,
+      "diagnostics": [
+        {
+          "kind": "blood_draw",
+          "status": "specimen_sent"
+        },
+        {
+          "kind": "portable_xray",
+          "status": "image_available"
+        }
+      ],
+      "same_icu_scope": true,
+      "one_break_per_icu": true
+    },
+    {
+      "policy": "auto",
+      "minutes": 1440,
+      "completed_shifts": 3,
+      "history_checked_for_occupied_beds": 54,
+      "diagnostics": [
+        {
+          "kind": "blood_draw",
+          "status": "specimen_sent"
+        },
+        {
+          "kind": "portable_xray",
+          "status": "image_available"
+        }
+      ],
+      "same_icu_scope": true,
+      "one_break_per_icu": true
+    }
+  ],
+  "real_model_call_verified": false,
+  "live_http_verified": false,
+  "limits": [
+    "Operational demonstration, no clinical outcome validation",
+    "Public X-ray examples are unrelated to the replayed patients",
+    "Blood workflow has no laboratory result data"
+  ]
+}

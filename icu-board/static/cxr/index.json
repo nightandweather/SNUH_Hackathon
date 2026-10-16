@@ -1,0 +1,21 @@
+{
+  "source": "NIH ChestX-ray14 (NIH Clinical Center, public; via huggingface timm/nih-chest-xray-14 test split)",
+  "fetch": "datasets-server rows API: dataset=timm/nih-chest-xray-14, split=test, offset=row",
+  "images": [
+    {"file": "no_finding_1.jpg", "finding": "No Finding", "image_id": "00000013_008", "age": 60, "sex": "M", "view": "AP", "row": 16},
+    {"file": "pneumothorax_1.jpg", "finding": "Pneumothorax", "image_id": "00000013_011", "age": 60, "sex": "M", "view": "AP", "row": 19},
+    {"file": "pneumothorax_2.jpg", "finding": "Pneumothorax", "image_id": "00000013_012", "age": 60, "sex": "M", "view": "AP", "row": 20},
+    {"file": "cardiomegaly_1.jpg", "finding": "Cardiomegaly", "image_id": "00000032_000", "age": 54, "sex": "F", "view": "AP", "row": 55},
+    {"file": "no_finding_2.jpg", "finding": "No Finding", "image_id": "00000032_002", "age": 54, "sex": "F", "view": "AP", "row": 57},
+    {"file": "consolidation_1.jpg", "finding": "Consolidation", "image_id": "00000032_016", "age": 54, "sex": "F", "view": "AP", "row": 71},
+    {"file": "cardiomegaly_2.jpg", "finding": "Cardiomegaly", "image_id": "00000032_021", "age": 54, "sex": "F", "view": "AP", "row": 76},
+    {"file": "edema_1.jpg", "finding": "Edema", "image_id": "00000032_024", "age": 54, "sex": "F", "view": "AP", "row": 79},
+    {"file": "atelectasis_1.jpg", "finding": "Atelectasis", "image_id": "00000032_054", "age": 54, "sex": "F", "view": "AP", "row": 109},
+    {"file": "effusion_1.jpg", "finding": "Effusion", "image_id": "00000116_001", "age": 74, "sex": "F", "view": "AP", "row": 129},
+    {"file": "effusion_2.jpg", "finding": "Effusion", "image_id": "00000116_002", "age": 74, "sex": "F", "view": "AP", "row": 130},
+    {"file": "consolidation_2.jpg", "finding": "Consolidation", "image_id": "00000116_014", "age": 74, "sex": "F", "view": "AP", "row": 142},
+    {"file": "atelectasis_2.jpg", "finding": "Atelectasis", "image_id": "00000149_005", "age": 70, "sex": "M", "view": "AP", "row": 177},
+    {"file": "pneumonia_1.jpg", "finding": "Pneumonia", "image_id": "00000193_019", "age": 54, "sex": "M", "view": "AP", "row": 273},
+    {"file": "edema_2.jpg", "finding": "Edema", "image_id": "00001006_006", "age": 26, "sex": "M", "view": "AP", "row": 728}
+  ]
+}

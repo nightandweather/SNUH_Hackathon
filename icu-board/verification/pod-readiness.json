@@ -1,0 +1,51 @@
+{
+  "mode": "offline",
+  "status": "pass",
+  "checks": [
+    {
+      "name": "python_version",
+      "status": "pass",
+      "detail": "Python 3.10 이상 필요.",
+      "version": "3.14.8"
+    },
+    {
+      "name": "required_files",
+      "status": "pass",
+      "detail": "필수 planning 파일의 준비 상태.",
+      "missing": []
+    },
+    {
+      "name": "python_syntax",
+      "status": "pass",
+      "detail": "파일 import나 서버 실행 없이 Python 문법 확인.",
+      "invalid": []
+    },
+    {
+      "name": "offline_startup_flag",
+      "status": "pass",
+      "detail": "서버의 OFFLINE_DEMO 다운로드 차단 설정 존재 여부. 실제 포트 접속 검사는 별도입니다."
+    },
+    {
+      "name": "synthetic_ward_dependencies",
+      "status": "pass",
+      "detail": "외부 환자 풀·영상 없이 합성 생성기와 상황판 엔진 초기화 확인.",
+      "on_duty": 40
+    },
+    {
+      "name": "synthetic_planner",
+      "status": "pass",
+      "detail": "외부 자료·네트워크 없이 합성 state/get_patient와 관찰 시점 확인.",
+      "patient_count": 8
+    }
+  ],
+  "offline_ready": true,
+  "real_model_call_verified": false,
+  "native_tool_call_verified": false,
+  "patient_data_sent": false,
+  "code_import_permission": "unconfirmed",
+  "probe_required": false,
+  "limits": [
+    "합성 smoke는 실제 K-MIMIC 연결·임상 효과·브라우저/포트 접근 성공의 증거가 아닙니다.",
+    "규칙 기반 합성 결과는 실제 모델 응답과 별도입니다."
+  ]
+}

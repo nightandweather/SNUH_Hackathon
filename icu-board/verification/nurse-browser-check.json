@@ -1,0 +1,50 @@
+{
+  "status": "passed",
+  "verified_at": "2026-10-11T11:56:28.364441+00:00",
+  "browser": "Codex in-app browser",
+  "base_url": "http://127.0.0.1:8001",
+  "clock": "07:18",
+  "same_server_and_clock": true,
+  "roles": {
+    "D-MICU-1": {
+      "patients": 2,
+      "scope": "assigned, cover and response in own ICU",
+      "vital_history_rendered": true
+    },
+    "D-MICU-C": {
+      "patients": 5,
+      "scope": "own ICU"
+    },
+    "HN01": {
+      "patients": 44,
+      "scope": "all eight ICUs",
+      "mutation_controls_hidden": true,
+      "icu_filter_checked": true
+    },
+    "E-MICU-1": {
+      "patients": 0,
+      "scope": "off duty",
+      "mutation_controls_hidden": true
+    }
+  },
+  "staff_markers": {
+    "count": 48,
+    "body_overlap_pairs": 0,
+    "visible_long_ids": 0,
+    "previous_scene_overlap_pairs_before": 10,
+    "previous_scene_overlap_pairs_after": 0,
+    "keyboard_selection_and_full_id_tooltip_checked": true
+  },
+  "browser_error_logs": [],
+  "limitations": [
+    "Real GLM/Qwen inference not invoked in this UI check",
+    "No handover receipt was generated in this live browser check; direct API tests cover authorization and shift changes"
+  ],
+  "final_reload_checked": true,
+  "nurse_selection_race_vm": {
+    "passed": true,
+    "scenarios": 7,
+    "case": "old requests stay invalid after selecting patient A, then B, then A again",
+    "real_model_call": false
+  }
+}

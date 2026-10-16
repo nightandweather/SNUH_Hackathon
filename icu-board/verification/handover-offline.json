@@ -1,0 +1,19 @@
+{
+  "success": true,
+  "data": "synth",
+  "synthetic_only": true,
+  "record_is_demo_input": true,
+  "mode": "rules",
+  "model": null,
+  "checks": {
+    "explicit_record_present": true,
+    "recorded_staff_present": true,
+    "patient_present": true,
+    "current_map_present": true,
+    "chat_does_not_add_actions": true,
+    "actual_model_response": null,
+    "scenario_origin_is_separate": true,
+    "simulation_activities_present": true
+  },
+  "text": "인계 · 07:03 · MICU-01 / 환자 S-MICU-019\n현재 근무: Day · 1일차\n직전 교대: 이 환자·현재 입원에 해당하는 인계 기록 없음\n내 이번 근무 수행 기록 · D-MICU-1 (1건):\n- 07:00 · D-MICU-1 · D조/1일차: 시연 입력: 활력징후를 재확인했고 담당 MD에게 현재 상태를 보고함. [사용자 입력]\n이전 조·동료 수행 기록 (0건):\n- 기록 없음\n시뮬레이션 활동 기록 (실제처치 수행기록 아님):\n내 이번 근무 시뮬레이션 활동 · D-MICU-1 (2건):\n- 07:00 · D-MICU-1 · D조/1일차: 시뮬레이션에서 코드블루(시연) 대응 출동 시작 [시뮬레이션 활동]\n- 07:02 · D-MICU-1 · D조/1일차: 시뮬레이션에서 코드블루(시연) 대응 병상 도착 [시뮬레이션 활동]\n이전 조·동료 시뮬레이션 활동 (4건):\n- 07:00 · D-MICU-C · D조/1일차: 시뮬레이션에서 코드블루(시연) 대응 출동 시작 [시뮬레이션 활동]\n- 07:00 · D-MICU-3 · D조/1일차: 시뮬레이션에서 코드블루(시연) 대응 출동 시작 [시뮬레이션 활동]\n- 07:02 · D-MICU-C · D조/1일차: 시뮬레이션에서 코드블루(시연) 대응 병상 도착 [시뮬레이션 활동]\n- 07:02 · D-MICU-3 · D조/1일차: 시뮬레이션에서 코드블루(시연) 대응 병상 도착 [시뮬레이션 활동]\n시뮬레이션 검사 업무 (실제 검사 시행·환자 검사결과의 증거 아님):\n- 기록 없음\n현재 시연 상태 · 07:03: HR 0 / MAP 0 / SpO2 기록 없음 / RR 0 · 위험지표 90/100\n활력 출처: 응급 시연 주입 수치이며 원본 MIMIC 관측값이 아닙니다.\n진단 기록: 상부위장관 출혈 · ICU 입실 9.5시간째\n미해결 사항 (현재 기록 기준):\n- 진행 중 코드블루(시연) · 3분 경과\n- 이벤트 출처: 응급 시연 주입 (code_blue), 실제 발생 기록 아님\n- MD MD-MICU · 알림 07:00 · 도착 07:01 (시뮬레이션)\n- 기준 밖 활력: HR, MAP\n기록 범위: 사용자 입력 기록만 수행 이력으로 표시했습니다. 시뮬레이션 활동은 별도 표시했고, 대화·AI 권고의 시행 여부는 확인되지 않았습니다.\n\n모델 응답 없음: 저장 기록과 현재 상태로 인계를 생성했습니다."
+}

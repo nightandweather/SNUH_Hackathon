@@ -1,0 +1,11 @@
+__pycache__
+*.pyc
+.env
+.env.pod
+.venv
+venv
+data/*
+!data/.keep
+static/cxr/*.jpg
+static/cxr/*.png
+*.png

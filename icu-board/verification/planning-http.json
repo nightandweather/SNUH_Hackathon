@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "checks": [
+    "synthetic_screen_and_scope",
+    "future_clinical_events_hidden",
+    "proposal_does_not_allocate",
+    "stale_approval_blocked",
+    "replan_requires_and_accepts_new_approval",
+    "duplicate_booking_blocked",
+    "cross_tab_reset_cannot_reuse_approval",
+    "weekend_replay_and_shifts_continue",
+    "monday_elective_schedule_resumes",
+    "scenario_identity_required"
+  ],
+  "check_count": 10,
+  "scope": "synthetic_operational_demo",
+  "real_model_call_verified": false,
+  "clinical_prediction_validated": false,
+  "verified_at": "2026-10-12T05:23:12.007374+00:00"
+}

@@ -1,0 +1,33 @@
+{
+  "verified_at": "2026-10-16T06:20:21.521385+00:00",
+  "scope": "synthetic_offline_github_source",
+  "whole_source_unit_tests": 149,
+  "whole_source_unit_tests_passed": true,
+  "offline_pod_check": "passed",
+  "original_board_javascript_vm": "passed",
+  "handover_regression": "passed_synthetic_code_blue",
+  "workflow_regression": "passed_synthetic_fixed_and_auto_480_and_1440_minutes",
+  "fresh_package": {
+    "status": "passed",
+    "fresh_unpack": true,
+    "source_hashes_verified": true,
+    "no_patient_data_cache": true,
+    "outbound_network_blocked": true,
+    "offline_ready": true,
+    "package_unit_tests": 38,
+    "http_check_count": 10,
+    "real_model_call_verified": false,
+    "nurse_handover_without_cached_images": true,
+    "ward_model_transport": "stubbed_unavailable",
+    "scope": "synthetic_operational_demo"
+  },
+  "existing_pericare_modified": false,
+  "real_model_call_verified": false,
+  "real_pod_execution_verified": false,
+  "credential_files_or_patient_caches_included": false,
+  "limits": [
+    "This run did not repeat browser rendering checks.",
+    "The package ward model transport is stubbed unavailable; no live model call is verified.",
+    "Prior verification JSON files retain their original scope and dates."
+  ]
+}

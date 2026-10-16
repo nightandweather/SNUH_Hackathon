@@ -1,0 +1,117 @@
+{
+  "unit_tests": {
+    "passed": 111,
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -q"
+  },
+  "ui_offline_vm": {
+    "passed": true,
+    "command": "node verification/ui-check.cjs",
+    "static_ids": 65,
+    "floors": 4,
+    "icus": 8,
+    "beds": 64,
+    "active_nurse_markers": 40,
+    "md_markers": 8
+  },
+  "record_handover": {
+    "report": "handover-offline.json",
+    "mode": "rules",
+    "real_model_call_verified": false
+  },
+  "mimic_replay_regression": {
+    "passed": true,
+    "policies": [
+      "fixed",
+      "auto"
+    ],
+    "durations_minutes": [
+      480,
+      1440
+    ],
+    "staff_total": 120,
+    "staff_on_duty": 40,
+    "doctors": 8,
+    "same_icu_response_and_cover": true,
+    "report": "workflows-offline.json",
+    "source_pool_unchanged": true
+  },
+  "limitations": [
+    "No real GLM or Qwen inference verified",
+    "No live K-MIMIC connection verified",
+    "Live browser did not generate a handover receipt; direct API tests cover receipt authorization and shift changes"
+  ],
+  "verified_at": "2026-10-11T11:56:28.364441+00:00",
+  "workflow_api": {
+    "patient_history": true,
+    "nurse_arrival_before_collection": true,
+    "emergency_preempts_workflow": true,
+    "cover_restored_after_emergency": true,
+    "busy_cover_holder_reassigned": true,
+    "admission_and_shift_guard": true,
+    "receipt_and_questions_separate_from_care": true,
+    "late_model_results_guarded": true,
+    "image_review_before_acquisition_rejected": true
+  },
+  "model_metadata": {
+    "mock_success_and_failure_verified": true,
+    "failed_consult_is_rules": true,
+    "failed_image_review_is_unavailable": true,
+    "real_model_call_verified": false
+  },
+  "data_connections": {
+    "public_mimic_replay": true,
+    "laboratory_results": false,
+    "patient_linked_cxr": false,
+    "public_nih_examples_only": true,
+    "kmimic_live_verified": false,
+    "ed_to_icu_journey": false,
+    "death_outcomes": false
+  },
+  "nurse_portal_tests": {
+    "passed": 19,
+    "module": "test_nurse_portal.py",
+    "scope": "Same 64-bed simulation, server-derived account and current-assignment authorization"
+  },
+  "live_http": {
+    "passed": true,
+    "report": "nurse-http-check.json",
+    "checks": 10,
+    "accounts": 121,
+    "bedside_patients_at_check": 2,
+    "charge_patients_at_check": 5,
+    "head_patients_at_check": 44
+  },
+  "live_browser": {
+    "passed": true,
+    "report": "nurse-browser-check.json",
+    "browser": "Codex in-app browser",
+    "roles_verified": [
+      "D-MICU-1",
+      "D-MICU-C",
+      "HN01",
+      "E-MICU-1"
+    ],
+    "same_server_and_clock": true,
+    "staff_markers": {
+      "count": 48,
+      "body_overlap_pairs": 0,
+      "visible_long_ids": 0,
+      "previous_scene_overlap_pairs_before": 10,
+      "previous_scene_overlap_pairs_after": 0,
+      "keyboard_selection_and_full_id_tooltip_checked": true
+    },
+    "final_reload_checked": true
+  },
+  "container_copy_staging": {
+    "passed": true,
+    "server_import": true,
+    "nurse_accounts": 121,
+    "actual_docker_build_verified": false
+  },
+  "nurse_selection_race_vm": {
+    "passed": true,
+    "scenarios": 7,
+    "case": "old requests stay invalid after selecting patient A, then B, then A again",
+    "real_model_call": false
+  }
+}

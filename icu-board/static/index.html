@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ICU 간호 배치 상황판</title>
+<style>
+:root{
+  --bg:#f6f7f9; --panel:#fff; --ink:#1b1f24; --muted:#6a7380; --line:#d9dde3;
+  --unit:#eef1f5; --corr:#e3e7ec; --empty:#cfd5dc;
+  --low:#3f9d6b; --mid:#d99a1e; --high:#d1453b;
+  --care:#2f6fd6; --move:#e07b12; --inc:#c62f2f; --cover:#7b4fd0; --rest:#8a939f;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12151a; --panel:#1b1f26; --ink:#e7eaee; --muted:#98a1ad; --line:#2d333c;
+  --unit:#222832; --corr:#1a1f27; --empty:#3a414c;
+  --low:#4fb782; --mid:#e3ac3a; --high:#ef6158;
+  --care:#5b93f0; --move:#f29a3c; --inc:#ef5350; --cover:#9a78e8; --rest:#6b7480;
+}}
+:root[data-theme="dark"]{
+  --bg:#12151a; --panel:#1b1f26; --ink:#e7eaee; --muted:#98a1ad; --line:#2d333c;
+  --unit:#222832; --corr:#1a1f27; --empty:#3a414c;
+  --low:#4fb782; --mid:#e3ac3a; --high:#ef6158;
+  --care:#5b93f0; --move:#f29a3c; --inc:#ef5350; --cover:#9a78e8; --rest:#6b7480;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif}
+header{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:5}
+h1{font-size:16px;margin:0}
+.clock{font-variant-numeric:tabular-nums;font-size:22px;font-weight:600}
+.ctl{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+button,select,.nurse-login{font:inherit;padding:5px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);cursor:pointer}
+.nurse-login{text-decoration:none;display:inline-block}
+button.on{background:var(--ink);color:var(--bg)}
+.tag{font-size:12px;color:var(--muted)}
+main{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px;padding:16px}
+@media (max-width:900px){main{grid-template-columns:minmax(0,1fr)}}
+.floor{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 10px 4px;margin-bottom:12px}
+.floor h2{font-size:13px;margin:0 0 2px;color:var(--muted);font-weight:600}
+svg{width:100%;height:auto;display:block}
+.unit-r{fill:var(--unit);stroke:var(--line);stroke-width:.15}
+.corr{fill:var(--corr)}
+.unit-t{font-size:1.5px;fill:var(--muted)}
+.bed{stroke:var(--line);stroke-width:.15;cursor:pointer}
+.bed.empty{fill:none;stroke:var(--empty);stroke-dasharray:.5 .4}
+.bed.focus{stroke:var(--high);stroke-width:.5}
+.bed.alarm{animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.35}}
+.bed-t{font-size:1.15px;fill:#fff;pointer-events:none;font-weight:600}
+.bed-id{font-size:.9px;fill:var(--muted);pointer-events:none}
+.nurse{transition:transform .45s linear;cursor:pointer;outline:none}
+.nurse circle{stroke:var(--panel);stroke-width:.2}
+.nurse text{font-size:.95px;fill:#fff;font-weight:700;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.nurse text.staff-tag,.doctor text.md-label{display:none}
+.nurse.me circle.body{stroke:var(--ink);stroke-width:.45}
+.nurse.selected circle.body,.nurse:focus circle.body{stroke:var(--ink);stroke-width:.45}
+.nurse circle.ring{fill:none;stroke-width:.4;transform:rotate(-90deg)}
+.doctor rect{fill:var(--ink);stroke:var(--panel);stroke-width:.25}.doctor.moving rect{fill:var(--move)}.doctor.responding rect{fill:var(--inc)}.doctor text{font-size:.85px;fill:var(--panel);font-weight:700;text-anchor:middle;dominant-baseline:central;pointer-events:none}.doctor{cursor:pointer;transition:transform .45s linear;outline:none}.doctor.selected rect,.doctor:focus rect{stroke:var(--care);stroke-width:.45}
+.marker-leader{stroke:var(--muted);stroke-width:.12;opacity:.5;pointer-events:none}.marker-origin{fill:var(--muted);opacity:.65;pointer-events:none}.marker-tooltip{pointer-events:none}.marker-tooltip rect{fill:var(--panel);stroke:var(--line);stroke-width:.15}.marker-tooltip text{font-size:.9px;fill:var(--ink);font-weight:600;text-anchor:middle;dominant-baseline:central}
+.fbar{height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:2px}
+.fbar>i{display:block;height:100%}
+.frow{display:grid;grid-template-columns:112px 1fr 64px;gap:8px;align-items:center;font-size:12px;padding:2px 0;cursor:pointer}
+.side>section{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:12px}
+.side h3{font-size:13px;margin:0 0 6px}
+.inc{border-left:4px solid var(--high);padding:4px 8px;margin:4px 0;background:var(--bg);border-radius:4px}
+.inc.focus{border-color:var(--cover)}
+.inc.det{border-color:var(--mid)}
+.log{font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;max-height:280px;overflow:auto;white-space:pre-wrap;color:var(--muted)}
+table{border-collapse:collapse;width:100%;font-size:13px}
+td,th{padding:3px 4px;border-bottom:1px solid var(--line);text-align:right}
+td:first-child,th:first-child{text-align:left}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--muted)}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;vertical-align:-1px;margin-right:4px}
+.sq{display:inline-block;width:12px;height:9px;border-radius:2px;vertical-align:-1px;margin-right:4px}
+#detail{font-size:13px}
+#detail b{font-variant-numeric:tabular-nums}
+.link{stroke:var(--ink);stroke-width:.25;stroke-dasharray:.6 .4;opacity:.8;pointer-events:none}
+.link.cover{stroke:var(--cover)}
+.mine{display:none}
+.pt{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;padding:6px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.pt:last-child{border-bottom:0}
+.risk{font-weight:700;font-variant-numeric:tabular-nums;font-size:18px;grid-row:span 2;align-self:center;min-width:34px;text-align:center;border-radius:6px;color:#fff;padding:2px 4px}
+.cbtn{margin-top:6px}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:20;padding:24px 16px;overflow:auto}
+.modal.open{display:block}
+.mbox{max-width:1100px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:12px;display:grid;grid-template-columns:340px minmax(0,1fr);min-height:70vh}
+@media (max-width:820px){.mbox{grid-template-columns:minmax(0,1fr)}}
+.mleft{border-right:1px solid var(--line);padding:14px;display:flex;flex-direction:column;gap:8px}
+.mleft img{width:100%;border-radius:8px;background:#000}
+.mleft pre{font:11px/1.45 ui-monospace,Menlo,monospace;white-space:pre-wrap;color:var(--muted);margin:0;max-height:260px;overflow:auto}
+.care-record{padding-top:12px;border-top:1px solid var(--line);margin-top:6px}.care-record h3{font-size:12px;margin:0 0 6px}.care-record textarea{font:inherit;font-size:12px;line-height:1.6;width:100%;min-height:75px;resize:vertical;border:1px solid var(--line);border-radius:7px;padding:8px;background:var(--bg);color:var(--ink);margin-top:8px}.care-controls{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}.care-controls button{font-size:11px}.care-error{font-size:11px;color:var(--high);white-space:pre-wrap;margin-top:6px}.care-actions{max-height:200px;overflow:auto;margin-top:9px}.care-action{border-top:1px solid var(--line);padding:7px 0;font-size:11px;white-space:pre-wrap;overflow-wrap:anywhere}.care-action small{display:block;font-size:10px;color:var(--muted);margin-bottom:3px}.handover-action{font-size:10px;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:6px;padding:6px;background:var(--bg);border-radius:4px}.handover-action small{color:var(--muted);display:block}.care-status{font-size:10px;color:var(--muted);margin-top:6px}
+.simulation-activities{margin-top:13px;padding-top:9px;border-top:1px solid var(--line)}.simulation-activities h3{font-size:12px;margin:0 0 5px}.sim-activity{font-size:11px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.7;padding:6px 0;border-top:1px solid var(--line)}.sim-activity small{font-size:10px;color:var(--muted);display:block;margin-bottom:3px}.sim-activity-list{max-height:170px;overflow:auto;margin-top:6px}
+.mright{display:flex;flex-direction:column;min-width:0}
+.mhead{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}
+.chat{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:10px;max-height:60vh}
+.msg{max-width:80%;padding:8px 12px;border-radius:12px;white-space:pre-wrap;line-height:1.5}
+.msg .who{display:block;font-size:11px;color:var(--muted);margin-bottom:2px}
+.msg.agent{background:var(--bg);border:1px solid var(--line);align-self:flex-start}
+.msg.nurse{background:var(--care);color:#fff;align-self:flex-end}
+.msg.nurse .who{color:rgba(255,255,255,.8)}
+.msg.wait{opacity:.6;font-style:italic}
+.mfoot{display:flex;gap:6px;padding:10px 14px;border-top:1px solid var(--line);flex-wrap:wrap}
+.mfoot input{flex:1;min-width:180px;font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.banner button{margin-left:10px;background:#fff;color:#000;border:0}
+.banner{display:none;background:var(--inc);color:#fff;padding:10px 16px;font-weight:600}
+.shiftbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 20px;padding:13px 16px;background:var(--panel);border-bottom:1px solid var(--line)}
+.shift-current{min-width:160px}.shift-current b{font-size:16px}.shift-current small{display:block;color:var(--muted);font-size:11px;margin-bottom:3px}
+.shift-timing{font-size:12px;line-height:1.8}.shift-timing b{font-variant-numeric:tabular-nums}.shift-schedule{display:flex;flex-wrap:wrap;gap:6px;flex:1}
+.shift-chip{border:1px solid var(--line);border-radius:7px;padding:6px 10px;font-size:11px;color:var(--muted)}.shift-chip strong{display:block;color:var(--ink);font-size:12px}.shift-chip.active{border-color:var(--care);background:var(--bg)}.shift-chip.next{border-style:dashed}
+.shift-prep{display:none;background:var(--mid);color:var(--panel);font-size:12px;font-weight:600;padding:8px 16px}.shift-note{font-size:11px;color:var(--muted);padding:8px 16px 0;line-height:1.8}
+.roster-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}.roster-head h3{margin:0}.roster-head select{font-size:11px;padding:4px 6px;max-width:190px}.roster-table{font-size:10px;margin-top:8px}.roster-table td,.roster-table th{vertical-align:top;text-align:left;padding:6px 3px}.roster-table small{display:block;color:var(--muted);font-size:9px;margin-top:3px}.roster-staff{background:none;border:0;padding:0;font-size:10px;color:var(--care);text-align:left;word-break:break-word}.roster-slot{font-size:9px;color:var(--muted)}
+.handover-list{max-height:310px;overflow:auto;margin-top:8px}.handover-patient{padding:9px 0;border-top:1px solid var(--line);font-size:11px;line-height:1.8}.handover-patient b{font-variant-numeric:tabular-nums}.handover-assignment{color:var(--care);font-size:10px;overflow-wrap:anywhere}.handover-events{color:var(--high);font-size:10px}.handover-history{margin-top:9px;padding-top:7px;border-top:1px solid var(--line);font-size:10px;color:var(--muted)}.handover-bed{font-size:11px;padding:2px 5px;margin-right:5px}.compare-controls{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0}.compare-controls select,.compare-controls button{font-size:11px}.shift-message{font-size:11px;color:var(--muted)}
+.demo-badge{display:inline-block;font-size:10px;background:var(--mid);color:var(--panel);border-radius:4px;padding:1px 5px;margin-right:5px}.emergency-demo{margin-top:10px;padding:9px;border:1px solid var(--line);border-radius:7px;background:var(--bg)}.emergency-demo b{font-size:12px}.emergency-buttons{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}.emergency-buttons button{font-size:11px}.emergency-message{font-size:11px;white-space:pre-wrap;color:var(--high);margin-top:7px}.simulation-note{font-size:11px;color:var(--mid);font-weight:600;margin:5px 0}.md-key{display:inline-block;padding:0 3px;font-size:9px;font-weight:700;border-radius:2px;background:var(--ink);color:var(--panel);margin-right:4px}
+.patient-panel{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}.patient-panel h4{font-size:12px;margin:0 0 6px}.trend-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}.trend-card{min-width:0;border:1px solid var(--line);border-radius:7px;padding:7px;background:var(--bg)}.trend-card strong{font-size:17px;font-variant-numeric:tabular-nums}.trend-card small{font-size:10px;color:var(--muted);display:block}.trend-card svg{margin-top:5px}.trend-legend{font-size:10px;color:var(--muted);line-height:1.8}.trend-legend i{display:inline-block;width:12px;height:3px;vertical-align:middle;margin-right:3px}.patient-error{font-size:11px;color:var(--high);white-space:pre-wrap;margin:6px 0}.diagnostics{margin-top:13px;padding-top:10px;border-top:1px solid var(--line)}.diagnostic-controls{display:flex;gap:5px;flex-wrap:wrap;margin:7px 0}.diagnostic-controls button{font-size:11px}.diagnostic-task{margin-top:8px;border:1px solid var(--line);padding:8px;border-radius:7px;background:var(--bg);font-size:11px}.diagnostic-task b{font-size:12px}.diagnostic-task ol{padding-left:17px;margin:6px 0;color:var(--muted);font-size:10px;line-height:1.8}.diagnostic-task img{width:100%;max-height:230px;object-fit:contain;margin-top:8px;background:#000;border-radius:5px}.image-review{white-space:pre-wrap;overflow-wrap:anywhere;font-size:11px;border-top:1px solid var(--line);padding-top:7px;margin-top:7px}.diagnostic-task button{font-size:11px;margin-top:6px}.handover-receipt{margin-top:8px;padding:8px;border:1px solid var(--line);border-radius:6px;background:var(--bg)}.handover-receipt textarea{display:block;width:100%;resize:vertical;min-height:45px;font:inherit;font-size:11px;margin:6px 0;padding:6px;border:1px solid var(--line);border-radius:4px;background:var(--panel);color:var(--ink)}.handover-receipt button{font-size:10px;padding:3px 6px;margin-right:4px}.handover-notice{font-size:10px;white-space:pre-wrap;color:var(--care);margin-top:5px}.handover-question{font-size:10px;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:5px}
+</style>
+</head>
+<body>
+<header>
+  <h1>ICU 간호 배치 상황판</h1>
+  <span class="clock" id="clock">--:--</span>
+  <div class="ctl">
+    <button id="play">일시정지</button>
+    <select id="speed" title="속도: 1초당 진행 분">
+      <option value="1">1분/초</option><option value="2" selected>2분/초</option>
+      <option value="5">5분/초</option><option value="15">15분/초</option><option value="30">30분/초</option></select>
+    <button data-policy="fixed">기존 2:1 고정</button>
+    <button data-policy="auto">자동 배치 (병동 내)</button>
+    <button id="reset">새 시나리오</button>
+    <select id="me" title="내 간호사 화면"><option value="">병동 전체 화면</option></select>
+    <a class="nurse-login" href="/nurse" target="_blank" rel="noopener">간호사 로그인</a>
+  </div>
+  <span class="tag" id="src"></span>
+</header>
+<div class="banner" id="banner"></div>
+<section class="shiftbar" aria-label="현재 근무와 3교대 일정">
+  <div class="shift-current"><small>현재 근무조</small><b id="shiftCurrent">교대 정보 불러오는 중</b><div class="tag" id="shiftHours"></div></div>
+  <div class="shift-timing" id="shiftTiming"></div>
+  <div class="shift-schedule" id="shiftSchedule"></div>
+  <div><button id="nextShift">다음 교대까지</button><div class="shift-message" id="shiftMessage" role="status"></div></div>
+</section>
+<div class="shift-prep" id="shiftPrep" role="status"></div>
+<p class="shift-note">교대 시 환자 경과와 진행 중 이벤트는 이어집니다. 배치·대신 보기·출동은 같은 ICU 안에서 이뤄집니다. 내 화면은 선택 슬롯의 현재 근무자를 보여주며, MD 1명/ICU는 시연 설정입니다.</p>
+<main>
+  <div id="floors"></div>
+  <div class="side">
+    <section class="mine" id="minebox"><h3 id="minetitle">내 화면</h3><div id="minestat" class="tag"></div><div id="minelist"></div></section>
+    <section>
+      <h3>범례</h3>
+      <div class="legend">
+        <span><span class="sq" style="background:var(--low)"></span>위험 &lt;40</span>
+        <span><span class="sq" style="background:var(--mid)"></span>40–69</span>
+        <span><span class="sq" style="background:var(--high)"></span>≥70 집중관리</span>
+        <span><span class="dot" style="background:var(--care)"></span>담당 환자 간호</span>
+        <span><span class="dot" style="background:var(--move)"></span>이동 중</span>
+        <span><span class="dot" style="background:var(--inc)"></span>이벤트 대응</span>
+        <span><span class="dot" style="background:var(--cover)"></span>같은 ICU 환자 대신 봄</span>
+        <span><span class="dot" style="background:var(--rest)"></span>휴식</span>
+        <span><span class="md-key">MD</span>전담/당직 MD (시연)</span>
+        <span>간호사 둘레 고리 = 피로도 (초록 &lt;60 · 노랑 60–74 · 빨강 ≥75)</span>
+        <span>모인 표식은 펼쳐 표시 · 가는 선은 원래 위치 · 전체 ID는 호버/포커스/선택</span>
+      </div>
+    </section>
+    <section><h3>진행 중</h3><div id="incs"></div></section>
+    <section><h3 id="ftitle">현재 근무조 피로도 높은 간호사</h3><div id="fat"></div></section>
+    <section><h3>환자 / 간호사</h3><div id="detail" class="tag">병상을 누르면 환자 정보가 나옵니다.</div><div id="patientPanel" class="patient-panel" style="display:none"><h4>현재 활력 · 최근 2시간 재생</h4><div class="tag" id="patientAsOf"></div><div class="trend-legend"><i style="background:var(--care)"></i>기록 재생 <i style="background:var(--mid);margin-left:7px"></i>응급 시연 주입 · 점은 재생 관찰 시점</div><div class="trend-grid" id="patientTrends"></div><div class="tag" id="patientHistorySource" style="font-size:10px;margin-top:6px"></div><div class="patient-error" id="patientHistoryError" role="status"></div><div class="diagnostics"><h4>검사 업무 시연</h4><div class="tag" style="font-size:10px">검체·촬영 준비 과정을 시뮬레이션합니다. 실제 검사 처방·결과가 아닙니다.</div><div class="tag" id="diagnosticActor" style="font-size:10px;margin-top:4px"></div><div class="diagnostic-controls"><button id="bloodDraw">채혈 시연</button><button id="portableXray">포터블 호출 시연</button></div><div class="patient-error" id="diagnosticMessage" role="status"></div><div id="patientDiagnostics"></div></div></div></section>
+    <section><div class="roster-head"><h3>현재 / 다음 근무조</h3><select id="rosterUnit" aria-label="근무표와 인계 환자 ICU 선택"></select></div><div class="tag" id="rosterSummary"></div><table class="roster-table" id="rosterTable"></table></section>
+    <section><h3>최근 교대 인계 자료</h3><div class="tag" id="handoverSummary"></div><div class="handover-list" id="handoverPatients"></div><div class="handover-history" id="handoverHistory"></div></section>
+    <section>
+      <h3>지표 <span class="tag" id="mpol"></span></h3>
+      <table id="metrics"></table>
+      <div class="compare-controls"><select id="compareMinutes" aria-label="배치 정책 비교 기간"><option value="480">8시간 · 한 근무조</option><option value="1440">24시간 · 3교대</option></select><button id="cmp">같은 시나리오 비교</button></div>
+      <table id="cmpt"></table>
+    </section>
+    <section><h3>기록</h3><div class="log" id="log"></div></section>
+  </div>
+</main>
+<div class="modal" id="modal"><div class="mbox">
+  <div class="mleft">
+    <b id="cTitle">AI 상담</b>
+    <img id="cImg" alt="공개 NIH 예시 흉부 X-ray · 이 환자 영상 아님">
+    <span class="tag" id="cImgCap"></span>
+    <b style="font-size:12px">AI에게 들어가는 환자 데이터</b>
+    <pre id="cCtx"></pre>
+    <section class="care-record"><h3>내가 수행한 내용 · 사용자 입력</h3><div class="tag" id="cCareActor"></div><textarea id="cCareInput" maxlength="1000" aria-label="사용자가 실제 수행한 내용" placeholder="예: 14:40 환자 혈압 재측정 후 담당의에게 보고함"></textarea><div class="care-controls"><button id="cCareSave">기록 저장</button><button id="cHandover">근무 인계</button></div><div class="care-error" id="cCareError" role="alert"></div><div class="care-status" id="cCareStatus" role="status"></div><p class="tag" style="font-size:10px;margin:7px 0 0">일반 대화와 AI 권고는 수행 기록에 자동으로 저장되지 않습니다.</p><div class="care-actions" id="cCareActions"></div></section>
+    <section class="simulation-activities"><h3>시뮬레이션 활동</h3><div class="tag" style="font-size:10px">엔진에서 진행한 출동·도착·대응 경과이며 실제 환자 처치 기록이 아닙니다.</div><div class="sim-activity-list" id="cActivities"></div></section>
+  </div>
+  <div class="mright">
+    <div class="mhead"><span><b>간호사 ↔ AI 에이전트</b> <span class="tag" id="cModel"></span></span>
+      <span><button id="cAuto">자동 대화 ▶</button> <button id="cSbar">SBAR로 정리</button> <button id="cClose">닫기</button></span></div>
+    <div class="chat" id="cChat"></div>
+    <div class="mfoot"><input id="cIn" placeholder="간호사로 직접 입력 (입력하면 그때부터 사람이 간호사 역할)"><button id="cSend">보내기</button></div>
+  </div>
+</div></div>
+<script>
+const $ = s => document.querySelector(s);
+const NS = "http://www.w3.org/2000/svg";
+const qs = new URLSearchParams(location.search);
+let me = qs.get("nurse") || "";
+let S = null, picked = null, built = false, rosterUnit = "", staffOptionsSignature = "", emergencyBusy = false, emergencyMessage = "", emergencyMessageBed = "", nextShiftBusy = false;
+const floorSvg = {}, linkG = {}, markerLeaderG = {}, markerTooltipG = {}, nurseEl = {}, doctorEl = {}, bedEl = {}, markerPositions = {};
+let markerHover = null, markerFocus = null;
+const bedPos = {};
+const esc = value => String(value ?? "").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const shiftKorean = (code,label) => ({D:"데이",E:"이브닝",N:"나이트"}[code] || label || "–");
+const staffId = n => n.staff_id || n.id;
+const scenarioNames={code_blue:"코드블루",hypoxia:"저산소증",hypotension:"저혈압"};
+function simulationName(patient){const flag=patient?.simulation_override;if(!flag)return "";return typeof flag==="object"?(flag.label||scenarioNames[flag.scenario]||flag.scenario||"응급상황"):typeof flag==="string"?(scenarioNames[flag]||flag):"응급상황";}
+const staffIdentity = n => `${staffId(n)} · ${n.shift_label || S.shift?.label || "근무조"}`;
+const minutesText = value => {const minutes=Math.max(0,Math.round(Number(value)||0));return minutes>=60?`${Math.floor(minutes/60)}시간${minutes%60?` ${minutes%60}분`:""}`:`${minutes}분`;};
+function simClock(t){if(t==null)return "–";const [hours,minutes]=String(S.clock||"07:00").split(":").map(Number);const clock=((hours*60+minutes-Number(S.t||0)+Number(t))%1440+1440)%1440;return `${String(Math.floor(clock/60)).padStart(2,"0")}:${String(Math.floor(clock%60)).padStart(2,"0")}`;}
+function updateNurseOptions(force=false){
+  const signature=S.nurses.map(n=>staffIdentity(n)).join("|");if(!force&&signature===staffOptionsSignature)return;staffOptionsSignature=signature;
+  $("#me").innerHTML='<option value="">병동 전체 화면</option>'+S.nurses.map(n=>`<option value="${esc(n.id)}">${esc(staffIdentity(n))}${n.role==="charge"?" (책임)":""}</option>`).join("");$("#me").value=me;
+}
+
+
+function el(tag, attrs, parent){ const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.appendChild(e); return e; }
+function nurseY(n){ return n.y < 3.6 ? n.y + 2.7 : n.y > S.floor_h - 3.6 ? n.y - 2.7 : n.y; }
+function markerUnit(person){return S.floors.find(f=>f.floor===person.floor)?.units.find(unit=>unit.id===person.unit);}
+function layoutStaffMarkers(){
+  // Presentation offsets only: API positions, route timing and assignments stay untouched.
+  // Stable slot order plus the prior offset avoids random placement and close-range jitter.
+  const entries=S.nurses.map(person=>({key:"N:"+person.id,person})).concat((S.doctors||[]).map(person=>({key:"MD:"+person.id,person}))).sort((a,b)=>a.key.localeCompare(b.key));
+  const placed=[],spacing=3.6,margin=1.75;
+  for(const entry of entries){
+    const person=entry.person,unit=markerUnit(person),left=(unit?.x||0)+margin,right=(unit?unit.x+unit.w:S.floor_w)-margin,top=margin,bottom=Math.min(unit?.h||S.floor_h,S.floor_h)-margin;
+    const clamp=(value,low,high)=>Math.max(low,Math.min(high,value));
+    const anchor={x:clamp(person.x,left,right),y:clamp(nurseY(person),top,bottom)},previous=markerPositions[entry.key];
+    const neighbours=entries.some(other=>other!==entry&&other.person.floor===person.floor&&other.person.unit===person.unit&&Math.hypot(other.person.x-person.x,nurseY(other.person)-nurseY(person))<4.6);
+    const previousOffset=previous?.floor===person.floor&&previous.unit===person.unit?{x:previous.x-previous.baseX,y:previous.y-previous.baseY}:{x:0,y:0};
+    const candidates=[],seen=new Set();
+    const candidate=(dx,dy)=>{const x=clamp(anchor.x+dx,left,right),y=clamp(anchor.y+dy,top,bottom),key=`${x.toFixed(3)}:${y.toFixed(3)}`;if(seen.has(key))return;seen.add(key);const offset={x:x-anchor.x,y:y-anchor.y};const conflicts=placed.filter(other=>other.floor===person.floor&&Math.hypot(x-other.x,y-other.y)<spacing-.001).length;const bedText=(unit?.beds||[]).filter(bed=>Math.abs(x-bed.x)<2.8&&Math.abs(y-(bed.y+.4))<2.2).length;const score=offset.x**2+offset.y**2+(neighbours?1.5:.15)*((offset.x-previousOffset.x)**2+(offset.y-previousOffset.y)**2);candidates.push({x,y,conflicts,bedText,score});};
+    candidate(0,0);candidate(previousOffset.x,previousOffset.y);
+    for(let dx=-4;dx<=4;dx++)for(let dy=-3;dy<=3;dy++)candidate(dx*spacing,dy*spacing);
+    candidates.sort((a,b)=>a.conflicts-b.conflicts||a.bedText-b.bedText||a.score-b.score||a.y-b.y||a.x-b.x);
+    const chosen=candidates[0],position={x:chosen.x,y:chosen.y,floor:person.floor,unit:person.unit,baseX:anchor.x,baseY:anchor.y,actualX:person.x,actualY:person.y};markerPositions[entry.key]=position;placed.push(position);
+  }
+  for(const floor in markerLeaderG)markerLeaderG[floor].innerHTML="";
+  for(const entry of entries){const position=markerPositions[entry.key],layer=markerLeaderG[position.floor];if(!layer||Math.hypot(position.x-position.actualX,position.y-position.actualY)<.2)continue;el("line",{x1:position.actualX,y1:position.actualY,x2:position.x,y2:position.y,class:"marker-leader"},layer);el("circle",{cx:position.actualX,cy:position.actualY,r:.22,class:"marker-origin"},layer);}
+}
+function renderMarkerTooltip(){
+  for(const floor in markerTooltipG)markerTooltipG[floor].innerHTML="";
+  const key=markerHover||markerFocus||(picked?.startsWith("N:")||picked?.startsWith("MD:")?picked:null);if(!key)return;
+  const person=key.startsWith("N:")?S.nurses.find(n=>"N:"+n.id===key):(S.doctors||[]).find(doctor=>"MD:"+doctor.id===key),position=markerPositions[key];if(!person||!position)return;
+  const unit=markerUnit(person),layer=markerTooltipG[person.floor];if(!layer)return;
+  const text=key.startsWith("N:")?staffIdentity(person):person.id+" · MD 시연",width=Math.min((unit?.w||S.floor_w)-1,Math.max(5,text.length*.55+2)),left=unit?.x||0,right=unit?unit.x+unit.w:S.floor_w,x=Math.max(left+width/2+.3,Math.min(right-width/2-.3,position.x));
+  el("rect",{x:x-width/2,y:-3.35,width,height:1.5,rx:.3},layer);el("text",{x,y:-2.6},layer).textContent=text;
+}
+function updateMarkerSelection(){
+  for(const id in nurseEl)nurseEl[id].classList.toggle("selected",picked==="N:"+id);
+  for(const id in doctorEl)doctorEl[id].classList.toggle("selected",picked==="MD:"+id);
+  renderMarkerTooltip();
+}
+function bindMarkerReadout(marker,key){
+  marker.addEventListener("mouseenter",()=>{markerHover=key;renderMarkerTooltip();});marker.addEventListener("mouseleave",()=>{if(markerHover===key)markerHover=null;renderMarkerTooltip();});
+  marker.addEventListener("focus",()=>{markerFocus=key;markerHover=null;renderMarkerTooltip();});marker.addEventListener("blur",()=>{if(markerFocus===key)markerFocus=null;renderMarkerTooltip();});
+}
+function whereIs(n){
+  let best=null, bd=1e9;
+  for(const id in bedPos){ const p=bedPos[id]; if(p.floor!==n.floor) continue; const d=Math.hypot(p.x-n.x,p.y-n.y); if(d<bd){bd=d;best=id;} }
+  if(n.on_break) return `${n.floor}층 휴게실 · 휴식 중`;
+  const st = n.incident ? (n.status==="moving"?"이벤트로 이동 중":"이벤트 대응 중") : n.status==="moving" ? "이동 중" : "간호 중";
+  const at = Math.abs(n.x-S.elevator_x)<3.2 ? "엘리베이터/복도" : bd<3.6 ? `${best} 옆` : "스테이션";
+  return `${n.floor}층 ${at} · ${st}`;
+}
+function careOf(bedId){  // 이 환자와 연결된 간호사들: 담당, 대신 봄, 이벤트 출동
+  const out=[]; const b=findBed(bedId); if(!b) return out;
+  const inc=S.incidents.find(i=>i.bed===bedId);
+  for(const n of S.nurses){
+    if(n.id===b.nurse) out.push([n, n.on_break ? "담당(휴식 중)" : "담당"]);
+    else if(n.cover.includes(bedId)) out.push([n,"대신 봄"]);
+    else if(inc && inc.responders.includes(n.id)) out.push([n,"출동"]);
+  }
+  return out;
+}
+function findBed(id){ for(const f of S.floors) for(const u of f.units) for(const x of u.beds) if(x.id===id) return x; return null; }
+function drawLinks(){
+  for(const k in linkG) linkG[k].innerHTML="";
+  const pairs=[];
+  if(picked && !picked.startsWith("N:")) for(const [n,role] of careOf(picked)) pairs.push([picked,n,role]);
+  const mine=S.nurses.find(n=>n.id===me);
+  if(mine) for(const b of mine.beds.concat(mine.cover)) pairs.push([b,mine,mine.cover.includes(b)?"대신 봄":"담당"]);
+  for(const [bid,n,role] of pairs){
+    const p=bedPos[bid]; if(!p || p.floor!==n.floor) continue;
+    const target=markerPositions["N:"+n.id]||{x:n.x,y:nurseY(n)};
+    el("line",{x1:p.x,y1:p.y,x2:target.x,y2:target.y,class:"link"+(role==="대신 봄"?" cover":"")},linkG[p.floor]);
+  }
+}
+function drawMine(){
+  const box=$("#minebox"), mine=S.nurses.find(n=>n.id===me);
+  if(!mine){ box.style.display="none"; return; }
+  box.style.display="block";
+  $("#minetitle").textContent = `내 화면 · ${staffIdentity(mine)}${mine.role==="charge"?" (책임)":""}`;
+  $("#minestat").innerHTML = `근무 슬롯 ${esc(mine.id)} · 현재 위치: ${whereIs(mine)}<br>이번 근무 업무 ${mine.work}분 · 내 피로도 ${mine.fatigue} (${fatLabel(mine.fatigue)})
+    <div class="fbar"><i style="width:${mine.fatigue}%;background:${fatColor(mine.fatigue)}"></i></div>`
+    + (mine.role==="charge" ? `<div style="margin-top:6px"><b>우리 병동 간호사</b>${S.nurses.filter(n=>n.unit===mine.unit&&n.role==="bedside").map(fatRow).join("")}</div>` : "");
+  const ids = mine.role==="charge" ? findUnitBeds(mine.unit) : mine.beds.concat(mine.cover);
+  const g=x=>x==null?"–":x;
+  $("#minelist").innerHTML = ids.map(id=>{
+    const b=findBed(id), p=b&&b.patient;
+    const tag = mine.cover.includes(id) ? " · 대신 봄" : mine.role==="charge" ? ` · 담당 ${esc(staffId(S.nurses.find(n=>n.id===b.nurse)||{id:b.nurse}))}` : "";
+    if(!p) return `<div class="pt" data-bed="${id}"><span class="risk" style="background:var(--empty)">–</span><b>${id}${tag}</b><span class="tag">빈 병상</span></div>`;
+    const v=p.vitals;
+    return `<div class="pt" data-bed="${id}"><span class="risk" style="background:${riskColor(p.risk)}">${p.risk}</span>
+      <b>${id}${tag}${p.focus?" · 1:1":""}</b>
+      <span class="tag">${p.dx} · HR ${g(v.hr)} MAP ${g(v.map)} SpO₂ ${g(v.spo2)}${p.abn.length?` <span style="color:var(--high)">(${p.abn.join(", ")})</span>`:""}</span></div>`;
+  }).join("") || '<span class="tag">담당 환자 없음</span>';
+  document.querySelectorAll("#minelist .pt").forEach(d=>d.onclick=()=>{picked=d.dataset.bed; detail(); drawLinks();});
+}
+function findUnitBeds(unit){ for(const f of S.floors) for(const u of f.units) if(u.id===unit) return u.beds.map(b=>b.id); return []; }
+function fatColor(f){ return f>=S.fatigue_high?"var(--high)":f>=S.fatigue_warn?"var(--mid)":"var(--low)"; }
+function fatLabel(f){ return f>=S.fatigue_high?"과로":f>=S.fatigue_warn?"휴식 권고":"양호"; }
+function fatRow(n){ return `<div class="frow" data-n="${n.id}"><span title="${esc(staffIdentity(n))}">${esc(staffId(n))}${n.on_break?" ☕":""}</span><div class="fbar"><i style="width:${n.fatigue}%;background:${fatColor(n.fatigue)}"></i></div><span>${n.fatigue} ${fatLabel(n.fatigue)}</span></div>`; }
+function riskColor(r){ return r>=70?"var(--high)":r>=40?"var(--mid)":"var(--low)"; }
+const pad = 2;
+
+function build(){
+  const box = $("#floors"); box.innerHTML = "";
+  for(const key in markerPositions)delete markerPositions[key];markerHover=null;markerFocus=null;
+  for(const f of S.floors){
+    const d = document.createElement("div"); d.className="floor";
+    d.innerHTML = `<h2>${f.floor}층</h2>`;
+    const svg = el("svg",{viewBox:`${-pad} ${-pad-1.5} ${S.floor_w+2*pad} ${S.floor_h+2*pad+1.5}`});
+    el("rect",{x:S.elevator_x-3,y:0,width:6,height:S.floor_h,class:"corr"},svg);
+    const et = el("text",{x:S.elevator_x,y:S.floor_h/2,class:"unit-t","text-anchor":"middle"},svg); et.textContent="E/V";
+    for(const u of f.units){
+      el("rect",{x:u.x,y:0,width:u.w,height:u.h,rx:.6,class:"unit-r"},svg);
+      const t = el("text",{x:u.x+.4,y:-.5,class:"unit-t"},svg); t.textContent=u.name;
+      for(const b of u.beds){
+        const g = el("g",{},svg);
+        const r = el("rect",{x:b.x-2.5,y:b.y-1.5,width:5,height:3,rx:.4,class:"bed"},g);
+        const tx = el("text",{x:b.x,y:b.y+.4,class:"bed-t","text-anchor":"middle"},g);
+        const id = el("text",{x:b.x,y:b.y<S.floor_h/2?b.y-1.8:b.y+2.6,class:"bed-id","text-anchor":"middle"},g);
+        id.textContent = b.id.split("-").pop();
+        r.addEventListener("click",()=>{picked=b.id; detail(); drawLinks();});
+        bedEl[b.id] = {r,tx}; bedPos[b.id] = {floor:f.floor, x:b.x, y:b.y};
+      }
+    }
+    linkG[f.floor] = el("g",{},svg);
+    markerLeaderG[f.floor] = el("g",{"aria-hidden":"true"},svg);
+    floorSvg[f.floor] = el("g",{},svg);
+    markerTooltipG[f.floor] = el("g",{class:"marker-tooltip","aria-hidden":"true"},svg);
+    d.appendChild(svg); box.appendChild(d);
+  }
+  updateNurseOptions(true);
+  built = true;
+}
+
+function draw(){
+  if(!built) build();
+  layoutStaffMarkers();
+  updateNurseOptions(); drawShifts(); drawRoster(); drawHandover();
+  $("#clock").textContent = S.clock;
+  $("#play").textContent = S.running ? "일시정지" : "재생";
+  $("#speed").value = String(S.speed);
+  document.querySelectorAll("[data-policy]").forEach(b=>b.classList.toggle("on", b.dataset.policy===S.policy));
+  const SRC = {"K-MIMIC":"K-MIMIC", "MIMIC-IV":"MIMIC-IV 실제 환자", "synthetic":"가상"};
+  $("#src").textContent = `환자 데이터: ${S.source.map(x=>SRC[x]||x).join(" + ")} · 시나리오 ${S.seed}`;
+
+  const alarmBeds = new Set(S.incidents.filter(i=>i.type!=="focus").map(i=>i.bed));
+  const mine = S.nurses.find(n=>n.id===me);
+  for(const f of S.floors) for(const u of f.units) for(const b of u.beds){
+    const e = bedEl[b.id]; const p = b.patient;
+    e.r.setAttribute("class","bed"+(p?"":" empty")+(p&&p.focus?" focus":"")+(alarmBeds.has(b.id)?" alarm":""));
+    e.r.setAttribute("fill", p ? riskColor(p.risk) : "none");
+    const myBed = mine && (mine.beds.includes(b.id) || mine.cover.includes(b.id) || (mine.role==="charge" && u.id===mine.unit));
+    e.r.style.opacity = mine && !myBed ? .35 : 1;
+    e.tx.textContent = p ? p.risk : "";
+  }
+  for(const n of S.nurses){
+    let e = nurseEl[n.id];
+    if(!e){ e = el("g",{class:"nurse",role:"button",tabindex:0}); el("circle",{r:1.05,class:"body"},e); el("circle",{r:1.45,class:"ring",pathLength:100},e); el("text",{class:"staff-glyph"},e); el("text",{class:"staff-tag",y:2.25},e); el("title",{},e); const select=()=>{picked="N:"+n.id; detail(); drawLinks();}; e.addEventListener("click",select);e.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();select();}});bindMarkerReadout(e,"N:"+n.id); nurseEl[n.id]=e; }
+    e.querySelector(".staff-glyph").textContent=`${n.shift_code||S.shift?.code||""}${n.id.split("-").pop()}`;
+    e.querySelector(".staff-tag").textContent=staffId(n);
+    e.querySelector("title").textContent=`${staffIdentity(n)} · 슬롯 ${n.id} · ${whereIs(n)}`;
+    e.setAttribute("aria-label",`간호사 ${staffIdentity(n)} · 슬롯 ${n.id}`);
+    if(e.parentNode!==floorSvg[n.floor]){ floorSvg[n.floor].appendChild(e); e.style.transition="none"; }
+    const position=markerPositions["N:"+n.id];
+    e.style.transform = `translate(${position.x}px,${position.y}px)`;
+    requestAnimationFrame(()=>e.style.transition="");
+    const c = n.on_break ? "var(--rest)" : n.incident ? (n.status==="moving"?"var(--move)":"var(--inc)") : n.cover.length ? "var(--cover)" : n.status==="moving"?"var(--move)":"var(--care)";
+    e.firstChild.setAttribute("fill", c);
+    const ring = e.children[1];
+    ring.style.stroke = fatColor(n.fatigue);
+    ring.style.strokeDasharray = `${Math.max(n.fatigue,1)} 100`;
+    e.firstChild.setAttribute("stroke-dasharray", n.role==="charge" ? ".5 .3" : "");
+    e.classList.toggle("me", n.id===me);
+  }
+
+  for(const doctor of S.doctors||[]){
+    let marker=doctorEl[doctor.id];
+    if(!marker){marker=el("g",{class:"doctor",role:"button",tabindex:0});el("rect",{x:-1.3,y:-1.2,width:2.6,height:2.4,rx:.3},marker);const glyph=el("text",{y:.05},marker);glyph.textContent="MD";el("text",{class:"md-label",y:2.2},marker);el("title",{},marker);const select=()=>{picked="MD:"+doctor.id;detail();drawLinks();};marker.addEventListener("click",select);marker.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();select();}});bindMarkerReadout(marker,"MD:"+doctor.id);doctorEl[doctor.id]=marker;}
+    const layer=floorSvg[doctor.floor],position=markerPositions["MD:"+doctor.id];if(layer&&marker.parentNode!==layer)layer.appendChild(marker);marker.style.transform=`translate(${position.x}px,${position.y}px)`;marker.setAttribute("class",`doctor ${doctor.status}`);marker.querySelector(".md-label").textContent=doctor.id;marker.querySelector("title").textContent=`${doctor.id} · ${doctor.role} · ${doctor.unit}`;marker.setAttribute("aria-label",`${doctor.id} · ${doctor.role} · 시연 MD 상세`);
+  }
+
+  $("#incs").innerHTML = S.incidents.length ? S.incidents.map(i=>{
+    const resp = i.responders.map(r=>{const label=esc(staffId(S.nurses.find(n=>n.id===r)||{id:r}));return i.arrived.includes(r)?`<b>${label}</b>`:`${label}→`;}).join(", ") || "<i>대기 중</i>";
+    const doctor=i.doctor_id?`${esc(i.doctor_id)} · ${i.doctor_waiting?"호출 대기":i.doctor_arrived_t!=null?"도착·대응 중":i.doctor_called_t!=null?"호출·이동 중":"대기"}`:"MD 호출 정보 없음";
+    const shortage=Number(i.shortage)||0,doctorTiming=i.doctor_id?` · 호출 ${simClock(i.doctor_called_t)} / 도착 ${simClock(i.doctor_arrived_t)}`:"";
+    return `<div class="inc ${i.type}">${i.simulated?'<span class="demo-badge">시연 주입</span>':""}${esc(i.label)} · ${esc(i.bed)} · 발생 후 ${i.elapsed_min??S.t-i.start}분<br><span class="tag">${resp} (간호사 필요 ${i.need}명 · 부족 ${shortage}명)<br>${doctor}${doctorTiming}</span></div>`;
+  }).join("") : '<span class="tag">없음</span>';
+
+  const top = S.nurses.filter(n=>n.role==="bedside").sort((a,b)=>b.fatigue-a.fatigue).slice(0,6);
+  $("#fat").innerHTML = top.map(fatRow).join("");
+  document.querySelectorAll("#fat .frow").forEach(d=>d.onclick=()=>{picked="N:"+d.dataset.n; detail(); drawLinks();});
+
+  const m = S.metrics;
+  $("#mpol").textContent = S.policy==="auto" ? "자동 배치 (병동 내)" : "기존 2:1 (병동 내)";
+  $("#metrics").innerHTML = metricRows(m).map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("");
+  $("#log").textContent = S.log.slice().reverse().join("\n");
+
+  const ban = $("#banner");
+  const call = mine && S.incidents.find(i=>i.responders.includes(me));
+  const covering = mine && mine.cover.length;
+  if(call){ ban.style.display="block"; ban.style.background = call.type==="focus"?"var(--cover)":"var(--inc)";
+    ban.innerHTML = `${esc(staffIdentity(mine))}: ${call.label} ${call.bed} ${call.arrived.includes(me)?"대응 중":"으로 이동하세요"}<button onclick="openConsult('${call.bed}','${call.label} 호출받고 ${call.bed}로 가는 중이에요. 도착하면 뭐부터 봐야 해요?')">AI 브리핑</button>`; }
+  else if(covering){ ban.style.display="block"; ban.style.background="var(--cover)";
+    ban.textContent = `${staffIdentity(mine)}: 동료 대신 ${mine.cover.join(", ")} 환자를 봐주세요`; }
+  else ban.style.display="none";
+  updateMarkerSelection();
+  if(picked) detail();
+  drawLinks();
+  drawMine();
+  if(C.bed && $("#modal").classList.contains("open")) checkCareIdentity();
+}
+
+function drawShifts(){
+  const finished=S.t>=1440;$("#nextShift").disabled=nextShiftBusy||finished;if(finished)$("#shiftMessage").textContent="24시간 시연 완료 · 새 시나리오로 다시 시작할 수 있습니다.";
+  const shift=S.shift;if(!shift){$("#shiftCurrent").textContent="교대 정보 없음";return;}
+  $("#shiftCurrent").textContent=finished?"24시간 시연 완료":`${shiftKorean(shift.code,shift.label)} · ${shift.label}`;
+  $("#shiftHours").textContent=`${shift.start_clock}–${shift.end_clock}`;
+  $("#shiftTiming").innerHTML=finished?`전체 3교대 경과를 완료했습니다.<br>근무 인계와 기록을 확인하세요.`:`다음 <b>${esc(shiftKorean(shift.next_code,shift.next_label))} · ${esc(shift.next_label)}</b><br>교대까지 <b>${minutesText(shift.remaining_min)}</b> · 현재 간호사 <b>${shift.on_duty}</b>명 / 3근무조 ${shift.total_staff}명`;
+  $("#shiftSchedule").innerHTML=(S.shift_schedule||[]).map(item=>`<div class="shift-chip ${item.active?"active":item.next?"next":""}"><strong>${esc(shiftKorean(item.code,item.label))} ${item.active?"· 현재":item.next?"· 다음":""}</strong>${esc(item.start_clock)}–${esc(item.end_clock)} · ${item.staff_count}명</div>`).join("");
+  $("#shiftPrep").style.display=shift.in_handover&&!finished?"block":"none";
+  $("#shiftPrep").textContent=`교대 준비 · ${shiftKorean(shift.next_code,shift.next_label)} 근무조로 인계하기까지 ${minutesText(shift.remaining_min)}. 환자 상태·미해결 이벤트·담당자를 확인하세요.`;
+}
+function drawRoster(){
+  const units=S.floors.flatMap(f=>f.units);if(!units.some(unit=>unit.id===rosterUnit))rosterUnit=units[0]?.id||"";
+  const options=units.map(unit=>`<option value="${esc(unit.id)}">${esc(unit.id)} · ${esc(unit.name)}</option>`).join("");
+  if($("#rosterUnit").innerHTML!==options)$("#rosterUnit").innerHTML=options;$("#rosterUnit").value=rosterUnit;
+  const shift=S.shift||{},roster=S.roster||[],current=roster.filter(n=>n.unit===rosterUnit&&n.shift_code===shift.code),next=roster.filter(n=>n.unit===rosterUnit&&n.shift_code===shift.next_code);
+  $("#rosterSummary").textContent=`${rosterUnit} · 현재 ${current.length}명 / 다음 ${next.length}명 · 전체 간호사 ${shift.total_staff??roster.length}명`;
+  const slots=[...new Set(current.concat(next).map(n=>n.slot_id))];
+  const role=staff=>staff?.role==="charge"?"책임 간호사":"병상 담당";
+  $("#rosterTable").innerHTML=`<tr><th>근무 슬롯</th><th>현재 ${esc(shift.label||"–")}</th><th>다음 ${esc(shift.next_label||"–")}</th></tr>`+slots.map(slot=>{const a=current.find(n=>n.slot_id===slot),b=next.find(n=>n.slot_id===slot);return `<tr><td class="roster-slot">${esc(slot)}</td><td>${a?`<button class="roster-staff" data-slot="${esc(slot)}">${esc(a.staff_id)}</button><small>${esc(a.shift_label)} · ${role(a)}</small>`:"–"}</td><td>${b?`${esc(b.staff_id)}<small>${esc(b.shift_label)} · ${role(b)}</small>`:"–"}</td></tr>`;}).join("");
+  document.querySelectorAll("#rosterTable .roster-staff").forEach(button=>button.onclick=()=>{picked="N:"+button.dataset.slot;detail();drawLinks();});
+}
+function handoverTaskSummary(tasks){
+  const rows=(tasks||[]).map(task=>`${esc(diagnosticNames[task.kind]||task.kind)}: ${esc(diagnosticStatus[task.status]||task.status)}${task.paused?` · 중단(${esc(task.pause_reason||"사유 없음")})`:""}`);
+  return rows.length?`<div class="tag" style="font-size:10px">검사 업무 시연 · ${rows.join(" / ")}</div>`:"";
+}
+function handoverReceiptHtml(patient,handover){
+  const key=JSON.stringify([S.seed,handover.t,patient.bed,patient.pid,patient.admit_t]),selection=patientSelection(patient.bed),current=findBed(patient.bed)?.patient;
+  const eligible=selection&&selection.staff_id===patient.to_staff_id&&samePatientKey(current,patient),receipt=patient.receipt||{status:"pending",questions:[]},busy=H.busy.has(key);
+  if(selection)H.rows.set(key,{...selection,patient_key:{pid:patient.pid,admit_t:patient.admit_t},handover_t:handover.t,seed:S.seed,eligible});
+  const label={pending:"수신 확인 대기",received:"인계 수신 확인됨",question_open:"질문 저장됨 · 답변 대기"}[receipt.status]||"수신 확인 대기";
+  return `<div class="handover-receipt"><b>${esc(label)}</b>${receipt.received_by?`<div class="tag" style="font-size:10px">${esc(receipt.received_clock||simClock(receipt.received_t))} · 확인 ${esc(receipt.received_by)}</div>`:""}<div class="tag" style="font-size:10px">보낸 담당 ${esc(patient.from_staff_id||"–")} → 받는 담당 ${esc(patient.to_staff_id||"–")}</div><div class="tag" style="font-size:10px">${me?`내 화면: ${esc(selection?.staff_id||"미배정")}`:`받는 담당자 역할 시연: ${esc(selection?.staff_id||"미배정")} · 실제 로그인 아님`}</div><button data-handover-action="ack" data-handover-row="${esc(key)}" ${!eligible||busy?"disabled":""}>인계 확인</button><button data-consult-bed="${esc(patient.bed)}">현재 기록 AI 상담</button><textarea maxlength="1000" data-handover-draft="${esc(key)}" aria-label="${esc(patient.bed)} 인계 자료에 남길 질문" placeholder="인계 자료에 남길 질문" ${!eligible||busy?"disabled":""}>${esc(H.drafts.get(key)||"")}</textarea><button data-handover-action="question" data-handover-row="${esc(key)}" ${!eligible||busy?"disabled":""}>질문 저장</button><div class="tag" style="font-size:10px">${eligible?"질문은 인계 자료에 저장되며 전 근무자에게 실제 메시지가 발송되지 않습니다.":"이 인계의 현재 받는 담당자만 확인·질문을 저장할 수 있습니다."}</div>${(receipt.questions||[]).map(question=>`<div class="handover-question"><small>${esc(question.clock||simClock(question.t))} · ${esc(question.staff_id)} · 사용자 입력 질문</small><div>${esc(question.text)}</div></div>`).join("")}<div class="handover-notice" data-handover-notice="${esc(key)}" role="status">${esc(H.messages.get(key)||"")}</div></div>`;
+}
+function drawHandover(){
+  const handover=S.last_handover,signature=JSON.stringify([S.seed,rosterUnit,handover,me,S.nurses.map(n=>[n.id,staffId(n)]),S.floors.flatMap(f=>f.units.flatMap(u=>u.beds.map(b=>[b.id,b.nurse,b.patient?.pid,b.patient?.admit_t])))]);
+  if(signature===H.signature)return;H.signature=signature;H.rows.clear();
+  if(!handover){$("#handoverSummary").textContent="아직 생성된 교대 인계 자료가 없습니다.";$("#handoverPatients").innerHTML='<span class="tag">교대 시 환자 상태·담당자 인계 자료가 생성되고 수신 확인을 기다립니다.</span>';$("#handoverHistory").textContent="";return;}
+  const unitBeds=new Set(findUnitBeds(rosterUnit)),patients=(handover.patients||[]).filter(patient=>unitBeds.has(patient.bed));
+  $("#handoverSummary").textContent=`${handover.clock} · ${handover.from_label} → ${handover.to_label} · ${rosterUnit} 환자 ${patients.length}명 · 교대 당시 자료 / 수신 확인은 별도`;
+  const value=x=>x==null?"–":esc(x);
+  $("#handoverPatients").innerHTML=patients.map(patient=>{const vitals=patient.vitals||{},events=patient.open_events||[],actions=patient.actions||[],activities=(patient.activities||[]).filter(activity=>activity.source==="simulation_activity");return `<div class="handover-patient"><button class="handover-bed" data-bed="${esc(patient.bed)}">${esc(patient.bed)}</button><b>${esc(patient.pid)}</b> · 위험 ${value(patient.risk)}<div>${esc(patient.dx||"")}</div><div>HR ${value(vitals.hr)} · MAP ${value(vitals.map)} · SpO₂ ${value(vitals.spo2)} · RR ${value(vitals.rr)}</div>${patient.abn?.length?`<div class="handover-events">${patient.abn.map(esc).join(", ")}</div>`:""}<div class="handover-assignment">${esc(patient.from_staff_id||"미배정")} → ${esc(patient.to_staff_id||"미배정")}</div>${simulationName(patient)?`<div class="simulation-note">응급 시연 주입 · ${esc(simulationName(patient))}</div>`:""}<div class="handover-events">${events.length?`미해결 ${events.length}건 · ${events.map(event=>`${event.simulated?"[시연] ":""}${esc(event.label||event.type||event.id)}${event.doctor_id?` / ${esc(event.doctor_id)} ${event.doctor_waiting?"호출 대기":event.doctor_arrived_t!=null?"도착":"호출"}`:""}${event.shortage!=null?` / 간호사 부족 ${event.shortage}명`:""}`).join(", ")}`:"미해결 이벤트 없음"}</div>${handoverTaskSummary(patient.diagnostics)}${actions.length?`<details><summary>사용자 입력 수행 기록 ${actions.length}건</summary>${actions.map(action=>`<div class="handover-action"><small>${esc(action.clock)} · ${esc(action.staff_id)}</small><div>${esc(action.text)}</div></div>`).join("")}</details>`:'<div class="tag" style="font-size:10px">사용자 입력 수행 기록 없음</div>'}${activities.length?`<details><summary>시뮬레이션 활동 ${activities.length}건 · 실제 처치 기록 아님</summary><div class="handover-sim-activities" data-bed="${esc(patient.bed)}"></div></details>`:''}${handoverReceiptHtml(patient,handover)}</div>`;}).join("")||'<span class="tag">이 ICU에서 인계한 환자 없음</span>';
+  document.querySelectorAll("#handoverPatients .handover-bed").forEach(button=>button.onclick=()=>{picked=button.dataset.bed;detail();drawLinks();});
+  document.querySelectorAll("#handoverPatients .handover-sim-activities").forEach(block=>{const patient=patients.find(item=>item.bed===block.dataset.bed);renderActivitiesInto(block,patient?.activities,12);});
+  $("#handoverHistory").textContent=(S.handover_history||[]).slice(-3).reverse().map(item=>`${item.clock} ${item.from_label}→${item.to_label} · 환자 ${item.patient_count??0}명 / 미해결 ${item.open_event_count??0}건`).join(" · ");
+}
+function updateHandoverNotice(key){document.querySelectorAll("#handoverPatients [data-handover-notice]").forEach(node=>{if(node.dataset.handoverNotice===key)node.textContent=H.messages.get(key)||"";});}
+async function sendHandoverAction(key,action){
+  const row=H.rows.get(key);if(!row?.eligible||H.busy.has(key))return;
+  const text=(H.drafts.get(key)||"").trim();if(action==="question"&&!text){H.messages.set(key,"질문을 입력해 주세요.");updateHandoverNotice(key);return;}
+  H.busy.add(key);H.messages.set(key,action==="ack"?"수신 확인 저장 중…":"질문 저장 중…");H.signature="";drawHandover();
+  try{const result=await patientRequest("/api/handover",row,{action,...(action==="question"?{text}:{})});if(S.seed!==row.seed||S.last_handover?.t!==row.handover_t)return;
+    if(result.last_handover?.t===row.handover_t)S.last_handover=result.last_handover;
+    else{const patient=S.last_handover.patients.find(item=>item.bed===row.bed&&samePatientKey(item,row.patient_key));if(patient&&result.receipt)patient.receipt=result.receipt;}
+    if(action==="question")H.drafts.delete(key);H.messages.set(key,action==="ack"?"인계 자료의 수신을 확인했습니다.":"질문 저장됨 · 답변 대기. 전 근무자에게 실제 메시지를 발송하지 않았습니다.");
+  }catch(error){H.messages.set(key,error.message);}
+  finally{H.busy.delete(key);H.signature="";drawHandover();}
+}
+
+function metricRows(m){
+  const f = v => v==null ? "–" : v;
+  return [["심정지 건수", m.arrest.n],["심정지 첫 도착(분)", f(m.arrest.first_resp)],["심정지 3명 모이기(분)", f(m.arrest.full_team)],
+          ["급격한 악화 건수", m.det.n],["악화 첫 도착(분)", f(m.det.first_resp)],["집중관리 1:1 건수", m.focus.n],
+          ["돌봄 공백(환자·분)", m.unattended_min],
+          ["중증 환자 돌봄 공백(분)", m.unattended_high_min],["담당 자리별 누적 업무량 편차(분)", m.workload_sd],
+          ["누적 최고 피로도", m.fatigue_max],[m.fatigue_mean_label || "평가 시점 평균 피로도", m.fatigue_mean],["피로도 75 이상(간호사·분)", m.fatigue_high_min]];
+}
+
+const SRCN = {"MIMIC-IV":"MIMIC-IV 실제", "K-MIMIC":"K-MIMIC 실제", "synthetic":"가상"};
+const P={key:"",selection:null,history:null,diagnostics:[],historyLoading:false,historyError:"",lastRequested:0,requestToken:0,workflowBusy:false,reviewBusy:false,message:"",reviewTask:null};
+const H={signature:"",rows:new Map(),drafts:new Map(),busy:new Set(),messages:new Map()};
+const diagnosticNames={blood_draw:"채혈",portable_xray:"포터블 X-ray"};
+const diagnosticStatus={requested:"요청 접수",nurse_en_route:"간호사 이동 중",collecting:"검체 채취 시연 중",specimen_sent:"검체 전달 시연 완료",preparing:"촬영 준비 시연 중",called:"포터블 호출 시연",acquiring:"촬영 시연 중",image_available:"공개 예시 영상 준비됨",cancelled:"취소됨"};
+const vitalSpecs=[{key:"hr",name:"HR",unit:"bpm"},{key:"map",name:"MAP",unit:"mmHg"},{key:"spo2",name:"SpO₂",unit:"%"},{key:"rr",name:"RR",unit:"/min"}];
+function vitalNumber(value){return value==null||value===""||!Number.isFinite(Number(value))?null:Number(value);}
+function vitalText(value){const number=vitalNumber(value);return number==null?"없음":String(Number(number.toPrecision(3)));}
+function samePatientKey(a,b){return a&&b&&String(a.pid)===String(b.pid)&&String(a.admit_t)===String(b.admit_t);}
+function patientSelection(bedId=picked){
+  if(!S||!bedId||bedId.startsWith("N:")||bedId.startsWith("MD:"))return null;
+  const bed=findBed(bedId),patient=bed?.patient;if(!patient)return null;
+  const nurse=S.nurses.find(item=>item.id===(me||bed.nurse));
+  return {bed:bed.id,nurse_id:nurse?.id,staff_id:nurse?staffId(nurse):undefined,patient_key:{pid:patient.pid,admit_t:patient.admit_t}};
+}
+function selectionKey(selection){return selection?JSON.stringify([S.seed,selection.bed,selection.nurse_id,selection.staff_id,selection.patient_key.pid,selection.patient_key.admit_t]):"";}
+function selectionCurrent(selection,key){return P.key===key&&selectionKey(patientSelection())===key&&samePatientKey(findBed(selection.bed)?.patient,selection.patient_key);}
+function patientDiagnostics(records,selection){return (records||[]).filter(task=>task.bed===selection?.bed&&samePatientKey(task,selection?.patient_key));}
+function mergeDiagnostics(records,selection=P.selection){
+  const cached=new Map(patientDiagnostics(P.diagnostics,selection).map(task=>[task.id,task]));
+  return patientDiagnostics(records,selection).map(task=>{const old=cached.get(task.id)||{},merged={...old,...task};if(task.status!=="image_available"){delete merged.image_url;delete merged.image_id;}return merged;});
+}
+function syncPatientPanel(){
+  const selection=patientSelection(),key=selectionKey(selection),panel=$("#patientPanel");panel.style.display=selection?"block":"none";
+  if(key!==P.key){Object.assign(P,{key,selection,history:null,diagnostics:[],historyLoading:false,historyError:"",lastRequested:0,workflowBusy:false,reviewBusy:false,message:"",reviewTask:null});P.requestToken++;}
+  if(!selection)return;
+  const patient=findBed(selection.bed).patient;
+  if(Array.isArray(patient.diagnostics))P.diagnostics=mergeDiagnostics(patient.diagnostics,selection);
+  renderPatientPanel();
+  if(!P.historyLoading&&Date.now()-P.lastRequested>=3000)loadPatientHistory();
+}
+async function patientRequest(path,selection,extra={}){
+  const body={bed:selection.bed,nurse_id:selection.nurse_id,staff_id:selection.staff_id,patient_key:selection.patient_key,...(selection.handover_t!=null?{handover_t:selection.handover_t}:{}),...extra};
+  const response=await fetch(path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)}),result=await response.json();
+  if(!response.ok||result.error)throw new Error(`${result.error||"요청을 완료하지 못했습니다."}${response.status===409?" 현재 환자·담당자를 다시 선택해 주세요.":""}`);
+  return result;
+}
+async function loadPatientHistory(){
+  if(!P.selection||P.historyLoading)return;const selection=P.selection,key=P.key,token=++P.requestToken;P.historyLoading=true;P.lastRequested=Date.now();
+  try{const result=await patientRequest("/api/patient",selection);if(!selectionCurrent(selection,key)||token!==P.requestToken)return;
+    if(!samePatientKey(result.patient_key||result.history?.patient_key,selection.patient_key))throw new Error("환자 기록의 입실 정보가 일치하지 않습니다.");
+    P.history=result.history;P.diagnostics=mergeDiagnostics(result.diagnostics||[],selection);P.historyError="";
+  }catch(error){if(selectionCurrent(selection,key)&&token===P.requestToken)P.historyError=error.message;}
+  finally{if(selectionCurrent(selection,key)&&token===P.requestToken){P.historyLoading=false;renderPatientPanel();}}
+}
+function trendPoints(history){
+  const end=vitalNumber(history?.t);if(end==null)return [];
+  return (history.points||[]).filter(point=>vitalNumber(point.t)!=null&&Number(point.t)>=end-120&&Number(point.t)<=end).slice().sort((a,b)=>Number(a.t)-Number(b.t));
+}
+function recordedVital(point,key){return point.simulated||Object.prototype.hasOwnProperty.call(point.observed_vitals||{},key)?vitalNumber(point.observed_vitals?.[key]):vitalNumber(point[key]);}
+function drawVitalTrend(parent,spec,history){
+  const points=trendPoints(history),end=vitalNumber(history?.t),records=points.map(point=>({point,value:recordedVital(point,spec.key)})),overlays=points.map(point=>({point,value:point.simulated?vitalNumber(point[spec.key]):null})),values=records.concat(overlays).map(item=>item.value).filter(value=>value!=null);
+  const latest=records.filter(item=>item.value!=null).at(-1),caption=document.createElement("small");caption.textContent=latest?`마지막 재생 시점 ${latest.point.clock||simClock(latest.point.t)} · ${vitalText(latest.value)} ${spec.unit}`:"이 구간의 관측 기록 없음";parent.appendChild(caption);
+  if(!values.length){const empty=document.createElement("div");empty.className="tag";empty.style.fontSize="10px";empty.style.padding="15px 0";empty.textContent=P.historyLoading&&!history?"기록 불러오는 중…":"표시할 관측값 없음";parent.appendChild(empty);return;}
+  let low=Math.min(...values),high=Math.max(...values);if(high===low){const gap=Math.max(1,Math.abs(low)*.05);low-=gap;high+=gap;}const start=end-120,x=t=>8+(Number(t)-start)/120*124,y=value=>42-(value-low)/(high-low)*31;
+  const svg=el("svg",{viewBox:"0 0 140 61",role:"img","aria-label":`${spec.name} 최근 2시간 재생 추세. 파란색 기록 재생, 주황색 응급 시연 주입.`},parent);
+  el("line",{x1:8,y1:44,x2:132,y2:44,stroke:"var(--line)","stroke-width":.6},svg);
+  const series=(items,color,simulated)=>{let path="",connected=false;for(const item of items){if(item.value==null){connected=false;continue;}path+=`${connected?"L":"M"}${x(item.point.t).toFixed(2)},${y(item.value).toFixed(2)} `;connected=true;}if(path)el("path",{d:path,fill:"none",stroke:color,"stroke-width":1.5,"stroke-dasharray":simulated?"3 2":""},svg);for(const item of items){if(item.value==null)continue;const dot=el("circle",{cx:x(item.point.t),cy:y(item.value),r:1.8,fill:color},svg);el("title",{},dot).textContent=`${item.point.clock||simClock(item.point.t)} · ${simulated?"응급 시연 주입":"기록 재생"} · ${spec.name} ${vitalText(item.value)} ${spec.unit}`;}};
+  series(records,"var(--care)",false);series(overlays,"var(--mid)",true);
+  const left=el("text",{x:8,y:57,fill:"var(--muted)","font-size":6},svg);left.textContent="2시간 전";const right=el("text",{x:132,y:57,fill:"var(--muted)","font-size":6,"text-anchor":"end"},svg);right.textContent="조회 시점";
+}
+function renderPatientPanel(){
+  if(!P.selection||!selectionCurrent(P.selection,P.key))return;const patient=findBed(P.selection.bed).patient,history=P.history,source=history?.source||patient.source;
+  $("#patientAsOf").textContent=`${SRCN[source]||source||"출처 정보 없음"} · ${history?`조회 기준 ${history.as_of||simClock(history.t)}`:"관측 기록 조회 중"} · 미래 예측 없음`;
+  $("#patientHistorySource").textContent=history?.source_description||"기록 재생값 · 원본 측정 시각과 다를 수 있음";
+  const grid=$("#patientTrends");grid.innerHTML="";
+  for(const spec of vitalSpecs){const card=document.createElement("div");card.className="trend-card";const label=document.createElement("small");label.textContent=`${spec.name} · ${spec.unit}`;const current=document.createElement("strong");current.textContent=vitalText(patient.vitals?.[spec.key]);card.appendChild(label);card.appendChild(current);if(simulationName(patient)){const note=document.createElement("small");note.style.color="var(--mid)";note.textContent="현재값: 응급 시연 주입";card.appendChild(note);}drawVitalTrend(card,spec,history);grid.appendChild(card);}
+  $("#patientHistoryError").textContent=P.historyError;
+  $("#diagnosticActor").textContent=`${me?"내 화면 수행자":"담당 간호사 역할 시연"}: ${P.selection.staff_id||"미배정"}`;
+  $("#bloodDraw").disabled=P.workflowBusy;$("#portableXray").disabled=P.workflowBusy;$("#diagnosticMessage").textContent=P.message;
+  renderDiagnostics();
+}
+function renderDiagnostics(){
+  const box=$("#patientDiagnostics");box.innerHTML="";const tasks=patientDiagnostics(P.diagnostics,P.selection);
+  if(!tasks.length){const empty=document.createElement("div");empty.className="tag";empty.style.fontSize="11px";empty.textContent="이 입실에 접수된 검사 시연 없음";box.appendChild(empty);return;}
+  for(const task of tasks.slice().reverse()){
+    const card=document.createElement("div");card.className="diagnostic-task";const title=document.createElement("b");title.textContent=`${diagnosticNames[task.kind]||task.kind} 시연 · ${diagnosticStatus[task.status]||task.status}`;card.appendChild(title);
+    const actor=document.createElement("div");actor.className="tag";actor.style.fontSize="10px";actor.textContent=`${task.id} · 접수 ${task.requested_clock||simClock(task.requested_t)} · 요청 ${task.requested_by_staff_id||"–"}`;card.appendChild(actor);
+    if(task.paused){const pause=document.createElement("div");pause.className="simulation-note";pause.textContent=`일시 중단 · ${task.pause_reason||"중단 사유 정보 없음"}`;card.appendChild(pause);}
+    const timeline=document.createElement("ol");for(const event of task.events||[]){const item=document.createElement("li");item.textContent=`${event.clock||simClock(event.t)} · ${event.staff_id||"–"} · ${event.text||diagnosticStatus[event.status]||event.status}`;timeline.appendChild(item);}card.appendChild(timeline);
+    if(task.kind==="portable_xray"){
+      const note=document.createElement("div");note.className="tag";note.style.fontSize="10px";note.textContent="공개 NIH 예시 영상 · 이 환자의 영상이 아니며 환자와 연결되지 않습니다.";card.appendChild(note);
+      if(task.status==="image_available"){
+        if(task.image_source==="public_nih_example"&&task.patient_linked===false&&typeof task.image_url==="string"&&task.image_url.startsWith("/static/cxr/")){const image=document.createElement("img");image.src=task.image_url;image.alt=`공개 NIH 예시 흉부 X-ray ${task.image_id||""} · 이 환자 영상 아님`;card.appendChild(image);}
+        const button=document.createElement("button");button.dataset.imageReview=task.id;button.textContent=P.reviewBusy&&P.reviewTask===task.id?"공개 예시 영상 검토 중…":"공개 예시 영상 VL 검토";button.disabled=P.reviewBusy;card.appendChild(button);
+      }
+      const review=task.review;if(review){const output=document.createElement("div");output.className="image-review";const mode=document.createElement("b");mode.textContent=review.mode==="model"&&review.model?`공개 예시 영상 모델 출력 · ${review.model}`:"영상 모델 검토 미실행";const text=document.createElement("div");text.textContent=review.text||"영상 모델을 사용할 수 없어 검토를 실행하지 않았습니다.";output.appendChild(mode);output.appendChild(text);card.appendChild(output);}
+    }
+    box.appendChild(card);
+  }
+}
+async function requestDiagnostic(kind){
+  if(P.workflowBusy||!P.selection)return;const selection=P.selection,key=P.key;P.workflowBusy=true;P.message=`${diagnosticNames[kind]} 시연 접수 중…`;renderPatientPanel();
+  try{const result=await patientRequest("/api/diagnostics",selection,{kind});if(!selectionCurrent(selection,key))return;P.diagnostics=mergeDiagnostics(result.diagnostics||P.diagnostics.concat(result.task?[result.task]:[]),selection);P.message=`${diagnosticNames[kind]} 시연을 접수했습니다. 재생 시간에 따라 준비 과정이 진행됩니다.`;
+  }catch(error){if(selectionCurrent(selection,key))P.message=error.message;}
+  finally{if(selectionCurrent(selection,key)){P.workflowBusy=false;renderPatientPanel();}}
+}
+async function reviewDiagnostic(taskId){
+  const task=P.diagnostics.find(item=>item.id===taskId);if(P.reviewBusy||!P.selection||task?.status!=="image_available")return;const selection=P.selection,key=P.key;P.reviewBusy=true;P.reviewTask=taskId;P.message="공개 예시 영상의 모델 검토를 요청했습니다. 응답을 기다리는 중…";renderPatientPanel();
+  try{const result=await patientRequest("/api/image-review",selection,{task_id:taskId});if(!selectionCurrent(selection,key))return;if(result.patient_key&&!samePatientKey(result.patient_key,selection.patient_key))throw new Error("환자 입실 정보가 바뀌어 영상 응답을 반영하지 않았습니다.");P.diagnostics=mergeDiagnostics(result.diagnostics||P.diagnostics,selection);const current=P.diagnostics.find(item=>item.id===taskId);if(current)current.review={text:result.text,mode:result.mode,model:result.model,source:result.source};P.message=result.mode==="model"?"공개 예시 영상 검토를 받았습니다. 이 환자의 영상 판독으로 사용하지 않습니다.":"영상 모델 미연결·사용 불가로 검토를 실행하지 않았습니다.";
+  }catch(error){if(selectionCurrent(selection,key))P.message=error.message;}
+  finally{if(selectionCurrent(selection,key)){P.reviewBusy=false;P.reviewTask=null;renderPatientPanel();}}
+}
+function detail(){
+  const box = $("#detail");
+  updateMarkerSelection();
+  syncPatientPanel();if(!picked)return;
+  if(picked.startsWith("MD:")){
+    const doctor=(S.doctors||[]).find(item=>item.id===picked.slice(3));if(!doctor)return;const incident=S.incidents.find(item=>item.id===doctor.incident);
+    const status={available:"대기",moving:"응급 시연 대응으로 이동 중",responding:"응급 시연 대응 중"}[doctor.status]||doctor.status;
+    box.innerHTML=`<b>${esc(doctor.id)}</b> · ${esc(doctor.role)}<br>${esc(doctor.unit)} · ${doctor.floor}층 · ${esc(status)}<br>${incident?`담당 이벤트: ${esc(incident.label)} · ${esc(incident.bed)}`:"담당 이벤트 없음"}<div class="tag" style="margin-top:6px">MD 1명/ICU는 시연 설정입니다.</div>`;return;
+  }
+  if(picked.startsWith("N:")){
+    const n = S.nurses.find(x=>x.id===picked.slice(2)); if(!n) return;
+    box.innerHTML = `<b>간호사 ${esc(staffIdentity(n))}</b>${n.role==="charge"?" (책임)":""} · ${esc(n.unit)}<br>근무 슬롯: ${esc(n.id)}<br>위치: ${whereIs(n)}<br>담당: ${n.beds.join(", ")||"–"}<br>대신 봄: ${n.cover.join(", ")||"–"}<br>이번 근무 업무: ${n.work}분<br>피로도: <b style="color:${fatColor(n.fatigue)}">${n.fatigue}</b> (${fatLabel(n.fatigue)}) · 휴식 ${n.breaks}회`;
+    const activityBlock=document.createElement("section");activityBlock.className="simulation-activities";const heading=document.createElement("h3");heading.textContent="이번 근무 시뮬레이션 활동";const note=document.createElement("div");note.className="tag";note.style.fontSize="10px";note.textContent="엔진 출동·도착 경과 · 실제 환자 처치 기록 아님";const list=document.createElement("div");list.className="sim-activity-list";renderActivitiesInto(list,n.activities);activityBlock.appendChild(heading);activityBlock.appendChild(note);activityBlock.appendChild(list);box.appendChild(activityBlock);
+    return;
+  }
+  const b=findBed(picked);
+  if(!b) return;
+  if(!b.patient){ box.innerHTML = `<b>${b.id}</b> 빈 병상`; return; }
+  const p=b.patient, v=p.vitals, observed=p.observed_vitals||{},g=x=>x==null?"–":x;
+  box.innerHTML = `<b>${b.id}</b> · ${p.pid} <span class="tag">(${SRCN[p.source]||p.source})</span><br>${p.dx}${p.age!=null?` · ${p.age}세 ${p.sex}`:""}<br>${simulationName(p)?`<div class="simulation-note">응급 시연 주입 · ${esc(simulationName(p))} · 실제 환자 기록과 구분되는 시연 관찰값</div>`:""}
+    위험지표 <b style="color:${riskColor(p.risk)}">${p.risk}</b> · 집중관리 예상 ${g(p.risk_hours)}시간 남음${p.focus?" · <b>1:1 집중관리 중</b>":""}<br>
+    HR <b>${g(v.hr)}</b> · MAP <b>${g(v.map)}</b> · SpO₂ <b>${g(v.spo2)}</b> · RR <b>${g(v.rr)}</b> ${p.abn.length?`<span style="color:var(--high)">(${p.abn.join(", ")})</span>`:""}<br>
+    ${simulationName(p)?`<div class="tag" style="font-size:11px">원본 재생 관찰: HR ${esc(g(observed.hr))} · MAP ${esc(g(observed.map))} · SpO₂ ${esc(g(observed.spo2))} · RR ${esc(g(observed.rr))}</div>`:""}
+    ${p.vent?"기계환기 · ":""}${p.pressor?"승압제 · ":""}입실 ${p.hours}시간째<br>
+    <b>연결된 간호사</b><br>${careOf(b.id).map(([n,role])=>`${role} ${esc(staffIdentity(n))} — ${whereIs(n)}`).join("<br>")}
+    <br><button class="cbtn" onclick="openConsult('${b.id}')">AI 상담 · 현재 환자 기록</button>
+    <div class="emergency-demo"><b>응급상황 시연</b><div class="tag" style="font-size:10px;margin-top:3px">실제 원자료를 바꾸는 처치가 아닌 시연 이벤트·관찰값 주입입니다.</div><div class="emergency-buttons">${Object.entries(scenarioNames).map(([scenario,label])=>`<button data-emergency="${scenario}" data-bed="${esc(b.id)}" ${emergencyBusy?"disabled":""}>${label} 시연</button>`).join("")}</div><div class="emergency-message" role="status">${emergencyMessageBed===b.id?esc(emergencyMessage):""}</div></div>`;
+}
+
+async function post(body){const response=await fetch("/api/control",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});const result=await response.json();if(!response.ok||result.error)throw new Error(result.error||"요청을 완료하지 못했습니다.");return result;}
+async function poll(){
+  try{ const r = await fetch("/api/state"); const s = await r.json();
+    if(S && s.seed!==S.seed){ built=false; staffOptionsSignature=""; for(const k in nurseEl) delete nurseEl[k];for(const k in doctorEl) delete doctorEl[k]; $("#me").innerHTML='<option value="">병동 전체 화면</option>'; }
+    const first = !S; S = s; draw();
+    if(first && qs.get("consult")) openConsult(qs.get("consult")); }catch(e){}
+  setTimeout(poll, 500);
+}
+$("#play").onclick = () => post({action: S.running?"pause":"play"});
+$("#speed").onchange = e => post({action:"speed", value:+e.target.value});
+document.querySelectorAll("[data-policy]").forEach(b=>b.onclick=()=>post({action:"policy",value:b.dataset.policy}));
+$("#reset").onclick = () => post({action:"reset"});
+$("#me").onchange = e => { me=e.target.value; const nurse=S.nurses.find(n=>n.id===me);if(nurse){rosterUnit=nurse.unit;$("#rosterUnit").value=rosterUnit;} const u=new URL(location); me?u.searchParams.set("nurse",me):u.searchParams.delete("nurse"); history.replaceState(null,"",u); draw(); };
+$("#bloodDraw").onclick=()=>requestDiagnostic("blood_draw");
+$("#portableXray").onclick=()=>requestDiagnostic("portable_xray");
+$("#patientDiagnostics").addEventListener("click",event=>{const button=event.target.closest("[data-image-review]");if(button)reviewDiagnostic(button.dataset.imageReview);});
+$("#handoverPatients").addEventListener("input",event=>{const input=event.target.closest("[data-handover-draft]");if(input)H.drafts.set(input.dataset.handoverDraft,input.value.slice(0,1000));});
+$("#handoverPatients").addEventListener("click",event=>{const button=event.target.closest("[data-handover-action]");if(button)sendHandoverAction(button.dataset.handoverRow,button.dataset.handoverAction);const consult=event.target.closest("[data-consult-bed]");if(consult)openConsult(consult.dataset.consultBed);});
+$("#detail").addEventListener("click",async event=>{
+  const button=event.target.closest("[data-emergency]");if(!button||emergencyBusy)return;const bed=findBed(button.dataset.bed),patient=bed?.patient;if(!patient)return;
+  emergencyBusy=true;emergencyMessageBed=bed.id;emergencyMessage="응급 시연을 주입하는 중…";detail();
+  try{const response=await fetch("/api/emergency",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({bed:bed.id,scenario:button.dataset.emergency,patient_key:{pid:patient.pid,admit_t:patient.admit_t}})}),result=await response.json();if(!response.ok||result.error)throw new Error(result.error||"시연을 시작하지 못했습니다.");emergencyMessage=`${scenarioNames[button.dataset.emergency]} 시연을 주입했습니다. 진행 중 이벤트와 MD 호출을 확인하세요.`;}catch(error){emergencyMessage=error.message;}finally{emergencyBusy=false;if(picked===bed.id)detail();}
+});
+$("#rosterUnit").onchange=e=>{rosterUnit=e.target.value;drawRoster();drawHandover();};
+$("#nextShift").onclick=async()=>{if(nextShiftBusy||S.t>=1440)return;const button=$("#nextShift");nextShiftBusy=true;button.disabled=true;$("#shiftMessage").textContent="환자 경과와 이벤트를 다음 교대까지 진행 중…";try{await post({action:"next_shift"});$("#shiftMessage").textContent="다음 교대까지 진행했습니다.";}catch(error){$("#shiftMessage").textContent=error.message;}finally{nextShiftBusy=false;button.disabled=S.t>=1440;}};
+$("#cmp").onclick = async () => {
+  const button=$("#cmp"),minutes=Number($("#compareMinutes").value);button.disabled=true;$("#compareMinutes").disabled=true;
+  $("#cmpt").innerHTML = `<tr><td>${minutes===1440?"24시간 3교대":"8시간 한 근무조"} 계산 중…</td></tr>`;
+  try{const result=await post({action:"compare",minutes});const a=metricRows(result.fixed),b=metricRows(result.auto);
+    $("#cmpt").innerHTML = "<tr><th></th><th>기존 2:1</th><th>자동</th></tr>" + a.map((item,i)=>`<tr><td>${esc(item[0])}</td><td>${esc(item[1])}</td><td>${esc(b[i][1])}</td></tr>`).join("");
+  }catch(error){$("#cmpt").innerHTML=`<tr><td>${esc(error.message)}</td></tr>`;}finally{button.disabled=false;$("#compareMinutes").disabled=false;}
+};
+// ---------- 간호사 ↔ AI 상담 ----------
+const C = {bed:null, history:[], busy:false, human:false, stop:false, nurse_id:null, staff_id:null, shift_label:null, patient_key:null, actions:[], activities:[], stale:""};
+function bubble(m){
+  const d=document.createElement("div"); d.className="msg "+m.role+(m.wait?" wait":"");
+  const who = m.role==="agent" ? "AI 에이전트" : (m.human ? "간호사 (사람)" : "간호사 (AI 역할)");
+  d.innerHTML = `<span class="who">${who}</span>`; d.appendChild(document.createTextNode(m.text));
+  return d;
+}
+function renderChat(wait){
+  const box=$("#cChat"); box.innerHTML="";
+  C.history.forEach(m=>box.appendChild(bubble(m)));
+  if(wait) box.appendChild(bubble({role:wait, text:"생각 중…", wait:true}));
+  box.scrollTop = box.scrollHeight;
+}
+const activityNames={dispatch:"출동",arrival:"도착",response_end:"대응 종료",cover_start:"대신 보기 시작"};
+function renderActivitiesInto(parent,activities,limit=6){
+  parent.innerHTML="";const records=(activities||[]).filter(activity=>activity.source==="simulation_activity").slice(-limit).reverse();
+  if(!records.length){const empty=document.createElement("div");empty.className="tag";empty.style.fontSize="10px";empty.textContent="시뮬레이션 활동 없음";parent.appendChild(empty);return;}
+  for(const activity of records){const row=document.createElement("div");row.className="sim-activity";const caption=document.createElement("small");caption.textContent=`${activity.clock} · ${activity.staff_id} · ${activityNames[activity.type]||activity.type}`;const text=document.createElement("div");text.textContent=activity.text;row.appendChild(caption);row.appendChild(text);parent.appendChild(row);}
+}
+function filterPatientActivities(activities){return (activities||[]).filter(activity=>activity.source==="simulation_activity"&&activity.bed===C.bed&&String(activity.pid)===String(C.patient_key?.pid)&&String(activity.admit_t)===String(C.patient_key?.admit_t));}
+function renderPatientActivities(activities){C.activities=filterPatientActivities(activities);renderActivitiesInto($("#cActivities"),C.activities,12);}
+function filterCareActions(actions){return (actions||[]).filter(action=>action.source==="user_entered"&&action.bed===C.bed&&String(action.pid)===String(C.patient_key?.pid)&&String(action.admit_t)===String(C.patient_key?.admit_t));}
+function renderCareActions(actions){
+  C.actions=filterCareActions(actions);const box=$("#cCareActions");box.innerHTML="";
+  if(!C.actions.length){const note=document.createElement("div");note.className="tag";note.style.fontSize="10px";note.textContent="이 환자에게 저장한 사용자 수행 기록이 없습니다.";box.appendChild(note);return;}
+  for(const action of C.actions.slice().reverse()){
+    const row=document.createElement("div");row.className="care-action";const caption=document.createElement("small");caption.textContent=`${action.clock} · ${action.staff_id} · 사용자 입력`;
+    const text=document.createElement("div");text.textContent=action.text;row.appendChild(caption);row.appendChild(text);box.appendChild(row);
+  }
+}
+function checkCareIdentity(){
+  const patient=findBed(C.bed)?.patient,nurse=S.nurses.find(n=>n.id===C.nurse_id);
+  C.stale=!patient||String(patient.pid)!==String(C.patient_key?.pid)||String(patient.admit_t)!==String(C.patient_key?.admit_t)?"이 병상의 환자가 변경되었습니다. 상담창을 닫고 다시 열어주세요.":!nurse||staffId(nurse)!==C.staff_id?"근무조가 교대되어 기록자가 바뀌었습니다. 상담창을 닫고 새 담당자로 다시 열어주세요.":"";
+  $("#cCareActor").textContent=`기록자 ${C.staff_id||"미배정"} · ${C.shift_label||"–"} · 근무 슬롯 ${C.nurse_id||"–"}`;
+  if(C.stale)$("#cCareError").textContent=C.stale;
+  const actions=filterCareActions(S.care_actions);if(actions.length>=C.actions.length)renderCareActions(actions);const activities=filterPatientActivities(S.activities);if(activities.length>=C.activities.length)renderPatientActivities(activities);setBtns();
+}
+function careFailure(response,result){return `${result.error||"요청을 완료하지 못했습니다."}${response.status===409?" 상담창을 닫고 현재 환자·새 담당자로 다시 열어주세요.":""}`;}
+async function turn(who, task){
+  renderChat(who);
+  const response=await fetch("/api/consult",{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({bed:C.bed, who, task,nurse_id:C.nurse_id,staff_id:C.staff_id,patient_key:C.patient_key,history:C.history.map(m=>({role:m.role,text:m.text}))})});
+  const r=await response.json();
+  if(!response.ok||r.error){const message=careFailure(response,r);$("#cCareError").textContent=message;C.history.push({role:"agent",text:message});renderChat();return;}
+  if(r.cxr){$("#cImg").src = r.cxr.url;$("#cImgCap").textContent = `공개 예시 영상 소견: ${r.cxr.finding} (${r.cxr.ko}) · 예시 영상 NIH ChestX-ray14 ${r.cxr.image_id}, 이 환자 영상 아님`;}
+  $("#cCtx").textContent = r.context||"";
+  $("#cModel").textContent = `${task==="handover"?"근무 인계 · ":""}${r.mode==="model"&&r.model?`모델 출력: ${r.model}`:"규칙 기반 출력"}`;
+  if(Array.isArray(r.actions))renderCareActions(r.actions);if(Array.isArray(r.activities))renderPatientActivities(r.activities);
+  C.history.push({role: who, text: r.text});renderChat();
+}
+async function run(fn){ if(C.busy||C.stale) return; C.busy=true; setBtns(); try{ await fn(); }catch(error){$("#cCareError").textContent=error.message||"요청을 완료하지 못했습니다.";renderChat();}finally { C.busy=false; setBtns(); } }
+function setBtns(){ ["#cAuto","#cSbar","#cSend","#cCareSave","#cHandover"].forEach(selector=>$(selector).disabled=C.busy||Boolean(C.stale)); }
+function openConsult(bed, opener){
+  if(C.busy){$("#cCareError").textContent="진행 중인 상담 또는 저장이 끝난 뒤 새 상담창을 열어주세요.";$("#modal").classList.add("open");return;}
+  const current=findBed(bed),patient=current?.patient,nurse_id=me||current?.nurse,nurse=S.nurses.find(item=>item.id===nurse_id);
+  Object.assign(C,{bed,history:[],human:false,stop:false,nurse_id,staff_id:nurse?staffId(nurse):null,shift_label:nurse?.shift_label||S.shift?.label,patient_key:patient?{pid:patient.pid,admit_t:patient.admit_t}:null,actions:[],activities:[],stale:""});
+  $("#cTitle").textContent = `AI 상담 · ${bed}`; $("#cImg").removeAttribute("src"); $("#cCtx").textContent=""; $("#cImgCap").textContent="";$("#cModel").textContent="";$("#cCareInput").value="";$("#cCareError").textContent="";$("#cCareStatus").textContent="";
+  $("#modal").classList.add("open");renderCareActions(S.care_actions);renderPatientActivities(S.activities);checkCareIdentity();renderChat();
+  if(C.stale)return;
+  run(async()=>{
+    if(opener){ C.history.push({role:"nurse",text:opener}); } else { await turn("nurse"); }
+    await turn("agent");
+  });
+}
+$("#cCareSave").onclick=()=>run(async()=>{
+  const text=$("#cCareInput").value.trim();if(!text){$("#cCareError").textContent="수행한 내용을 입력해 주세요.";return;}$("#cCareError").textContent="";$("#cCareStatus").textContent="기록 저장 중…";
+  const response=await fetch("/api/care-log",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({bed:C.bed,nurse_id:C.nurse_id,staff_id:C.staff_id,text,patient_key:C.patient_key})}),result=await response.json();
+  if(!response.ok||result.error){$("#cCareError").textContent=careFailure(response,result);$("#cCareStatus").textContent="저장되지 않았습니다. 입력 내용은 유지됩니다.";return;}
+  renderCareActions(result.actions||C.actions.concat(result.action?[result.action]:[]));$("#cCareInput").value="";$("#cCareStatus").textContent="사용자 입력 수행 기록을 저장했습니다.";
+});
+$("#cHandover").onclick=()=>run(async()=>{$("#cCareError").textContent="";C.history.push({role:"nurse",human:true,text:"저장한 수행 기록, 현재 환자 상태, 미해결 이벤트를 다음 근무자가 읽을 수 있도록 인계해 주세요."});await turn("agent","handover");});
+$("#cClose").onclick = ()=>{ C.stop=true; $("#modal").classList.remove("open"); };
+$("#cAuto").onclick = ()=>run(async()=>{
+  C.stop=false;
+  for(let i=0;i<3 && !C.stop;i++){ await turn("nurse"); if(C.stop) break; await turn("agent"); }
+});
+$("#cSbar").onclick = ()=>run(async()=>{ C.history.push({role:"nurse",text:"지금까지 내용 담당의 보고용 SBAR로 정리해 주세요.",human:C.human}); await turn("agent","sbar"); });
+async function sendHuman(){
+  const t=$("#cIn").value.trim(); if(!t) return; $("#cIn").value=""; C.human=true;
+  await run(async()=>{ C.history.push({role:"nurse",text:t,human:true}); await turn("agent"); });
+}
+$("#cSend").onclick = sendHuman;
+$("#cIn").addEventListener("keydown", e=>{ if(e.key==="Enter" && !e.isComposing) sendHuman(); });
+poll();
+</script>
+</body>
+</html>
